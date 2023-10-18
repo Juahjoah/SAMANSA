@@ -15,6 +15,6 @@ public class JwtToken {
     private String grantType;
     @Id
     private String accessToken;
-    private String userId;
+    private String memberId;
     private String refreshToken;
 }

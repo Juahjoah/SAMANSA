@@ -22,7 +22,7 @@ public class JwtTokenService {
 
     public String findUserId(String accessToken) {
         JwtToken jwtToken = findJwtToken(accessToken);
-        return jwtToken.getUserId();
+        return jwtToken.getMemberId();
     }
 
     public void deleteJwtToken(String accessToken) {
@@ -40,7 +40,7 @@ public class JwtTokenService {
         JwtToken jwtToken = JwtToken.builder()
             .grantType(AUTHENTICATION_PREFIX)
             .accessToken(accessToken)
-            .userId(userId)
+            .memberId(userId)
             .build();
         jwtTokenRepository.save(jwtToken);
     }

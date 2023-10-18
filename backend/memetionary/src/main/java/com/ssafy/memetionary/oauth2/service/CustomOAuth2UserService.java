@@ -43,18 +43,18 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private Member saveOrUpdate(OAuthAttributes attributes) {
         //사용자 가져오기
-        Optional<Member> findUser = memberRepository.findById(attributes.getId());
+        Optional<Member> findMember = memberRepository.findById(attributes.getId());
 
         //사용자가 없는 경우
-        if (findUser.isEmpty()) {
+        if (findMember.isEmpty()) {
             Member member = attributes.toEntity();
-
+            memberRepository.save(member);
             return member;
         }
 
         //사용자가 있는 경우
-        findUser.map(entity -> entity.update(attributes.getEmail()));
+        findMember.map(entity -> entity.update(attributes.getEmail()));
 
-        return memberRepository.save(findUser.get());
+        return memberRepository.save(findMember.get());
     }
 }

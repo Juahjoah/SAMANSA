@@ -56,12 +56,14 @@ public class JwtTokenProvider {
             .collect(Collectors.joining(","));
 
         DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
-        String userId = defaultOAuth2User.getName();
+        String memberId = defaultOAuth2User.getName();
+        System.out.println("memberId = " + memberId);
+        String nickname = memberRepository.findById(memberId).get().getNickname();
 
         //accessToken 생성
         String accessToken = Jwts.builder()
             //임시 닉네임 수정
-            .setSubject("nickname")
+            .setSubject(nickname)
             .claim("auth", authorities)
             .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
             .signWith(key, SignatureAlgorithm.HS256)
@@ -71,7 +73,7 @@ public class JwtTokenProvider {
         return JwtToken.builder()
             .grantType(AUTHENTICATION_PREFIX)
             .accessToken(accessToken)
-            .userId(userId)
+            .memberId(memberId)
             .build();
     }
 
@@ -81,12 +83,13 @@ public class JwtTokenProvider {
             .collect(Collectors.joining(","));
 
         User userDetails = (User) authentication.getPrincipal();
-        String userId = userDetails.getUsername();
+        String memberId = userDetails.getUsername();
+        String nickname = memberRepository.findById(memberId).get().getNickname();
 
         //accessToken 생성
         String accessToken = Jwts.builder()
             //임시 닉네임 수정
-            .setSubject("nickname")
+            .setSubject(nickname)
             .claim("auth", authorities)
             .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
             .signWith(key, SignatureAlgorithm.HS256)
@@ -96,7 +99,7 @@ public class JwtTokenProvider {
         return JwtToken.builder()
             .grantType(AUTHENTICATION_PREFIX)
             .accessToken(accessToken)
-            .userId("userId")
+            .memberId(memberId)
             .build();
     }
 

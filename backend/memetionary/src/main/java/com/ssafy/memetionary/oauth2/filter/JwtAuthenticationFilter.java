@@ -38,12 +38,14 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            HttpServletResponse httpResponse = (HttpServletResponse) response;
+
+            //토큰 에러 확인 나중에 풀기
+            /*HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             httpResponse.setContentType("application/json");
             String jsonErrorResponse = String.format("{\"message\": \"%s\"}", e.getMessage());
             httpResponse.getWriter().write(jsonErrorResponse);
-            return; // 필터 체인을 종료합니다.
+            return; // 필터 체인을 종료합니다.*/
         }
 
         chain.doFilter(request, response);

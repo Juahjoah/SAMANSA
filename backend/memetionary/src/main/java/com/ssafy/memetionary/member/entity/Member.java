@@ -1,5 +1,6 @@
 package com.ssafy.memetionary.member.entity;
 
+import com.ssafy.memetionary.common.entity.BaseTimeEntity;
 import com.ssafy.memetionary.oauth2.domain.RoleType;
 import com.ssafy.memetionary.oauth2.domain.SocialType;
 import jakarta.persistence.Column;
@@ -19,29 +20,28 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
-    @Column(name = "user_id", length = 50)
+    @Column(name = "member_id", length = 50)
     private String id;
 
     @Builder.Default
     private String password = "NO_PASS";
 
-    @Column(name = "email", length = 320)
+    @Column(length = 320)
     private String email;
 
-    @Column(name = "nickname", length = 20)
+    @Column(length = 20)
     private String nickname;
 
-    @Column(name = "changed")
-    private boolean changed;
+    private boolean changeStatus;
 
-    @Column(name = "role_type", length = 20)
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
-    @Column(name = "social_type", length = 20)
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
