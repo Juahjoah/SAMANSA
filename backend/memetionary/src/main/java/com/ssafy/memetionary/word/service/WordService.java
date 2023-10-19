@@ -21,6 +21,7 @@ public class WordService {
     private final WordRepository wordRepository;
     private final MemberRepository memberRepository;
 
+    //단어 등록
     @Transactional
     public Word save(WordRegisterDto wordRegisterDto, String memberId) {
         Member member = memberRepository.findById(memberId).get();
@@ -34,5 +35,11 @@ public class WordService {
             .build();
         wordRepository.save(word);
         return word;
+    }
+
+    //단어 삭제
+    @Transactional
+    public void delete(Word word) {
+        wordRepository.delete(word);
     }
 }
