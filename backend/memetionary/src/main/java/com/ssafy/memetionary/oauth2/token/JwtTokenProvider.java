@@ -33,6 +33,7 @@ public class JwtTokenProvider {
     private final String AUTHENTICATION_PREFIX;
 
     private final long ACCESS_TOKEN_EXPIRATION_TIME;
+    private final long REFRESH_TOKEN_EXPIRATION_TIME;
 
     private final Key key;
     private final MemberRepository memberRepository;
@@ -41,12 +42,14 @@ public class JwtTokenProvider {
         @Value("${spring.jwt.secret}") String secretKey,
         @Value("${spring.jwt.prefix}") String authenticationPrefix,
         @Value("${spring.jwt.token.access-expiration-time}") long accessExpirationTime,
+        @Value("${spring.jwt.token.refresh-expiration-time}") long refreshExpirationTime,
         MemberRepository memberRepository
     ) {
         byte[] secretByteKey = DatatypeConverter.parseBase64Binary(secretKey);
         this.key = Keys.hmacShaKeyFor(secretByteKey);
         this.AUTHENTICATION_PREFIX = authenticationPrefix;
         this.ACCESS_TOKEN_EXPIRATION_TIME = accessExpirationTime;
+        this.REFRESH_TOKEN_EXPIRATION_TIME = refreshExpirationTime;
         this.memberRepository = memberRepository;
     }
 
@@ -57,24 +60,12 @@ public class JwtTokenProvider {
 
         DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
         String memberId = defaultOAuth2User.getName();
-        System.out.println("memberId = " + memberId);
         String nickname = memberRepository.findById(memberId).get().getNickname();
 
-        //accessToken 생성
-        String accessToken = Jwts.builder()
-            //임시 닉네임 수정
-            .setSubject(nickname)
-            .claim("auth", authorities)
-            .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
-            .signWith(key, SignatureAlgorithm.HS256)
-            .compact();
+        String accessToken = getAccessToken(nickname, authorities);
+        String refreshToken = getRefreshToken();
 
-        //JwtToken 생성
-        return JwtToken.builder()
-            .grantType(AUTHENTICATION_PREFIX)
-            .accessToken(accessToken)
-            .memberId(memberId)
-            .build();
+        return getJwtToken(accessToken, refreshToken, memberId);
     }
 
     public JwtToken generateNewToken(Authentication authentication) {
@@ -86,19 +77,34 @@ public class JwtTokenProvider {
         String memberId = userDetails.getUsername();
         String nickname = memberRepository.findById(memberId).get().getNickname();
 
-        //accessToken 생성
-        String accessToken = Jwts.builder()
+        String accessToken = getAccessToken(nickname, authorities);
+        String refreshToken = getRefreshToken();
+
+        return getJwtToken(accessToken, refreshToken, memberId);
+    }
+
+    private String getAccessToken(String nickname, String authorities) {
+        return Jwts.builder()
             //임시 닉네임 수정
             .setSubject(nickname)
             .claim("auth", authorities)
             .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
             .signWith(key, SignatureAlgorithm.HS256)
             .compact();
+    }
 
-        //JwtToken 생성
+    private String getRefreshToken() {
+        return Jwts.builder()
+            .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION_TIME))
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact();
+    }
+
+    private JwtToken getJwtToken(String accessToken, String refreshToken, String memberId) {
         return JwtToken.builder()
             .grantType(AUTHENTICATION_PREFIX)
             .accessToken(accessToken)
+            .refreshToken(refreshToken)
             .memberId(memberId)
             .build();
     }
