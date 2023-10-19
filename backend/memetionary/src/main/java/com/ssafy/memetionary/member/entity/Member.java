@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -32,9 +33,11 @@ public class Member extends BaseTimeEntity {
     @Column(length = 320)
     private String email;
 
+    @Setter
     @Column(length = 20)
     private String nickname;
 
+    @Setter
     private boolean changeStatus;
 
     @Column(length = 20)
