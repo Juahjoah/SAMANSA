@@ -204,3 +204,6 @@ gradle-app.setting
 
 # yml
 *.yml
+
+# iml
+*.iml

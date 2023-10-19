@@ -25,7 +25,7 @@ public class Link {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "link_id")
+  @Column(name = "hashtag_link_id")
   private Integer id;
 
   @ManyToOne
