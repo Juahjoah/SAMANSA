@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --check --ignore-path .gitignore .",
-    "format:fix": "prettier --write --ignore-path .gitignore ."
+    "format:fix": "prettier --write --ignore-path .gitignore .",
+    "storybook": "storybook dev -p 6006 -s ./public",
+    "build-storybook": "storybook build s public"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.0.0",
@@ -21,11 +23,20 @@
     "recoil": "^0.7.7"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "7.5.0",
+    "@storybook/addon-interactions": "7.5.0",
+    "@storybook/addon-links": "7.5.0",
+    "@storybook/addon-onboarding": "1.0.8",
+    "@storybook/blocks": "7.5.0",
+    "@storybook/nextjs": "7.5.0",
+    "@storybook/react": "7.5.0",
+    "@storybook/testing-library": "0.2.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "13.5.5",
+    "storybook": "7.5.0",
     "typescript": "^5"
   }
 }
