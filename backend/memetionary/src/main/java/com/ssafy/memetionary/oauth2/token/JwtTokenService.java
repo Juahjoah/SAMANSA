@@ -36,12 +36,7 @@ public class JwtTokenService {
         return jwtToken.get();
     }
 
-    public void saveJwtToken(String accessToken, String userId) {
-        JwtToken jwtToken = JwtToken.builder()
-            .grantType(AUTHENTICATION_PREFIX)
-            .accessToken(accessToken)
-            .memberId(userId)
-            .build();
+    public void saveJwtToken(JwtToken jwtToken) {
         jwtTokenRepository.save(jwtToken);
     }
 }
