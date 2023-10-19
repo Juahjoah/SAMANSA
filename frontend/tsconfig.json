@@ -21,7 +21,9 @@
     "baseUrl": "./app",
     "paths": {
       "@/components/*": ["components/*"], //  새로운 path 경로 지정.  @/components/~~.tsx 등으로 alias를 불러온다.
-      "@/utils/*": ["utils/*"]
+      "@/utils/*": ["utils/*"],
+      "@/pages/*": ["(pages)/*"],
+      "@/store/*": ["store/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
