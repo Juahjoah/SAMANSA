@@ -1,4 +1,22 @@
+/* 폰트 전역설정 */
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/fonts/pretendard/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* 전역에 적용 */
+* {
+  font-family: var(--font-Pretendard);
+  box-sizing: border-box;
+}
+
+/* 루트에 폰트 선언 */
 :root {
+  --font-Pretendard: 'Pretendard';
+
   --max-width: 1100px;
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
