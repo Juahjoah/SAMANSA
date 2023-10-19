@@ -1,6 +1,7 @@
 package com.ssafy.memetionary.hashtag.entity;
 
 
+import com.ssafy.memetionary.common.entity.BaseCreateTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,14 +19,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Hashtag {
+public class Hashtag extends BaseCreateTimeEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "hashtag_id")
-  private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "hashtag_id")
+    private Integer id;
 
-  @Column(length = 30, nullable = false)
-  private String hashtagName;
+    @Column(length = 30, nullable = false)
+    private String hashtagName;
 
 }
