@@ -35,8 +35,8 @@ public class WordController {
 
     @PostMapping
     public ResponseEntity<?> registerWord(@RequestBody WordRegisterDto wordRegisterDto,
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
-        String memberId = headerUtils.getUserId(authorizationHeader);
+                                          @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        String memberId = headerUtils.getMemberId(authorizationHeader);
         Word word = wordService.save(wordRegisterDto, memberId);//단어 저장
         hashtagService.save(wordRegisterDto.getHashtags(), word);//해시태그 저장 및 link
 
@@ -46,8 +46,8 @@ public class WordController {
 
     @DeleteMapping("/{wordId}")
     public ResponseEntity<?> deleteWord(@PathVariable("wordId") Integer wordId,
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
-        String memberId = headerUtils.getUserId(authorizationHeader);
+                                        @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        String memberId = headerUtils.getMemberId(authorizationHeader);
         //단어 검색하기
         Word word = wordRepository.findById(wordId).get();
         if (word.getMember().getId().equals(memberId)) {//만약 작성자가 맞다면 진행

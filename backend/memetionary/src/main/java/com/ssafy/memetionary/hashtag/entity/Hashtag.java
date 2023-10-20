@@ -10,15 +10,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "hashtag")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
 public class Hashtag extends BaseCreateTimeEntity {
 
     @Id
@@ -26,6 +27,7 @@ public class Hashtag extends BaseCreateTimeEntity {
     @Column(name = "hashtag_id")
     private Integer id;
 
+    @Setter
     @Column(length = 30, nullable = false)
     private String hashtagName;
 
