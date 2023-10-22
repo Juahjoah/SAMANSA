@@ -30,6 +30,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     //Spring Data JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -44,6 +45,9 @@ dependencies {
     //DB
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     runtimeOnly 'com.mysql:mysql-connector-j'
+
+    //elasticsearch
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch:3.1.1'
 
     //jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
