@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { useState } from 'react';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 type Props = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
-const ReactQueryProviders = ({ children }: Props) => {
+export default function ReactQueryProviders({ children }: Props) {
   const [client] = useState(
     new QueryClient({
       defaultOptions: {
@@ -19,14 +19,12 @@ const ReactQueryProviders = ({ children }: Props) => {
         },
       },
     }),
-  )
+  );
 
   return (
     <QueryClientProvider client={client}>
       {children}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
-  )
+  );
 }
-
-export default ReactQueryProviders
