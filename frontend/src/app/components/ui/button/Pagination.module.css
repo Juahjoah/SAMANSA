@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid black; */
+}
+
+.button {
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  /* border: 2px solid black; */
+  color: #454469;
+  transition: background-color 0.5s;
+}
+
+.button:hover {
+  color: white;
+  background-color: #454469;
+}
+
+.selectedButton {
+  color: white;
+  background-color: #454469;
+}
