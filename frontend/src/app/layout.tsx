@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
+import ReactQueryProvider from '@/utils/react-query-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: `TypeScript starter for Next.js`,
-  description: `TypeScript starter for Next.js that includes all you need to build amazing apps`,
+  title: `TrenDictionry`,
 };
 
 export default function RootLayout({
@@ -16,7 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
     </html>
   );
 }
