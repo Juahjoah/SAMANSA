@@ -1,14 +1,12 @@
 package com.ssafy.memetionary.common.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Data @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
+@Getter
 public class MessageResponse {
+
     private String message;
 
 }

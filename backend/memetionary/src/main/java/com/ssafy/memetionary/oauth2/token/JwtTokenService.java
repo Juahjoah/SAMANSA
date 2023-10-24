@@ -1,5 +1,7 @@
 package com.ssafy.memetionary.oauth2.token;
 
+import com.ssafy.memetionary.common.CustomErrorType;
+import com.ssafy.memetionary.common.exception.MemberNotFoundException;
 import com.ssafy.memetionary.oauth2.repository.JwtTokenRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ public class JwtTokenService {
         this.jwtTokenRepository = jwtTokenRepository;
     }
 
-    public String findUserId(String accessToken) {
+    public String findMemberId(String accessToken) {
         JwtToken jwtToken = findJwtToken(accessToken);
         return jwtToken.getMemberId();
     }
@@ -32,8 +34,7 @@ public class JwtTokenService {
 
     private JwtToken findJwtToken(String accessToken) {
         Optional<JwtToken> jwtToken = jwtTokenRepository.findById(accessToken);
-        //예외 처리
-        return jwtToken.get();
+        return jwtToken.orElseThrow(() -> new MemberNotFoundException(CustomErrorType.MEMBER_NOT_FOUND.getMessage()));
     }
 
     public void saveJwtToken(JwtToken jwtToken) {

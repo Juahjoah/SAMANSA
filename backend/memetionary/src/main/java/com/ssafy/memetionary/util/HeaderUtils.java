@@ -13,6 +13,6 @@ public class HeaderUtils {
 
     public String getMemberId(String authorizationHeader) {
         String accessToken = authorizationHeader.substring(7);
-        return jwtTokenService.findUserId(accessToken);
+        return jwtTokenService.findMemberId(accessToken);
     }
 }
