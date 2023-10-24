@@ -27,11 +27,40 @@ export default function Input({
       break;
   }
 
+  //enter 누를 때 검색바라면 검색하게
   function activeEnter(e) {
-    console.log(e);
-    console.log('typeInput');
-    if (e.key === 'Enter' && variant == 'search') {
-      setValue('검색');
+    if (variant != 'search') {
+      return;
+    }
+    switch (e.key) {
+      case 'Down': // IE/Edge에서 사용되는 값
+      case 'ArrowDown':
+        // "아래 화살표" 키가 눌렸을 때의 동작입니다.
+        setValue('아래 화살표');
+        break;
+      case 'Up': // IE/Edge에서 사용되는 값
+      case 'ArrowUp':
+        // "위 화살표" 키가 눌렸을 때의 동작입니다.
+        setValue('위 화살표');
+        break;
+      case 'Left': // IE/Edge에서 사용되는 값
+      case 'ArrowLeft':
+        // "왼쪽 화살표" 키가 눌렸을 때의 동작입니다.
+        break;
+      case 'Right': // IE/Edge에서 사용되는 값
+      case 'ArrowRight':
+        // "오른쪽 화살표" 키가 눌렸을 때의 동작입니다.
+        break;
+      case 'Enter':
+        // "enter" 또는 "return" 키가 눌렸을 때의 동작입니다.
+        setValue('검색');
+        break;
+      case 'Esc': // IE/Edge에서 사용되는 값
+      case 'Escape':
+        // "esc" 키가 눌렸을 때의 동작입니다.
+        break;
+      default:
+        return; // 키 이벤트를 처리하지 않는다면 종료합니다.
     }
   }
 
