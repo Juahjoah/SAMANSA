@@ -27,13 +27,21 @@ export default function Input({
       break;
   }
 
-  // const [value, setValue] = useState(initvalue);
+  function activeEnter(e) {
+    console.log(e);
+    console.log('typeInput');
+    if (e.key === 'Enter' && variant == 'search') {
+      setValue('검색');
+    }
+  }
+
   return (
     <div className={styles.wrapper}>
       <input
         placeholder={placeholder}
         className={`${styles.base} ${variantClass}`}
         onChange={(e) => setValue(e.target.value)}
+        onKeyDown={(e) => activeEnter(e)}
         name={name}
         value={value}
       />
