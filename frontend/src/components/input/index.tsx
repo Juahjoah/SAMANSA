@@ -4,11 +4,11 @@ import { useState } from 'react';
 import styles from './Input.module.css';
 
 export default function Input({
-  // onChange = () => {},
+  setValue,
   // placeholder = '',
   variant = 'search',
   name = '',
-  initvalue = '',
+  value = '',
 }) {
   let variantClass = '';
   let placeholder = '';
@@ -27,7 +27,7 @@ export default function Input({
       break;
   }
 
-  const [value, setValue] = useState(initvalue);
+  // const [value, setValue] = useState(initvalue);
   return (
     <div className={styles.wrapper}>
       <input

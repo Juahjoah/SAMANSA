@@ -4,11 +4,11 @@ import { useState } from 'react';
 import styles from './Textarea.module.css';
 
 export default function Textarea({
-  // onChange = () => {},
+  setValue,
   // placeholder = '',
-  variant = 'decs',
+  variant = 'decs', // dd
   name = '',
-  initvalue = '',
+  value = '',
 }) {
   let variantClass = '';
   let placeholder = '';
@@ -23,7 +23,7 @@ export default function Textarea({
       break;
   }
 
-  const [value, setValue] = useState(initvalue);
+  // const [value, setValue] = useState(initvalue);
   return (
     <div className={styles.wrapper}>
       <textarea
