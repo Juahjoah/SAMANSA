@@ -49,15 +49,16 @@ public class WordESController {
     @DeleteMapping("/{wordId}")
     public ResponseEntity<MessageResponse> deleteWord(@PathVariable("wordId") String wordId,
         @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader
-    ){
+    ) {
         String memberId = headerUtils.getMemberId(authorizationHeader);
 
-        WordES wordes = wordESRepository.findById(wordId).orElseThrow(() -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
+        WordES wordes = wordESRepository.findById(wordId).orElseThrow(
+            () -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
 
         // 만약 작성자가 맞다면 진행
-        if(wordes.getMemberId().equals(memberId)){
+        if (wordes.getMemberId().equals(memberId)) {
             wordESService.delete(wordes);
-        }else {// 만약 작성자가 아니라면 삭제 불가능
+        } else {// 만약 작성자가 아니라면 삭제 불가능
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(MessageResponse.builder().message("단어 삭제 실패 - 작성자가 아닙니다.").build());
         }
