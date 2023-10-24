@@ -1,0 +1,25 @@
+@import '@/app/globals.css';
+
+.base {
+  display: flex;
+  flex-direction: column;
+  background: rgb(var(--card-background-rgb));
+  width: 52rem;
+  height: auto;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  padding: var(--padding-regular);
+  color: rgb(var(--font-regular-rgb));
+}
+
+.base div {
+  font-size: var(--card-title-font-size);
+  margin: var(--margin-regular);
+  /* font-weight: extrabold; */
+  color: rgb(var(--card-title-rgb));
+}
+
+.base p {
+  /* font-weight: medium; */
+  margin: var(--margin-regular);
+}

@@ -1,6 +1,6 @@
 :root {
   --max-width: 1100px;
-  --border-radius: 12px;
+  --border-radius: 1rem;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
@@ -38,6 +38,13 @@
   --callout-border-rgb: 172, 175, 176;
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
+
+  --card-background-rgb: 69, 68, 105;
+  --padding-regular: 2rem;
+  --margin-regular: 0 0 2rem 0;
+  --font-regular-rgb: 255, 255, 255;
+  --card-title-font-size: 2rem;
+  --card-title-rgb: 51, 190, 125;
 }
 
 @media (prefers-color-scheme: dark) {
