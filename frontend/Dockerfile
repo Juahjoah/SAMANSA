@@ -8,6 +8,9 @@ WORKDIR /app
 COPY package.json .
 COPY yarn.lock .
 
+# RUN: yarn 버전 세팅
+# RUN yarn set version berry
+
 # RUN: 이미지를 빌드하며 실행할 명령어 지정
 RUN yarn install
 
