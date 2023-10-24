@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/word")
+@RequestMapping("/mysql/word")
 public class WordController {
 
     private final WordService wordService;
