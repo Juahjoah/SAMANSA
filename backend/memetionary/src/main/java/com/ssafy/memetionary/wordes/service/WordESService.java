@@ -36,4 +36,9 @@ public class WordESService {
         List<String> hashtags = Arrays.stream(hashtag.split("#")).toList();
         return hashtags.subList(1, hashtags.size());
     }
+
+    //단어 삭제
+    public void delete(WordES wordES) {
+        wordESRepository.delete(wordES);
+    }
 }
