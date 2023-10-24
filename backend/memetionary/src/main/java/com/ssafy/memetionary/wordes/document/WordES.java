@@ -1,7 +1,7 @@
-package com.ssafy.memetionary.word.entity;
+package com.ssafy.memetionary.wordes.document;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Builder
-@Data
+@Getter
 @Document(indexName = "word")
 public class WordES {
     @Id
