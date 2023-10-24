@@ -1,7 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+// import { useState } from 'react';
 import styles from './Input.module.css';
+
+interface InputProps {
+  setValue?: string | any;
+  placeholder?: string;
+  variant?: string;
+  name?: string;
+  value?: string;
+}
 
 export default function Input({
   setValue,
@@ -9,7 +17,7 @@ export default function Input({
   variant = 'search',
   name = '',
   value = '',
-}) {
+}: InputProps) {
   let variantClass = '';
   let placeholder = '';
   switch (variant) {
@@ -28,7 +36,7 @@ export default function Input({
   }
 
   //enter 누를 때 검색바라면 검색하게
-  function activeEnter(e) {
+  function activeEnter(e: any) {
     if (variant != 'search') {
       return;
     }
