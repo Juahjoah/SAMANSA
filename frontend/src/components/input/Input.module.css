@@ -1,0 +1,49 @@
+.base {
+  width: 80%;
+  height: 3rem;
+  border-radius: 1rem;
+  padding-left: 1rem;
+  outline: none;
+  border: solid rgb(2, 2, 2) 0rem;
+  text-indent: 0.5rem;
+  font-family: 'SUITE-Medium';
+
+  background-color: #676687;
+  color: #ffffff;
+}
+
+.base::placeholder {
+  text-indent: 0.5rem;
+  font-family: 'SUITE-Regular';
+
+  color: lightgray;
+}
+
+.base:focus {
+  /* border: solid rgb(255, 199, 199) 0.15rem; */
+  background-color: #8786a7;
+}
+
+.search {
+  font-size: 1.05rem;
+}
+
+.word {
+  font-size: 1.1rem;
+}
+
+.word::placeholder {
+  text-indent: 0.5rem;
+  font-family: 'SUITE-Regular';
+
+  color: lightgray;
+}
+
+.word:focus {
+  /* border: solid rgb(255, 199, 199) 0.15rem; */
+  background-color: #8786a7;
+}
+
+.tag {
+  font-size: 1.1rem;
+}

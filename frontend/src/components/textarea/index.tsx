@@ -1,36 +1,32 @@
 'use client';
 
 import { useState } from 'react';
-import styles from './Input.module.css';
+import styles from './Textarea.module.css';
 
-export default function Input({
+export default function Textarea({
   // onChange = () => {},
   // placeholder = '',
-  variant = 'search',
+  variant = 'decs',
   name = '',
   initvalue = '',
 }) {
   let variantClass = '';
   let placeholder = '';
   switch (variant) {
-    case 'word':
-      variantClass = styles.word;
-      placeholder = '단어';
+    case 'decs':
+      variantClass = styles.decs;
+      placeholder = '정의';
       break;
-    case 'tag':
-      variantClass = styles.tag;
-      placeholder = '#태그';
-      break;
-    case 'search':
-      variantClass = styles.search;
-      placeholder = '단어 #태그 @사용자 를 검색하세요';
+    case 'example':
+      variantClass = styles.example;
+      placeholder = '예문';
       break;
   }
 
   const [value, setValue] = useState(initvalue);
   return (
     <div className={styles.wrapper}>
-      <input
+      <textarea
         placeholder={placeholder}
         className={`${styles.base} ${variantClass}`}
         onChange={(e) => setValue(e.target.value)}
