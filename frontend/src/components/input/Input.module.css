@@ -6,7 +6,7 @@
   outline: none;
   border: solid rgb(2, 2, 2) 0rem;
   text-indent: 0.5rem;
-  font-family: 'SUITE-Medium';
+  font-family: 'pretendard';
 
   background-color: #676687;
   color: #ffffff;
@@ -14,7 +14,7 @@
 
 .base::placeholder {
   text-indent: 0.5rem;
-  font-family: 'SUITE-Regular';
+  font-family: 'pretendard';
 
   color: lightgray;
 }
@@ -33,9 +33,6 @@
 }
 
 .word::placeholder {
-  text-indent: 0.5rem;
-  font-family: 'SUITE-Regular';
-
   color: lightgray;
 }
 
