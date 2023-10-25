@@ -36,6 +36,7 @@ public class MemberService {
     }
     //닉네임 변경 여부 조회 - 멤버 1
 
+    @Transactional
     public JwtToken modifyNickname(String memberId, String nickname) {
         Optional<Member> findMember = memberRepository.findById(memberId);
         findMember.get().setNickname(nickname);
