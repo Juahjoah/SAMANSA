@@ -3,13 +3,12 @@ package com.ssafy.memetionary.wordes.controller;
 import com.ssafy.memetionary.common.CustomErrorType;
 import com.ssafy.memetionary.common.dto.MessageResponse;
 import com.ssafy.memetionary.common.exception.WordNotFoundException;
+import com.ssafy.memetionary.member.service.MemberService;
 import com.ssafy.memetionary.util.HeaderUtils;
-import com.ssafy.memetionary.word.entity.Word;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.dto.WordESRegisterRequest;
 import com.ssafy.memetionary.wordes.repository.WordESRepository;
 import com.ssafy.memetionary.wordes.service.WordESService;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +31,7 @@ public class WordESController {
     private final WordESService wordESService;
     private final WordESRepository wordESRepository;
     private final HeaderUtils headerUtils;
+    private final MemberService memberService;
 
     //엘라스틱 서치 단어 등록 - 단어 4-1
     @PostMapping
@@ -40,14 +40,16 @@ public class WordESController {
         @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader
     ) {
         String memberId = headerUtils.getMemberId(authorizationHeader);
-        wordESService.registerWordES(request, memberId);
+        String memberNickname = memberService.getMemberNickname(memberId);
+        wordESService.registerWordES(request, memberId, memberNickname);
         return ResponseEntity.status(HttpStatus.OK)
             .body(MessageResponse.builder().message("단어 등록 성공").build());
     }
 
     //엘라스틱 서치 단어 삭제 - 단어 7
     @DeleteMapping("/{wordId}")
-    public ResponseEntity<MessageResponse> deleteWord(@PathVariable("wordId") String wordId,
+    public ResponseEntity<MessageResponse> deleteWord(
+        @PathVariable("wordId") String wordId,
         @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader
     ) {
         String memberId = headerUtils.getMemberId(authorizationHeader);

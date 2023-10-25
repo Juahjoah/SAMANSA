@@ -1,5 +1,7 @@
 package com.ssafy.memetionary.member.service;
 
+import com.ssafy.memetionary.common.CustomErrorType;
+import com.ssafy.memetionary.common.exception.MemberNotFoundException;
 import com.ssafy.memetionary.member.dto.IsChangeNicknameResponse;
 import com.ssafy.memetionary.member.dto.IsDuplicateNicknameResponse;
 import com.ssafy.memetionary.member.entity.Member;
@@ -59,6 +61,13 @@ public class MemberService {
     }
     //닉네임 중복 검사 - 멤버 3
 
+    //사용자 닉네임 조회
+    public String getMemberNickname(String memberId) {
+        Optional<Member> findMember = memberRepository.findById(memberId);
+        return findMember
+            .orElseThrow(() -> new MemberNotFoundException(CustomErrorType.MEMBER_NOT_FOUND.getMessage()))
+            .getNickname();
+            
     //로그아웃 - 멤버 4
     public void logout(String accessToken) {
         jwtTokenService.deleteJwtToken(accessToken);

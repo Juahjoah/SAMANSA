@@ -18,6 +18,9 @@
     "memberId": {
       "type": "keyword"
     },
+    "memberNickname": {
+      "type": "keyword"
+    },
     "createDate": {
       "type": "date",
       "format": "yyyy-MM-dd"
