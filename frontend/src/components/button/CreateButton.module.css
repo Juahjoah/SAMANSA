@@ -1,31 +1,32 @@
 .createDiv {
   display: flex;
-  margin-top: 15px;
-  width: 800px;
+  font-size: 17px;
+  width: 15rem;
   justify-content: center;
+  margin: 2rem auto;
 }
 
 .create {
-  width: 100px;
-  height: 40px;
+  width: 10rem;
+  height: 3rem;
   background-color: #545f71;
   color: white;
-  border-radius: 5px;
+  border-radius: 10px;
   text-align: center;
-  line-height: 40px;
-  margin-right: 30px;
+  line-height: 3rem;
+  margin-right: 2rem;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .cancle {
-  width: 100px;
-  height: 40px;
+  width: 10rem;
+  height: 3rem;
   background-color: rgb(238, 94, 94);
   color: white;
-  border-radius: 5px;
+  border-radius: 10px;
   text-align: center;
-  line-height: 40px;
+  line-height: 3rem;
   cursor: pointer;
   transition: background-color 0.2s;
 }

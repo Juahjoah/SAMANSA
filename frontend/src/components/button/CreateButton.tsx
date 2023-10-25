@@ -51,7 +51,7 @@ export default function CreateButton({
   };
   // 단어 등록 취소
   const CancleWord = () => {
-    router.push('/auth/login');
+    router.push('/');
   };
   return (
     <div className={styles.createDiv}>

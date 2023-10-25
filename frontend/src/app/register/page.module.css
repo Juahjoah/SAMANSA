@@ -1,0 +1,21 @@
+.components {
+  width: 100%;
+  height: 100vh;
+}
+
+.regist {
+  /* width: 70%; */
+  /* border: 1rem solid black; */
+  /* margin: 0 auto; */
+}
+
+.inputtag {
+  width: 90%;
+  margin: 3rem auto;
+  border: 1px solid black;
+}
+.inputbutton {
+  width: 90%;
+  margin: 3rem auto;
+  border: 1px solid black;
+}

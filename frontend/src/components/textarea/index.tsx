@@ -1,7 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+// import { useState } from 'react';
 import styles from './Textarea.module.css';
+
+interface InputProps {
+  setValue?: string | any;
+  placeholder?: string;
+  variant?: string;
+  name?: string;
+  value?: string;
+}
 
 export default function Textarea({
   setValue,
@@ -9,7 +17,7 @@ export default function Textarea({
   variant = 'decs', // dd
   name = '',
   value = '',
-}) {
+}: InputProps) {
   let variantClass = '';
   let placeholder = '';
   switch (variant) {
