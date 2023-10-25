@@ -4,6 +4,7 @@
 import styles from './Input.module.css';
 
 interface InputProps {
+  onChange?: (e: any) => void;
   setValue?: string | any;
   placeholder?: string;
   variant?: string;
@@ -32,6 +33,10 @@ export default function Input({
     case 'search':
       variantClass = styles.search;
       placeholder = '단어 #태그 @사용자 를 검색하세요';
+      break;
+    case 'nickname':
+      variantClass = styles.nickname;
+      placeholder = '사용할 닉네임을 입력하세요.';
       break;
   }
 
