@@ -3,13 +3,22 @@
 import { useEffect, useState } from 'react';
 import styles from './Input.module.css';
 
+interface InputProps {
+  onChange?: (e: any) => void;
+  setValue?: string | any;
+  placeholder?: string;
+  variant?: string;
+  name?: string;
+  value?: string;
+}
+
 export default function Input({
   setValue,
   // placeholder = '',
   variant = 'search',
   name = '',
   value = '',
-}) {
+}: InputProps) {
   let variantClass = '';
   let placeholder = '';
   switch (variant) {
@@ -25,10 +34,14 @@ export default function Input({
       variantClass = styles.search;
       placeholder = '단어 #태그 @사용자 를 검색하세요';
       break;
+    case 'nickname':
+      variantClass = styles.nickname;
+      placeholder = '사용할 닉네임을 입력하세요.';
+      break;
   }
 
-  //key 감지
-  function activeEnter(e) {
+  //enter 누를 때 검색바라면 검색하게
+  function activeEnter(e: any) {
     if (variant != 'search') {
       return;
     }

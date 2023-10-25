@@ -52,6 +52,7 @@
   font-size: 1.1rem;
 }
 
+
 .autocomplete {
   /* text-align: center; */
   font-size: 1.05rem;
@@ -70,4 +71,10 @@
 
 .deactive {
   /* background-color: #8786a7; */
+
+.nickname {
+  font-size: 1.1rem;
+  background-color: #676687;
+  color: #ffffff;
+
 }
