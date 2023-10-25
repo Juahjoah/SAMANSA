@@ -10,6 +10,8 @@
 
   background-color: #676687;
   color: #ffffff;
+
+  position: relative;
 }
 
 .base::placeholder {
@@ -28,6 +30,11 @@
   font-size: 1.05rem;
 }
 
+.focus {
+  border-bottom-left-radius: 0rem;
+  border-bottom-right-radius: 0rem;
+}
+
 .word {
   font-size: 1.1rem;
 }
@@ -36,7 +43,7 @@
   color: lightgray;
 }
 
-.word:focus {
+.focus {
   /* border: solid rgb(255, 199, 199) 0.15rem; */
   background-color: #8786a7;
 }
@@ -45,8 +52,29 @@
   font-size: 1.1rem;
 }
 
+
+.autocomplete {
+  /* text-align: center; */
+  font-size: 1.05rem;
+  border-radius: 0;
+}
+
+.end {
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  height: 1rem;
+}
+
+.active {
+  background-color: #8786a7;
+}
+
+.deactive {
+  /* background-color: #8786a7; */
+
 .nickname {
   font-size: 1.1rem;
   background-color: #676687;
   color: #ffffff;
+
 }
