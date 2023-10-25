@@ -1,5 +1,6 @@
 package com.ssafy.memetionary.member.controller;
 
+import com.ssafy.memetionary.common.dto.MessageResponse;
 import com.ssafy.memetionary.member.dto.IsChangeNicknameResponse;
 import com.ssafy.memetionary.member.dto.IsDuplicateNicknameRequest;
 import com.ssafy.memetionary.member.dto.IsDuplicateNicknameResponse;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -68,5 +70,16 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     //닉네임 중복 검사 - 멤버 3
+
+    //로그아웃 - 멤버 4
+    @DeleteMapping
+    public ResponseEntity<MessageResponse> logout(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        String accessToken = authorizationHeader.substring(7);
+        memberService.logout(accessToken);
+
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(MessageResponse.builder().message("정상적으로 로그아웃되었습니다.").build());
+    }
 
 }

@@ -8,6 +8,7 @@ import com.ssafy.memetionary.member.entity.Member;
 import com.ssafy.memetionary.member.repository.MemberRepository;
 import com.ssafy.memetionary.oauth2.token.JwtToken;
 import com.ssafy.memetionary.oauth2.token.JwtTokenProvider;
+import com.ssafy.memetionary.oauth2.token.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +27,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final JwtTokenProvider tokenProvider;
+    private final JwtTokenService jwtTokenService;
 
     public IsChangeNicknameResponse isChangeNickname(String memberId) {
         Optional<Member> findMember = memberRepository.findById(memberId);
@@ -38,6 +40,7 @@ public class MemberService {
     }
     //닉네임 변경 여부 조회 - 멤버 1
 
+    @Transactional
     public JwtToken modifyNickname(String memberId, String nickname) {
         Optional<Member> findMember = memberRepository.findById(memberId);
         findMember.get().setNickname(nickname);
@@ -64,6 +67,10 @@ public class MemberService {
         return findMember
             .orElseThrow(() -> new MemberNotFoundException(CustomErrorType.MEMBER_NOT_FOUND.getMessage()))
             .getNickname();
+            
+    //로그아웃 - 멤버 4
+    public void logout(String accessToken) {
+        jwtTokenService.deleteJwtToken(accessToken);
     }
 
 }
