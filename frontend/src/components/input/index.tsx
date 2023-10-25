@@ -12,6 +12,13 @@ interface InputProps {
   value?: string;
 }
 
+interface AutocompleteProps {
+  setValue: (e: any) => void;
+  setAutocomplete: (e: any) => void;
+  value?: string;
+  text?: string;
+}
+
 export default function Input({
   setValue,
   // placeholder = '',
@@ -108,10 +115,11 @@ export default function Input({
     }
   }
 
-  function InputChange(e) {
+  function InputChange(e: any) {
     console.log(e.target.value);
     if (variant != 'search') {
       setValue(e.target.value);
+      setData(data);
     } else {
       setAutocomplete(true);
       setValue(e.target.value);
@@ -162,7 +170,7 @@ export function Autocomplete({
   setAutocomplete,
   value = '',
   text = '',
-}) {
+}: AutocompleteProps) {
   let variantClass;
   if (value == text) {
     variantClass = styles.active;
