@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 // api 요청 함수
 export async function postData(url = '', data = {}) {
   const Token =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLtmITspIAiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjk4NzI2NzUwfQ.9YXootWakWS-RFleKe3tVbhTlCBvxmk3G_wguYNUIvQ';
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLtmITspIAiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjk4ODAxMDM3fQ.ybUYfa4MZswdxpn4y_cptbcSn9q02qg--SW2EeFOY2M';
   const response = await fetch(url, {
     method: 'POST',
     headers: {
