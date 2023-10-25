@@ -1,0 +1,112 @@
+.layout {
+  display: grid;
+  grid-template-columns: 600px;
+  border: 2px solid red;
+}
+
+.item {
+  width: 20px;
+  height: 20px;
+  background-color: orange;
+  color: blueviolet;
+}
+
+#layout > * {
+  position: relative;
+}
+
+#title {
+  height: 500px;
+  border: 2px solid red;
+}
+
+.main {
+  width: 90rem;
+  margin: 0 auto;
+  /* border: 3px solid red; */
+}
+
+.topTag {
+  font-size: 3.3rem;
+  display: flex;
+  font-weight: 800;
+  margin-top: 3rem;
+  margin-left: 3rem;
+}
+
+.icon {
+  color: #33be7d;
+  margin-right: 1rem;
+}
+
+.searchTag {
+  width: 90em;
+  height: 3.3rem;
+  margin-top: 3rem;
+  /* border: 3px solid rgb(100, 39, 39); */
+  display: flex;
+}
+
+.searchInput {
+  width: 75em;
+  height: 3.3rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
+  background-color: #676687;
+  border-radius: 1.3rem;
+  line-height: 3rem;
+}
+
+.createWord {
+  width: 3.3rem;
+  height: 3.3rem;
+  border-radius: 50%;
+  background-color: #33be7d;
+  text-align: center;
+  line-height: 3.3rem;
+  font-size: 2rem;
+}
+
+.bottomTag {
+  width: 85em;
+  height: 50rem;
+  /* border: 3px solid rgb(36, 211, 188); */
+  margin: 6rem auto;
+  display: flex;
+}
+
+.cardList {
+  width: 55em;
+  height: 22rem;
+  background-color: #454469;
+  border-radius: 1rem;
+  z-index: 1;
+}
+
+.googleForm {
+  width: 15em;
+  height: 30rem;
+  background-color: #b9b9c9;
+  border-radius: 1rem;
+  margin: 2rem 0 0 5rem;
+  z-index: 1;
+}
+
+.backgroundIcon {
+  background-color: #a8a6ca;
+  width: 50rem;
+  height: 32rem;
+  border-radius: 50%;
+  position: absolute;
+  top: 20rem;
+  left: 96rem;
+}
+.backgroundIcon2 {
+  background-color: #a8a6ca;
+  width: 50rem;
+  height: 35rem;
+  border-radius: 50%;
+  position: absolute;
+  top: 50rem;
+  left: -20rem;
+}
