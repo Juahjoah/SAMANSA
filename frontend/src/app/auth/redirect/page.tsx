@@ -5,7 +5,10 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function RedirectPage() {
-  const accessToken = new URL(window.location.href).searchParams.get('token');
+  const accessToken =
+    typeof window !== 'undefined'
+      ? new URL(window.location.href).searchParams.get('token')
+      : null;
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const router = useRouter();
@@ -14,9 +17,13 @@ export default function RedirectPage() {
   useEffect(() => {
     // 토큰이 있는지 확인
     if (accessToken) {
-      // 토큰을 세션 스토리지에 저장
+      // 토큰을 쿠키에 저장
+      // parseSetCookie(
+      //   `accessToken=${accessToken}; path=/; domain=${process.env.NEXT_PUBLIC_DOMAIN}; max-age=3600; samesite=none; secure=true`,
+      // );
+      // document.cookie = `accessToken=${accessToken}; path=/; domain=${process.env.NEXT_PUBLIC_DOMAIN}; max-age=3600; samesite=none; secure=true`;
+
       sessionStorage.setItem('accessToken', accessToken);
-      // console.log("토큰 저장 완료", accessToken);
 
       // 최초 로그인 여부 확인
       fetch(`${BASE_URL}/member/nickname/change`, {
@@ -27,21 +34,21 @@ export default function RedirectPage() {
       })
         .then((response) => response.json())
         .then((userData) => {
-          console.log('사용자 정보 요청 성공:', userData);
+          // console.log('사용자 정보 요청 성공:', userData);
           const isFirstLogin = !userData.isChange;
 
           if (isFirstLogin) {
+            // console.log('첫 로그인');
             router.push('/auth/nickname'); // 최초 로그인 사용자
-            console.log('첫 로그인');
           } else {
-            console.log('기존 로그인');
+            // console.log('기존 로그인');
             const { nickname } = userData;
             sessionStorage.setItem('nickname', nickname);
-            router.push('/main'); // 기존 로그인 사용자
+            router.push('/'); // 기존 로그인 사용자
           }
         })
-        .catch((error) => {
-          console.error('사용자 정보 요청 실패:', error);
+        .catch(() => {
+          // console.error('사용자 정보 요청 실패:', error);
           router.push('/');
         });
     } else {
