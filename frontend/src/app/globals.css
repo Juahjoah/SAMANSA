@@ -21,10 +21,10 @@
 
 /* 전역에 적용 */
 * {
-  font-family: var(--font-Pretendard-Regular);
+  font-family: var(--font-Pretendard-Medium);
   box-sizing: border-box;
-  /* background-color: #171544;
-  color: #ffffff; */
+  background-color: #171544;
+  color: #ffffff;
 }
 
 /* 루트에 폰트 선언 */
