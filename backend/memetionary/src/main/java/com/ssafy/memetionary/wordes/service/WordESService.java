@@ -6,7 +6,6 @@ import com.ssafy.memetionary.wordes.repository.WordESRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,10 +17,11 @@ public class WordESService {
 
     private final WordESRepository wordESRepository;
 
-    public void registerWordES(WordESRegisterRequest request, String memberId) {
+    public void registerWordES(WordESRegisterRequest request, String memberId, String memberNickname) {
         log.debug("request = " + request);
         WordES wordES = WordES.builder()
             .memberId(memberId)
+            .memberNickname(memberNickname)
             .name(request.getWordName())
             .description(request.getWordDescription())
             .example(request.getWordExample())
