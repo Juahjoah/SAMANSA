@@ -33,6 +33,9 @@ public class WordES {
     @Field(type = FieldType.Keyword)
     private String memberId;
 
+    @Field(type = FieldType.Keyword)
+    private String memberNickname;
+
     @Field(type = FieldType.Date)
     @Builder.Default
     private LocalDate createDate = LocalDate.now();
