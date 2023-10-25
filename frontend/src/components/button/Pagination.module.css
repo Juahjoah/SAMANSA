@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid black; */
+  margin-bottom: 3rem;
+}
+
+.arrowbutton {
+  font-size: 23px;
+  width: 2.2rem;
+  height: 2.2rem;
+  text-align: center;
+  line-height: 2.2rem;
+  margin: 0 10px;
+  cursor: pointer;
+  border-radius: 5px;
+
+  color: white;
+  background-color: #676687;
+  transition: background-color 0.2s;
+}
+
+.buttoncontainer {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  font-size: 25px;
+  width: 2.2rem;
+  height: 2.2rem;
+  text-align: center;
+  line-height: 2.2rem;
+  margin: 0 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  /* border: 2px solid black; */
+  color: #454469;
+  /* color: white; */
+  /* background-color: #454469; */
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  color: white;
+  background-color: #676687;
+}
+
+.selectedButton {
+  color: white;
+  background-color: #454469;
+}

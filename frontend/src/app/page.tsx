@@ -1,5 +1,5 @@
 import styles from './page.module.css';
-// import Pagination from '@/components/button/Pagination';
+import Pagination from '@/components/button/Pagination';
 export default function Home() {
   return (
     <main className={styles.main}>
@@ -15,19 +15,8 @@ export default function Home() {
         <div className={styles.cardList}>단어 리스트</div>
         <div className={styles.googleForm}>우측 카드</div>
       </div>
-      <div>
-        {/* <div id="title">1</div>
-        <div id="search">2</div>
-        <div id="wrapper">3</div>
-        <div id="bottomBar">4</div> */}
-        {/* <div className="item">1</div>
-        <div className="item">2</div>
-        <div className="item">3</div>
-        <div className="item">4</div>
-        <div className="item">5</div>
-        <div className="item">6</div> */}
-      </div>
-      {/* <Pagination></Pagination> */}
+
+      <Pagination></Pagination>
     </main>
   );
 }
