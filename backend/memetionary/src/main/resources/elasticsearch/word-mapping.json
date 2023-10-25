@@ -1,0 +1,41 @@
+{
+  "properties": {
+    "id": {
+      "type": "keyword"
+    },
+    "name": {
+      "type": "text",
+      "analyzer": "nori"
+    },
+    "description": {
+      "type": "text",
+      "analyzer": "nori"
+    },
+    "example": {
+      "type": "text",
+      "analyzer": "nori"
+    },
+    "memberId": {
+      "type": "keyword"
+    },
+    "createDate": {
+      "type": "date",
+      "format": "yyyy-MM-dd"
+    },
+    "hashtags": {
+      "type": "keyword"
+    },
+    "likes": {
+      "type": "keyword"
+    },
+    "likeCount": {
+      "type": "long"
+    },
+    "dislikes": {
+      "type": "keyword"
+    },
+    "dislikeCount": {
+      "type": "long"
+    }
+  }
+}
