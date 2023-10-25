@@ -6,6 +6,7 @@ import com.ssafy.memetionary.member.entity.Member;
 import com.ssafy.memetionary.member.repository.MemberRepository;
 import com.ssafy.memetionary.oauth2.token.JwtToken;
 import com.ssafy.memetionary.oauth2.token.JwtTokenProvider;
+import com.ssafy.memetionary.oauth2.token.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final JwtTokenProvider tokenProvider;
+    private final JwtTokenService jwtTokenService;
 
     public IsChangeNicknameResponse isChangeNickname(String memberId) {
         Optional<Member> findMember = memberRepository.findById(memberId);
@@ -56,5 +58,10 @@ public class MemberService {
         return IsDuplicateNicknameResponse.builder().isDuplicate(isDuplicateNickname).build();
     }
     //닉네임 중복 검사 - 멤버 3
+
+    //로그아웃 - 멤버 4
+    public void logout(String accessToken) {
+        jwtTokenService.deleteJwtToken(accessToken);
+    }
 
 }
