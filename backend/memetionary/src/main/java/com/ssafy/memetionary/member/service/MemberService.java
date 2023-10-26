@@ -67,10 +67,10 @@ public class MemberService {
         return findMember
             .orElseThrow(() -> new MemberNotFoundException(CustomErrorType.MEMBER_NOT_FOUND.getMessage()))
             .getNickname();
-            
+    }
+
     //로그아웃 - 멤버 4
     public void logout(String accessToken) {
         jwtTokenService.deleteJwtToken(accessToken);
     }
-
 }
