@@ -73,8 +73,10 @@ public class WordESController {
         return ResponseEntity.status(HttpStatus.OK)
             .body(MessageResponse.builder().message("단어 삭제 성공").build());
     }
+
     @GetMapping("/search")
-    public ResponseEntity<?> searchWord(@RequestParam("word") String name, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader){
+    public ResponseEntity<?> searchWord(@RequestParam("word") String name,
+        @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
         System.out.println("name = " + name);
         List<WordESSearchResponse> wordESList = new ArrayList<>();
 
