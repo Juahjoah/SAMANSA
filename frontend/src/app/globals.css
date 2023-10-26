@@ -20,7 +20,7 @@
 }
 
 /* 전역에 적용 */
-* {
+.main:root {
   font-family: var(--font-Pretendard-Medium);
   box-sizing: border-box;
   background-color: #171544;
@@ -28,7 +28,7 @@
 }
 
 /* 루트에 폰트 선언 */
-:root {
+.main:root {
   --font-Pretendard-Regular: 'Pretendard-Regular';
   --font-Pretendard-Medium: 'Pretendard-Medium';
   --font-Pretendard-Bold: 'Pretendard-Bold';
