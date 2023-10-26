@@ -56,6 +56,7 @@ public class WordESService {
                 .wordExample(wordES.getExample())
                 .hashtagList(wordES.getHashtags())
                 .memberNickname(wordES.getMemberNickname())
+                .createDate(wordES.getCreateDate())
                 .build();
             wordESSearchResponseList.add(wordESSearchResponse);
         }
