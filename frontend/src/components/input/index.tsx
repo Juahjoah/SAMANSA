@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import styles from './Input.module.css';
 
 interface InputProps {
-  onChange?: (e: any) => void;
-  setValue?: string | any;
+  setValue?: (e: any) => void | any;
+  setEnter?: (e: any) => void;
   placeholder?: string;
   variant?: string;
   name?: string;
@@ -21,6 +21,7 @@ interface AutocompleteProps {
 
 export default function Input({
   setValue,
+  setEnter,
   // placeholder = '',
   variant = 'search',
   name = '',
@@ -52,23 +53,26 @@ export default function Input({
     if (variant != 'search') {
       return;
     }
-    switch (e.key) {
-      case 'Down': // IE/Edge에서 사용되는 값
-      case 'ArrowDown':
-        // "아래 화살표" 키가 눌렸을 때의 동작입니다.
-        autoComplete(1);
-        // setValue('아래 화살표');
-        break;
-      case 'Up': // IE/Edge에서 사용되는 값
-      case 'ArrowUp':
-        // "위 화살표" 키가 눌렸을 때의 동작입니다.
-        autoComplete(-1);
-        // setValue('위 화살표');
-        break;
+    switch (
+      e.key //toDo =>
+    ) {
+      // case 'Down': // IE/Edge에서 사용되는 값
+      // case 'ArrowDown':
+      //   // "아래 화살표" 키가 눌렸을 때의 동작입니다.
+      //   autoComplete(1);
+      //   // setValue('아래 화살표');
+      //   break;
+      // case 'Up': // IE/Edge에서 사용되는 값
+      // case 'ArrowUp':
+      //   // "위 화살표" 키가 눌렸을 때의 동작입니다.
+      //   autoComplete(-1);
+      //   // setValue('위 화살표');
+      //   break;
       case 'Enter':
         // "enter" 또는 "return" 키가 눌렸을 때의 동작입니다.
         setValue(index == 0 ? value : InputValue);
         setIndex(0);
+        setEnter(true);
         setAutocomplete(false);
         break;
       default:
@@ -121,7 +125,7 @@ export default function Input({
       setValue(e.target.value);
       setData(data);
     } else {
-      setAutocomplete(true);
+      // setAutocomplete(true); // toDo =>
       setValue(e.target.value);
       setIndex(0);
     }
@@ -147,7 +151,8 @@ export default function Input({
         name={name}
         value={index == 0 ? value : InputValue}
       />
-      {autocomplete && (
+      {/* toDo =>
+       {autocomplete && (
         <div>
           {data.map((text) => (
             <Autocomplete
@@ -160,7 +165,7 @@ export default function Input({
           ))}{' '}
           <AutocompleteEnd />
         </div>
-      )}
+      )} */}
     </div>
   );
 }
