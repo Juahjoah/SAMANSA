@@ -75,8 +75,7 @@ public class WordESController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchWord(@RequestParam("word") String name,
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+    public ResponseEntity<?> searchWord(@RequestParam("word") String name) {
         System.out.println("name = " + name);
         List<WordESSearchResponse> wordESList = new ArrayList<>();
 
