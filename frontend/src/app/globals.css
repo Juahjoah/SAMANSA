@@ -1,4 +1,25 @@
-.main:root {
+/* 폰트 전역설정 */
+
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('/assets/fonts/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Pretendard-Medium';
+  src: url('/assets/fonts/Pretendard-Medium.woff') format('woff');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Pretendard-Bold';
+  src: url('/assets/fonts/Pretendard-Bold.woff') format('woff');
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
   --max-width: 1100px;
   --border-radius: 1rem;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
@@ -45,10 +66,14 @@
   --font-regular-rgb: 255, 255, 255;
   --card-title-font-size: 2rem;
   --card-title-rgb: 51, 190, 125;
+
+  --font-Pretendard-Regular: 'Pretendard-Regular';
+  --font-Pretendard-Medium: 'Pretendard-Medium';
+  --font-Pretendard-Bold: 'Pretendard-Bold';
 }
 
 @media (prefers-color-scheme: dark) {
-  .main:root {
+  :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
@@ -78,40 +103,12 @@
     --card-rgb: 100, 100, 100;
     --card-border-rgb: 200, 200, 200;
   }
+}
 
-  /* 폰트 전역설정 */
-
-  @font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('/assets/fonts/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Pretendard-Medium';
-    src: url('/assets/fonts/Pretendard-Medium.woff') format('woff');
-    font-weight: 400;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Pretendard-Bold';
-    src: url('/assets/fonts/Pretendard-Bold.woff') format('woff');
-    font-weight: 400;
-    font-display: swap;
-  }
-
-  /* 전역에 적용 */
-  .main {
-    font-family: var(--font-Pretendard-Medium);
-    box-sizing: border-box;
-    background-color: #171544;
-    color: #ffffff;
-  }
-
-  /* 루트에 폰트 선언 */
-  .main:root {
-    --font-Pretendard-Regular: 'Pretendard-Regular';
-    --font-Pretendard-Medium: 'Pretendard-Medium';
-    --font-Pretendard-Bold: 'Pretendard-Bold';
-  }
+/* 전역에 적용 */
+* {
+  font-family: var(--font-Pretendard-Medium);
+  box-sizing: border-box;
+  background-color: #171544;
+  color: #ffffff;
 }
