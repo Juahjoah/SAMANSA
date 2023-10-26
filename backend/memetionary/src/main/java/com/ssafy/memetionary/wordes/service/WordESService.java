@@ -2,7 +2,9 @@ package com.ssafy.memetionary.wordes.service;
 
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.dto.WordESRegisterRequest;
+import com.ssafy.memetionary.wordes.dto.WordESSearchResponse;
 import com.ssafy.memetionary.wordes.repository.WordESRepository;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,8 @@ public class WordESService {
 
     private final WordESRepository wordESRepository;
 
-    public void registerWordES(WordESRegisterRequest request, String memberId, String memberNickname) {
+    public void registerWordES(WordESRegisterRequest request, String memberId,
+        String memberNickname) {
         log.debug("request = " + request);
         WordES wordES = WordES.builder()
             .memberId(memberId)
@@ -40,5 +43,24 @@ public class WordESService {
     //단어 삭제
     public void delete(WordES wordES) {
         wordESRepository.delete(wordES);
+    }
+
+    public List<WordESSearchResponse> searchByName(String name) {
+        List<WordES> wordESList = wordESRepository.findByName(name);
+        List<WordESSearchResponse> wordESSearchResponseList = new ArrayList<>();
+        for (WordES wordES : wordESList) {
+            WordESSearchResponse wordESSearchResponse = WordESSearchResponse.builder()
+                .id(wordES.getId())
+                .wordName(wordES.getName())
+                .wordDescription(wordES.getDescription())
+                .wordExample(wordES.getExample())
+                .hashtagList(wordES.getHashtags())
+                .memberNickname(wordES.getMemberNickname())
+                .createDate(wordES.getCreateDate())
+                .build();
+            wordESSearchResponseList.add(wordESSearchResponse);
+        }
+
+        return wordESSearchResponseList;
     }
 }
