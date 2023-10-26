@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class WordESSearchResponse {
+
     private String id;
     private String wordName;
     private String wordDescription;
