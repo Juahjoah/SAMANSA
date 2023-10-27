@@ -6,7 +6,7 @@
   background: rgb(var(--card-background-rgb));
   width: 52rem;
   height: auto;
-  border-radius: var(--border-radius);
+  border-radius: 1rem;
   cursor: pointer;
   padding: 2rem;
   color: rgb(var(--font-regular-rgb));
@@ -15,11 +15,9 @@
 .base div {
   font-size: 2rem;
   margin: 0 0 2rem 0;
-  /* font-weight: extrabold; */
   color: rgb(var(--card-title-rgb));
 }
 
 .base p {
-  /* font-weight: medium; */
   margin: 0 0 2rem 0;
 }

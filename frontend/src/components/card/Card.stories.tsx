@@ -1,4 +1,4 @@
-import Card from '@/components/card';
+import Card from '.';
 
 const meta = {
   title: 'Components/Card',
