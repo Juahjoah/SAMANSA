@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import styles from './Input.module.css';
 
 interface InputProps {
-  setValue?: (e: any) => void | any;
+  setValue: (e: any) => void | any;
   setEnter?: (e: any) => void;
   placeholder?: string;
   variant?: string;
@@ -21,12 +21,18 @@ interface AutocompleteProps {
 
 export default function Input({
   setValue,
-  setEnter,
-  // placeholder = '',
+  setEnter = () => {},
   variant = 'search',
   name = '',
   value = '',
 }: InputProps) {
+  //useState
+  const [index, setIndex] = useState(0); //0:value 1~length:data
+  const [InputValue, setInputValue] = useState(value);
+  const [autocomplete, setAutocomplete] = useState(false);
+  const [data, setData] = useState(['apple', 'banana', 'orange', 'kiwi']);
+
+  //place holder 설정
   let variantClass = '';
   let placeholder = '';
   switch (variant) {
@@ -56,18 +62,18 @@ export default function Input({
     switch (
       e.key //toDo =>
     ) {
-      // case 'Down': // IE/Edge에서 사용되는 값
-      // case 'ArrowDown':
-      //   // "아래 화살표" 키가 눌렸을 때의 동작입니다.
-      //   autoComplete(1);
-      //   // setValue('아래 화살표');
-      //   break;
-      // case 'Up': // IE/Edge에서 사용되는 값
-      // case 'ArrowUp':
-      //   // "위 화살표" 키가 눌렸을 때의 동작입니다.
-      //   autoComplete(-1);
-      //   // setValue('위 화살표');
-      //   break;
+      case 'Down': // IE/Edge에서 사용되는 값
+      case 'ArrowDown':
+        // "아래 화살표" 키가 눌렸을 때의 동작입니다.
+        autoComplete(1);
+        // setValue('아래 화살표');
+        break;
+      case 'Up': // IE/Edge에서 사용되는 값
+      case 'ArrowUp':
+        // "위 화살표" 키가 눌렸을 때의 동작입니다.
+        autoComplete(-1);
+        // setValue('위 화살표');
+        break;
       case 'Enter':
         // "enter" 또는 "return" 키가 눌렸을 때의 동작입니다.
         setValue(index == 0 ? value : InputValue);
@@ -80,21 +86,13 @@ export default function Input({
     }
   }
 
-  const [index, setIndex] = useState(0); //0:value 1~length:data
-  const [InputValue, setInputValue] = useState(value);
-  const [autocomplete, setAutocomplete] = useState(false);
-  const [data, setData] = useState(['apple', 'banana', 'orange', 'kiwi']);
-
   function autoComplete(d: number) {
-    // console.log('index : ' + index + '   d : ' + d);
     //검색 완료의 경우
     if (!autocomplete) {
-      // console.log('autocomplete : false');
       return;
     }
     //원래 InputValue == value 인 경우
     else if (index == 0) {
-      // console.log('index : ' + index + '   d : ' + d);
       if (d == 1) {
         // setInputValue(data[0]);
         setIndex(1);
@@ -120,7 +118,6 @@ export default function Input({
   }
 
   function InputChange(e: any) {
-    console.log(e.target.value);
     if (variant != 'search') {
       setValue(e.target.value);
       setData(data);
@@ -184,7 +181,6 @@ export function Autocomplete({
   }
 
   function clicked() {
-    // console.log(text);
     setValue(text);
     setAutocomplete(false);
   }
