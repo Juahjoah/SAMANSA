@@ -5,15 +5,20 @@
     },
     "name": {
       "type": "text",
-      "analyzer": "nori"
+      "analyzer": "nori_analyzer",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "description": {
       "type": "text",
-      "analyzer": "nori"
+      "analyzer": "nori_analyzer"
     },
     "example": {
       "type": "text",
-      "analyzer": "nori"
+      "analyzer": "nori_analyzer"
     },
     "memberId": {
       "type": "keyword"

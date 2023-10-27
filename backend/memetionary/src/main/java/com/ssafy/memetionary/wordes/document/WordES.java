@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.Mapping;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Builder
 @Getter
+@Setting(settingPath = "elasticsearch/word-setting.json")
 @Mapping(mappingPath = "elasticsearch/word-mapping.json")
 @Document(indexName = "word")
 public class WordES {
