@@ -1,8 +1,7 @@
 'use client';
-// import CreateButton from '@/components/button/CreateButton';
-// import CreateInputButton from '@/components/button/CreateInputButton';
-// import Input from '@/components/input/index';
-// import Textarea from '@/components/textarea/index';
+import CreateButton from '@/components/button/CreateButton';
+import Input from '@/components/input/index';
+import Textarea from '@/components/textarea/index';
 import styles from './page.module.css';
 import { useState } from 'react';
 import Image from 'next/image';
@@ -27,40 +26,40 @@ const CreatePage = () => {
         <br />
         <div className={styles.registcard}>
           <div className={styles.wordTag}>등록하고 싶은 단어</div>
-          {/* <Input
+          <Input
             setValue={setWord}
             variant={'word'}
             name={'단어등록'}
             value={word}
-          ></Input> */}
+          ></Input>
           <div className={styles.wordTag}>단어의 뜻</div>
-          {/* <Textarea
+          <Textarea
             setValue={setMeaning}
             variant={'decs'}
             name={'단어의 뜻'}
             value={meaning}
-          ></Textarea> */}
+          ></Textarea>
           <div className={styles.wordTag}>예시 문장</div>
-          {/* <Textarea
+          <Textarea
             setValue={setExample}
             variant={'example'}
             name={'예시문장'}
             value={example}
-          ></Textarea> */}
+          ></Textarea>
           <div className={styles.wordTag}>해시 태그</div>
-          {/* <Input
+          <Input
             setValue={setHashTag}
             variant={'tag'}
             name={'헤시 태그'}
             value={hashTag}
-          ></Input> */}
+          ></Input>
           <div className={styles.button}>
-            {/* <CreateButton
+            <CreateButton
               word={word}
               meaning={meaning}
               example={example}
               hashTag={hashTag}
-            ></CreateButton> */}
+            ></CreateButton>
           </div>
           {/* 단어: {word}, 단어의뜻: {meaning}, 예시문장: {example}, 해시태그:{' '} */}
         </div>
