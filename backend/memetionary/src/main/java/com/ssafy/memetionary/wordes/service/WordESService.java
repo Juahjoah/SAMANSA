@@ -1,6 +1,9 @@
 package com.ssafy.memetionary.wordes.service;
 
+import com.ssafy.memetionary.common.CustomErrorType;
+import com.ssafy.memetionary.common.exception.WordNotFoundException;
 import com.ssafy.memetionary.wordes.document.WordES;
+import com.ssafy.memetionary.wordes.document.WordESRequestType;
 import com.ssafy.memetionary.wordes.dto.WordESRegisterRequest;
 import com.ssafy.memetionary.wordes.dto.WordESSearchResponse;
 import com.ssafy.memetionary.wordes.repository.WordESRepository;
@@ -10,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +50,53 @@ public class WordESService {
         wordESRepository.delete(wordES);
     }
 
+    //엘라스틱 서치 단어 좋아요/싫어요 - 단어 5
+    public void likeWord(String clientIP, String wordId, boolean wordLike) {
+        WordES wordES = wordESRepository.findById(wordId)
+            .orElseThrow(() -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
+        log.debug(wordES.getLikes().toString());
+        Set<String> likes = new HashSet<>(wordES.getLikes());
+        Set<String> dislikes = new HashSet<>(wordES.getDislikes());
+
+        boolean isLike = likes.contains(clientIP);
+        boolean isDislike = dislikes.contains(clientIP);
+
+        log.debug("isLike = " + isLike);
+        log.debug("isDislike = " + isDislike);
+
+        likeProcess(isLike, isDislike, wordLike, wordES, clientIP);
+    }
+
+    private void likeProcess(boolean isLike, boolean isDislike, boolean wordLike, WordES wordES, String clientIP) {
+        //좋아요, 싫어요 한적 없는 경우
+        if (!isLike && !isDislike) {
+            if (wordLike) {
+                wordESRepository.updateLike(WordESRequestType.ADD_LIKE, wordES, clientIP);
+            } else {
+                wordESRepository.updateLike(WordESRequestType.ADD_DISLIKE, wordES, clientIP);
+            }
+        }
+        //현재 좋아요 상태
+        else if (isLike) {
+            //좋아요 취소
+            wordESRepository.updateLike(WordESRequestType.DELETE_LIKE, wordES, clientIP);
+            //좋아요 -> 싫어요
+            if (!wordLike) {
+                wordESRepository.updateLike(WordESRequestType.ADD_DISLIKE, wordES, clientIP);
+            }
+        }
+        //싫어요
+        else {
+            //싫어요 취소
+            wordESRepository.updateLike(WordESRequestType.DELETE_DISLIKE, wordES, clientIP);
+            //싫어요 -> 좋아요
+            if (wordLike) {
+                wordESRepository.updateLike(WordESRequestType.ADD_LIKE, wordES, clientIP);
+            }
+        }
+    }
+
+    //엘라스틱 서치 단어 검색 - 단어 1
     public List<WordESSearchResponse> searchByName(String name) {
         List<WordES> wordESList = wordESRepository.findByName(name);
         List<WordESSearchResponse> wordESSearchResponseList = new ArrayList<>();
