@@ -6,9 +6,11 @@ import com.ssafy.memetionary.common.exception.WordNotFoundException;
 import com.ssafy.memetionary.member.service.MemberService;
 import com.ssafy.memetionary.util.HeaderUtils;
 import com.ssafy.memetionary.wordes.document.WordES;
+import com.ssafy.memetionary.wordes.dto.WordESLikeRequest;
 import com.ssafy.memetionary.wordes.dto.WordESRegisterRequest;
 import com.ssafy.memetionary.wordes.repository.WordESRepository;
 import com.ssafy.memetionary.wordes.service.WordESService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,5 +70,17 @@ public class WordESController {
 
         return ResponseEntity.status(HttpStatus.OK)
             .body(MessageResponse.builder().message("단어 삭제 성공").build());
+    }
+
+    //엘라스틱 서치 단어 좋아요/싫어요 - 단어 5
+    @PutMapping("/like")
+    public ResponseEntity<?> likeWord(@RequestBody WordESLikeRequest wordESLikeRequest, HttpServletRequest httpServletRequest) {
+        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        log.debug("clientIP = " + clientIP);
+        String wordId = wordESLikeRequest.getWordId();
+        boolean wordLike = wordESLikeRequest.isWordLike();
+        wordESService.likeWord(clientIP, wordId, wordLike);
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(MessageResponse.builder().message("반영되었습니다.").build());
     }
 }
