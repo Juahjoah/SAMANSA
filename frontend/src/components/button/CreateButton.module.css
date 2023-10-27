@@ -1,6 +1,6 @@
 .createDiv {
   display: flex;
-  margin: 1rem auto;
+  margin: 2.1rem auto;
   width: 90%;
   justify-content: center;
 }
@@ -17,6 +17,7 @@
   cursor: pointer;
   transition: background-color 0.2s;
   font-size: 1.2rem;
+  box-shadow: 1px 1px 1px #414b5c;
 }
 
 .cancle {
@@ -30,6 +31,7 @@
   cursor: pointer;
   transition: background-color 0.2s;
   font-size: 1.2rem;
+  box-shadow: 1px 1px 1px rgb(218, 68, 68);
 }
 
 .create:hover {

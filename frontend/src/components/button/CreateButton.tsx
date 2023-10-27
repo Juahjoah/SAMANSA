@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 // api 요청 함수
 export async function postData(url = '', data = {}) {
   const Token =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLtmITspIAiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjk4NzI2NzUwfQ.9YXootWakWS-RFleKe3tVbhTlCBvxmk3G_wguYNUIvQ';
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLqtJHrsLAiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjk4OTg1NTk5fQ.E9zp0qtoA7_poAC-66Ho4dCpFpufxXGUUBjdcaUsPT8';
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -29,7 +29,7 @@ export default function CreateButton({
   example: string;
   hashTag: string;
 }) {
-  const url = 'http://h4r1b0.net:5000/api/word'; // api요청 url
+  const url = 'http://samansa.kr:5000/api/word'; // api요청 url
   const data = {
     wordName: word,
     wordDescription: meaning,
