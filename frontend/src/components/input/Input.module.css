@@ -2,21 +2,21 @@
   width: 100%;
   height: 3rem;
   border-radius: 1rem;
-  padding-left: 1rem;
+  padding: 1rem;
   outline: none;
   border: solid rgb(2, 2, 2) 0rem;
   text-indent: 0.5rem;
-  font-family: 'pretendard';
+  /* font-family: 'pretendard'; */
 
   background-color: #676687;
   color: #ffffff;
 
-  position: relative;
+  /* position: relative; */
 }
 
 .base::placeholder {
   text-indent: 0.5rem;
-  font-family: 'pretendard';
+  /* font-family: 'pretendard'; */
 
   color: lightgray;
 }
