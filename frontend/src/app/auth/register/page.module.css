@@ -1,0 +1,65 @@
+.components {
+  width: 100vw;
+  height: 100vh;
+  /* border: 1px solid #171544; */
+  /* background-color: #171544; */
+}
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  padding: 2rem;
+  /* margin: 2.5rem 0 0 2rem; */
+  /* border: 1px solid #454469; */
+  animation: fadein 1.5s ease-in-out;
+}
+.regist {
+  position: relative;
+  width: 850px;
+  height: 750px;
+  margin: 7rem auto 0;
+  /* border: 1px solid black; */
+  border-radius: 1rem;
+  /* box-shadow: 2px 4px 2px rgb(98, 97, 124); */
+  background-color: #454469;
+  color: white;
+  animation: fadein 1s ease-in-out;
+}
+
+.wordTag {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0.9rem 0 0.8rem 0;
+  animation: fadein 2.1s ease-in-out;
+}
+.registcard {
+  width: 90%;
+  height: 70%;
+  margin: -2rem auto;
+  /* border: 1px solid black; */
+  animation: fadein 2.6s ease-in-out;
+}
+
+.icon {
+  position: absolute;
+  top: 0.5rem;
+  right: 2rem;
+  animation: fadein 1.5s ease-in-out;
+}
+/* .cardPedding {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid red;
+  box-sizing: border-box;
+} */
+.button {
+  animation: fadein 2.5s ease-in-out;
+}
