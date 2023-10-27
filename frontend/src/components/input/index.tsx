@@ -19,6 +19,47 @@ interface AutocompleteProps {
   text?: string;
 }
 
+export function Autocomplete({
+  setValue,
+  setAutocomplete,
+  value = '',
+  text = '',
+}: AutocompleteProps) {
+  let variantClass;
+  if (value == text) {
+    variantClass = styles.active;
+  } else {
+    variantClass = styles.deactive;
+  }
+
+  function clicked() {
+    setValue(text);
+    setAutocomplete(false);
+  }
+  return (
+    <div className={styles.wrapper}>
+      <input
+        className={`${styles.base} ${styles.autocomplete} ${variantClass}`}
+        onClick={clicked}
+        value={text}
+        readOnly
+      />
+    </div>
+  );
+}
+
+export function AutocompleteEnd() {
+  return (
+    <div className={styles.wrapper}>
+      <input
+        className={`${styles.base} ${styles.autocomplete} ${styles.end}`}
+        value={''}
+        readOnly
+      />
+    </div>
+  );
+}
+
 export default function Input({
   setValue,
   setEnter = () => {},
@@ -54,38 +95,6 @@ export default function Input({
       break;
   }
 
-  //enter 누를 때 검색바라면 검색하게
-  function activeEnter(e: any) {
-    if (variant != 'search') {
-      return;
-    }
-    switch (
-      e.key //toDo =>
-    ) {
-      case 'Down': // IE/Edge에서 사용되는 값
-      case 'ArrowDown':
-        // "아래 화살표" 키가 눌렸을 때의 동작입니다.
-        autoComplete(1);
-        // setValue('아래 화살표');
-        break;
-      case 'Up': // IE/Edge에서 사용되는 값
-      case 'ArrowUp':
-        // "위 화살표" 키가 눌렸을 때의 동작입니다.
-        autoComplete(-1);
-        // setValue('위 화살표');
-        break;
-      case 'Enter':
-        // "enter" 또는 "return" 키가 눌렸을 때의 동작입니다.
-        setValue(index == 0 ? value : InputValue);
-        setIndex(0);
-        setEnter(true);
-        setAutocomplete(false);
-        break;
-      default:
-        return; // 키 이벤트를 처리하지 않는다면 종료합니다.
-    }
-  }
-
   function autoComplete(d: number) {
     //검색 완료의 경우
     if (!autocomplete) {
@@ -111,7 +120,6 @@ export default function Input({
     }
     //결과로 autoComplete list 중
     else {
-      //toDo : up/down 메소드
       setIndex(index + d);
       setInputValue(data[index - 1]);
     }
@@ -125,6 +133,34 @@ export default function Input({
       // setAutocomplete(true); // toDo =>
       setValue(e.target.value);
       setIndex(0);
+    }
+  }
+
+  //enter 누를 때 검색바라면 검색하게
+  function activeEnter(e: any) {
+    if (variant != 'search') {
+      return;
+    }
+    switch (e.key) {
+      case 'Down': // IE/Edge에서 사용되는 값
+      case 'ArrowDown':
+        // "아래 화살표" 키가 눌렸을 때의 동작
+        autoComplete(1);
+        break;
+      case 'Up': // IE/Edge에서 사용되는 값
+      case 'ArrowUp':
+        // "위 화살표" 키가 눌렸을 때의 동작
+        autoComplete(-1);
+        break;
+      case 'Enter':
+        // "enter" 또는 "return" 키가 눌렸을 때의 동작
+        setValue(index == 0 ? value : InputValue);
+        setIndex(0);
+        setEnter(true);
+        setAutocomplete(false);
+        break;
+      default:
+        return; // 키 이벤트를 처리하지 않는다면 종료합니다.
     }
   }
 
@@ -163,47 +199,6 @@ export default function Input({
           <AutocompleteEnd />
         </div>
       )} */}
-    </div>
-  );
-}
-
-export function Autocomplete({
-  setValue,
-  setAutocomplete,
-  value = '',
-  text = '',
-}: AutocompleteProps) {
-  let variantClass;
-  if (value == text) {
-    variantClass = styles.active;
-  } else {
-    variantClass = styles.deactive;
-  }
-
-  function clicked() {
-    setValue(text);
-    setAutocomplete(false);
-  }
-  return (
-    <div className={styles.wrapper}>
-      <input
-        className={`${styles.base} ${styles.autocomplete} ${variantClass}`}
-        onClick={clicked}
-        value={text}
-        readOnly
-      />
-    </div>
-  );
-}
-
-export function AutocompleteEnd() {
-  return (
-    <div className={styles.wrapper}>
-      <input
-        className={`${styles.base} ${styles.autocomplete} ${styles.end}`}
-        value={''}
-        readOnly
-      />
     </div>
   );
 }
