@@ -22,16 +22,16 @@ public class RestClientBuilderCustomizerImpl implements RestClientBuilderCustomi
 
     @Override
     public void customize(HttpAsyncClientBuilder builder) {
-        SSLContextBuilder sscb = SSLContexts.custom();
+        SSLContextBuilder sslContextBuilder = SSLContexts.custom();
         try {
-            sscb.loadTrustMaterial((chain, authType) -> {
+            sslContextBuilder.loadTrustMaterial((chain, authType) -> {
                 return true;
             });
         } catch (NoSuchAlgorithmException | KeyStoreException e) {
             e.printStackTrace();
         }
         try {
-            builder.setSSLContext(sscb.build());
+            builder.setSSLContext(sslContextBuilder.build());
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
