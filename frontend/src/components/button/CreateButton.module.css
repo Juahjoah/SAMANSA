@@ -1,0 +1,40 @@
+.createDiv {
+  display: flex;
+  margin: 1rem auto;
+  width: 90%;
+  justify-content: center;
+}
+
+.create {
+  width: 9rem;
+  height: 3rem;
+  background-color: #545f71;
+  color: white;
+  border-radius: 1rem;
+  text-align: center;
+  line-height: 3rem;
+  margin-right: 3rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 1.2rem;
+}
+
+.cancle {
+  width: 9rem;
+  height: 3rem;
+  background-color: rgb(238, 94, 94);
+  color: white;
+  border-radius: 1rem;
+  text-align: center;
+  line-height: 3rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 1.2rem;
+}
+
+.create:hover {
+  background-color: #333944;
+}
+.cancle:hover {
+  background-color: #eb4c1c;
+}
