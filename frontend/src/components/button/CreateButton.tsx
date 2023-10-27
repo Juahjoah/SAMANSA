@@ -29,7 +29,7 @@ export default function CreateButton({
   example: string;
   hashTag: string;
 }) {
-  const url = 'https://samansa.kr:5000/api/word'; // api요청 url
+  const url = 'http://samansa.kr:5000/api/word'; // api요청 url
   const data = {
     wordName: word,
     wordDescription: meaning,
