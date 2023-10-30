@@ -5,9 +5,6 @@ import Textarea from '@/components/textarea/index';
 import styles from './page.module.css';
 import { useState } from 'react';
 import Image from 'next/image';
-import IndexButton from '@/components/button/indexButton/index';
-import Pagination from '@/components/button/paginationButton/index';
-import ShareButton from '@/components/button/shareButton/index';
 
 export default function CreatePage() {
   const [word, setWord] = useState(''); // 등록할 단어
@@ -66,9 +63,6 @@ export default function CreatePage() {
           ></CreateButton>
         </div>
       </div>
-      <Pagination></Pagination>
-      <IndexButton></IndexButton>
-      <ShareButton></ShareButton>
     </div>
   );
 }
