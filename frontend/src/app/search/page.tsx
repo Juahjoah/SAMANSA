@@ -33,7 +33,9 @@ export default function Home() {
 
   useEffect(() => {
     fetch(
-      `https://samansa.kr/api/word/search?word=${word == null ? '' : word}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/word/search?word=${
+        word == null ? '' : word
+      }`,
       {
         method: 'GET',
       },
@@ -50,7 +52,7 @@ export default function Home() {
   }, []);
 
   function toCreate() {
-    window.location.href = 'https://samansa.kr/create';
+    window.location.href = `${process.env.NEXT_PUBLIC_REDIRECT_URI}/create`;
   }
 
   return (

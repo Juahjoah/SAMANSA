@@ -153,7 +153,7 @@ export default function Input({
       case 'Enter':
         // "enter" 또는 "return" 키가 눌렸을 때의 동작
         // setValue(index == 0 ? value : InputValue);
-        const url = `https://samansa.kr/search?word=${
+        const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}/search?word=${
           index == 0 ? value : InputValue
         }`;
         window.location.href = url;
