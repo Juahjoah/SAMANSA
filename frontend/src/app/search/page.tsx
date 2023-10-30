@@ -49,28 +49,40 @@ export default function Home() {
       });
   }, []);
 
+  function toCreate() {
+    window.location.href = 'https://samansa.kr/create';
+  }
+
   return (
     <main className={styles.main}>
-      <div className={styles.topTag}>
-        <div className={styles.icon}>x</div>
-        <div>40004</div>
-      </div>
-      <div className={styles.searchTag}>
+      <div className={styles.top}>
         <div className={styles.searchInput}>
           <Input value={value} setValue={setValue} />
         </div>
-        <div className={styles.createWord}>+</div>
+        <div className={styles.create}>
+          <input
+            value="+"
+            type="button"
+            className={styles.createButton}
+            onClick={toCreate}
+          />
+        </div>
       </div>
-      <div className={styles.bottomTag}>
-        {data.map((item: Item) => (
-          <div key={item.id}>
-            <Card
-              title={item.wordName}
-              content={item.wordDescription}
-              example={item.wordExample}
-            />
-          </div>
-        ))}
+      <div className={styles.content}>
+        <div className={styles.searchResult}>
+          {data.map((item: Item) => (
+            <div key={item.id}>
+              <Card
+                title={item.wordName}
+                content={item.wordDescription}
+                example={item.wordExample}
+              />
+            </div>
+          ))}
+        </div>
+        <div>
+          <div className={styles.survey}></div>
+        </div>
       </div>
     </main>
   );
