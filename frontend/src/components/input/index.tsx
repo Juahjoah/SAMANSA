@@ -158,7 +158,7 @@ export default function Input({
         }`;
         window.location.href = url;
         // setIndex(0);
-        // setAutocomplete(false);
+        setAutocomplete(false);
         break;
       default:
         return; // 키 이벤트를 처리하지 않는다면 종료합니다.
