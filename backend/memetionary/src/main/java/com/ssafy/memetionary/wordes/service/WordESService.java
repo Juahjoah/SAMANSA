@@ -29,8 +29,7 @@ public class WordESService {
 
     private final WordESRepository wordESRepository;
 
-    public void registerWordES(WordESRegisterRequest request, String memberId,
-                               String memberNickname) {
+    public void registerWordES(WordESRegisterRequest request, String memberId, String memberNickname) {
         log.debug("request = " + request);
         WordES wordES = WordES.builder()
             .memberId(memberId)
