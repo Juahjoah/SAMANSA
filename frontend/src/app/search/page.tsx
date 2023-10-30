@@ -1,6 +1,7 @@
 'use client';
 //react & lib
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 //style
 import styles from './page.module.css';
@@ -20,33 +21,34 @@ interface Item {
 }
 
 export default function Home() {
-  const [value, setValue] = useState('value');
-  const [enter, setEnter] = useState(false);
+  const searchParams = useSearchParams();
+  const word = searchParams.get('word');
+  const page = searchParams.get('page');
 
+  const [value, setValue] = useState(word == null ? '' : word);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    if (enter == true) {
-      console.log('엔터 클릭됨 ');
-      console.log(value);
-      fetch(`https://samansa.kr/api/word/search?word=${value}`, {
-        method: 'GET',
-      })
-        .then((response) => response.json())
-        .then((searchData) => {
-          // console.log('사용자 정보 요청 성공:', userData);
-          console.log(searchData);
-          setData(searchData);
-        })
-        .catch(() => {
-          // console.error('사용자 정보 요청 실패:', error);
-        });
+  console.log('search' + word);
+  console.log('search' + page);
 
-      setEnter(false);
-    } else {
-      console.log('false');
-    }
-  }, [enter]);
+  useEffect(() => {
+    fetch(
+      `https://samansa.kr/api/word/search?word=${word == null ? '' : word}`,
+      {
+        method: 'GET',
+      },
+    )
+      .then((response) => response.json())
+      .then((searchData) => {
+        // console.log('사용자 정보 요청 성공:', userData);
+        console.log(searchData);
+        setData(searchData);
+      })
+      .catch(() => {
+        // console.error('사용자 정보 요청 실패:', error);
+      });
+  }, []);
+
   return (
     <main className={styles.main}>
       <div className={styles.topTag}>
@@ -55,7 +57,7 @@ export default function Home() {
       </div>
       <div className={styles.searchTag}>
         <div className={styles.searchInput}>
-          <Input value={value} setValue={setValue} setEnter={setEnter} />
+          <Input value={value} setValue={setValue} />
         </div>
         <div className={styles.createWord}>+</div>
       </div>

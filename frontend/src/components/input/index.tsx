@@ -5,11 +5,10 @@ import styles from './Input.module.css';
 
 interface InputProps {
   setValue: (e: any) => void | any;
-  setEnter?: (e: any) => void;
   placeholder?: string;
   variant?: string;
   name?: string;
-  value?: string;
+  value: string;
 }
 
 interface AutocompleteProps {
@@ -62,7 +61,6 @@ export function AutocompleteEnd() {
 
 export default function Input({
   setValue,
-  setEnter = () => {},
   variant = 'search',
   name = '',
   value = '',
@@ -154,10 +152,13 @@ export default function Input({
         break;
       case 'Enter':
         // "enter" 또는 "return" 키가 눌렸을 때의 동작
-        setValue(index == 0 ? value : InputValue);
-        setIndex(0);
-        setEnter(true);
-        setAutocomplete(false);
+        // setValue(index == 0 ? value : InputValue);
+        const url = `https://samansa.kr/search?word=${
+          index == 0 ? value : InputValue
+        }`;
+        window.location.href = url;
+        // setIndex(0);
+        // setAutocomplete(false);
         break;
       default:
         return; // 키 이벤트를 처리하지 않는다면 종료합니다.
