@@ -2,11 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 
-export async function fetchData() {
-  const res = await fetch('https://samansa.kr', { cache: 'no-store' });
-  const json = await res.json();
-  return json;
-}
+// export async function fetchData() {
+//   const res = await fetch('https://samansa.kr', { cache: 'no-store' });
+//   const json = await res.json();
+//   return json;
+// }
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -28,7 +28,10 @@ export default function LogoutButton() {
           sessionStorage.removeItem('accessToken');
           sessionStorage.removeItem('nickname');
           router.push('/');
-          // 여기 새로고침 필요.
+          // 페이지 새로고침을 트리거
+          if (typeof window !== 'undefined') {
+            window.location.reload();
+          }
           return response.json();
         }
       })
@@ -39,11 +42,7 @@ export default function LogoutButton() {
 
   return (
     <div>
-      {accessToken ? (
-        <button onClick={handleLogout}>로그아웃</button>
-      ) : (
-        <button onClick={() => router.push('/auth/login')}>로그인</button>
-      )}
+      <button onClick={handleLogout}>로그아웃</button>
     </div>
   );
 }
