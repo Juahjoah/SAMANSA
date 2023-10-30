@@ -1,13 +1,21 @@
 'use client';
 import styles from './Card.module.css';
 
-export default function Card({
-  variant = 'large',
-  title = '킹받다',
-  content = '어쩌구 저쩌구 어쩌구 저쩌구',
-  example = '예시 어쩌구',
-  ...other
-}: CardProps) {
+interface Item {
+  id: string;
+  wordName: string;
+  wordDescription: string;
+  wordExample: string;
+  hashtagList: string[];
+  memberNickname: string;
+  createDate: string;
+}
+type CardProps = {
+  variant?: 'large' | 'medium' | 'small';
+  item: Item;
+};
+
+export default function Card({ variant = 'large', item }: CardProps) {
   let variantClass;
   switch (variant) {
     case 'large':
@@ -21,17 +29,10 @@ export default function Card({
       break;
   }
   return (
-    <div {...other} className={`${styles.base} ${variantClass}`}>
-      <div>{title}</div>
-      <p>{content}</p>
-      <p>{example}</p>
+    <div className={`${styles.base} ${variantClass}`}>
+      <div>{item.wordName}</div>
+      <p>{item.wordDescription}</p>
+      <p>{item.wordExample}</p>
     </div>
   );
 }
-
-type CardProps = {
-  variant?: 'large' | 'medium' | 'small';
-  title: string;
-  content: string;
-  example?: string;
-};
