@@ -29,9 +29,6 @@
 }
 
 @media (max-width: 900px) {
-  .components {
-    background-color: red;
-  }
   .regist {
     width: 95vw;
   }

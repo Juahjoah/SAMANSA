@@ -1,5 +1,5 @@
 'use client';
-import CreateButton from '@/components/button/CreateButton';
+import CreateButton from '@/components/button/createButton/index';
 import Input from '@/components/input/index';
 import Textarea from '@/components/textarea/index';
 import styles from './page.module.css';
