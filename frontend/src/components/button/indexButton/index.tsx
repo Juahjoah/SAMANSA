@@ -33,7 +33,7 @@ export default function IndexButton() {
     setModalCheck(!modalCheck);
   };
   const checkButton = (index: number) => {
-    console.log('임시버튼이동');
+    console.log('임시버튼이동', index);
     // router.push(`page${index}`)  // 클릭한 페이지넘버로 이동
   };
   return (
