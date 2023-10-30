@@ -40,18 +40,22 @@ export default function CreateButton({
 
   // 단어 등록 요청
   const CreateWord = async () => {
-    console.log(data);
-    postData(url, data)
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (!word || !meaning || !example) {
+      alert('빈 값이 있습니다. 값을 채워주세요!');
+    } else {
+      postData(url, data)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      router.push('/');
+    }
   };
   // 단어 등록 취소
   const CancleWord = () => {
-    router.push('/auth/login');
+    router.push('/');
   };
   return (
     <div className={styles.createDiv}>
