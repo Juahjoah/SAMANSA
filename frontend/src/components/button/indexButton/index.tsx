@@ -37,7 +37,7 @@ export default function IndexButton() {
     // router.push(`page${index}`)  // 클릭한 페이지넘버로 이동
   };
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.browseButton} onClick={CheckingModal}>
         Browse
       </div>

@@ -1,3 +1,7 @@
+.container {
+  position: relative;
+}
+
 .browseButton {
   font-weight: 600;
   cursor: pointer;
@@ -18,9 +22,12 @@
 }
 
 .modal {
-  margin-top: 20px;
-  width: 200px;
-  height: 200px;
+  position: absolute;
+  top: 45px;
+  left: 10px;
+  /* margin-top: 20px; */
+  width: 210px;
+  height: 240px;
   border: 0.2px solid black;
   display: flex;
   flex-wrap: wrap;
@@ -36,9 +43,10 @@
   background-color: black;
   color: white;
   margin-top: 3px;
-  margin-left: 3px;
+  margin-left: 10px;
   border-radius: 15px;
   transition: background-color 0.2s;
+  cursor: pointer;
 }
 
 .button:hover {
