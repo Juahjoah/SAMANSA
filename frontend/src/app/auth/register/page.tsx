@@ -6,7 +6,7 @@ import styles from './page.module.css';
 import { useState } from 'react';
 import Image from 'next/image';
 
-const CreatePage = () => {
+export default function CreatePage() {
   const [word, setWord] = useState(''); // 등록할 단어
   const [meaning, setMeaning] = useState(''); // 단어의 뜻
   const [example, setExample] = useState(''); // 예시 문장
@@ -23,7 +23,6 @@ const CreatePage = () => {
             alt="햄버그바"
           />
         </div>
-        <br />
         <div className={styles.registcard}>
           <div className={styles.wordTag}>등록하고 싶은 단어</div>
           <Input
@@ -53,19 +52,17 @@ const CreatePage = () => {
             name={'헤시 태그'}
             value={hashTag}
           ></Input>
-          <div className={styles.button}>
-            <CreateButton
-              word={word}
-              meaning={meaning}
-              example={example}
-              hashTag={hashTag}
-            ></CreateButton>
-          </div>
           {/* 단어: {word}, 단어의뜻: {meaning}, 예시문장: {example}, 해시태그:{' '} */}
+        </div>
+        <div className={styles.button}>
+          <CreateButton
+            word={word}
+            meaning={meaning}
+            example={example}
+            hashTag={hashTag}
+          ></CreateButton>
         </div>
       </div>
     </div>
   );
-};
-
-export default CreatePage;
+}
