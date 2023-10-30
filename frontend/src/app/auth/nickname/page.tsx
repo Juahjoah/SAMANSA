@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import Input from 'src/components/input';
+import Input from '@/components/input';
 import styles from './NicknamePages.module.css';
 
 export default function NicknamePages() {
@@ -77,26 +77,30 @@ export default function NicknamePages() {
 
   return (
     <div className={styles.wrapper}>
-      <h1>닉네임 페이지</h1>
-      <Input setValue={setNickname} variant="nickname" value={nickname} />
-      <button
-        onClick={() => {
-          checkNickname();
-        }}
-      >
-        중복확인
-      </button>
-      <div>
-        <p>{isDuplicateMessage}</p>
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            saveNickname();
-          }}
-        >
-          시작하기
-        </button>
+      <div className={styles.nickname}>
+        <h2>사만사에서 사용할 닉네임을 입력해주세요.</h2>
+        <div className={styles.inputarea}>
+          <Input setValue={setNickname} variant="nickname" value={nickname} />
+          <button
+            onClick={() => {
+              checkNickname();
+            }}
+          >
+            중복확인
+          </button>
+        </div>
+        <div>
+          <p>{isDuplicateMessage}</p>
+        </div>
+        <div>
+          <button
+            onClick={() => {
+              saveNickname();
+            }}
+          >
+            시작하기
+          </button>
+        </div>
       </div>
     </div>
   );
