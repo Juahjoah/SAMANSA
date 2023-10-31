@@ -8,8 +8,8 @@
 
 .nickname {
   background-color: #d7d7d9;
-  width: 40rem;
-  height: 19rem;
+  max-width: calc(100% - 50rem);
+  height: calc(100% - 37rem);
   padding: 3rem;
   border-radius: 0.5rem;
   display: flex;
@@ -17,11 +17,14 @@
   align-items: center;
   justify-content: space-between;
 }
+.inputcomponent {
+  max-width: 100%;
+}
 
 .inputarea {
   display: flex;
   justify-content: center;
-  width: 100%;
+  max-width: 100%;
 }
 
 .nicknamemsg {
