@@ -14,18 +14,18 @@ interface InputProps {
 interface AutocompleteProps {
   setValue: (e: any) => void;
   setAutocomplete: (e: any) => void;
-  value?: string;
+  selected?: boolean;
   text?: string;
 }
 
 export function Autocomplete({
   setValue,
   setAutocomplete,
-  value = '',
+  selected = false,
   text = '',
 }: AutocompleteProps) {
   let variantClass;
-  if (value == text) {
+  if (selected) {
     variantClass = styles.active;
   } else {
     variantClass = styles.deactive;
@@ -101,13 +101,13 @@ export default function Input({
     //원래 InputValue == value 인 경우
     else if (index == 0) {
       if (d == 1) {
-        // setInputValue(data[0]);
+        setInputValue(data[0]);
         setIndex(1);
       } else if (d == -1) {
-        // setInputValue(data[data.length - 1]);
+        setInputValue(data[data.length - 1]);
         setIndex(data.length);
       }
-      // setInputValue(data[index - 1]);
+      setInputValue(data[index - 1]);
       return;
     }
     //결과로 value
@@ -128,7 +128,7 @@ export default function Input({
       setValue(e.target.value);
       setData(data);
     } else {
-      // setAutocomplete(true); // toDo =>
+      setAutocomplete(true); // toDo =>
       setValue(e.target.value);
       setIndex(0);
     }
@@ -157,7 +157,7 @@ export default function Input({
           index == 0 ? value : InputValue
         }`;
         window.location.href = url;
-        // setIndex(0);
+        setIndex(0);
         setAutocomplete(false);
         break;
       default:
@@ -173,6 +173,27 @@ export default function Input({
     }
   }, [index]);
 
+  useEffect(() => {
+    // console.log('value: useEffec');
+    if (value != '') {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/word/auto-complete?word=${value}`,
+        {
+          method: 'GET',
+        },
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          // console.log('사용자 정보 요청 성공:', userData);
+          // console.log(data.words);
+          setData(data.words);
+        })
+        .catch(() => {
+          // console.error('사용자 정보 요청 실패:', error);
+        });
+    }
+  }, [value]);
+
   return (
     <div className={styles.wrapper}>
       <input
@@ -185,21 +206,21 @@ export default function Input({
         name={name}
         value={index == 0 ? value : InputValue}
       />
-      {/* toDo =>
-       {autocomplete && (
+
+      {autocomplete && (
         <div>
-          {data.map((text) => (
+          {data.map((text, i) => (
             <Autocomplete
               setValue={setValue}
               setAutocomplete={setAutocomplete}
-              value={InputValue}
+              selected={index == i + 1}
               text={text}
-              key={text}
+              key={i}
             />
           ))}{' '}
           <AutocompleteEnd />
         </div>
-      )} */}
+      )}
     </div>
   );
 }
