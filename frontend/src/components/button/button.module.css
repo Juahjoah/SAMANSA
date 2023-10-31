@@ -1,0 +1,42 @@
+.button {
+  appearance: none;
+}
+
+.base {
+  width: 7rem;
+  height: 2.3rem;
+  border-radius: 1rem;
+  margin: 2px;
+  font-size: 1rem;
+  align-self: last baseline;
+  cursor: pointer;
+  border: none;
+  background-color: #9db2bf;
+  color: #27374d;
+}
+
+.base:hover {
+  background-color: #526d82;
+  color: #27374d;
+}
+
+.close {
+  background-color: white;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  font-size: 5rem;
+}
+
+.nickname {
+  width: 7rem;
+  height: 2.3rem;
+  border-radius: 1rem;
+  margin: 2px;
+  font-size: 1rem;
+  align-self: last baseline;
+  cursor: pointer;
+  border: none;
+  background-color: #9db2bf;
+  color: #27374d;
+}
