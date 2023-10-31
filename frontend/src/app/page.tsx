@@ -52,7 +52,8 @@ export default function Home() {
   }, []);
 
   function toCreate() {
-    window.location.href = `${process.env.NEXT_PUBLIC_REDIRECT_URI}/create`;
+    // window.location.href = `${process.env.NEXT_PUBLIC_REDIRECT_URI}/create`;
+    window.location.href = '/create';
   }
 
   return (
