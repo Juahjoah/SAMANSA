@@ -10,7 +10,10 @@ import com.ssafy.memetionary.wordes.repository.WordESRepository;
 import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -102,6 +105,27 @@ public class WordESService {
     //엘라스틱 서치 단어 검색 - 단어 1
     public List<WordESSearchResponse> searchByName(String name, Pageable pageable) {
         List<WordES> wordESList = wordESRepository.findByName(name, pageable).getContent();
+        List<WordESSearchResponse> wordESSearchResponseList = new ArrayList<>();
+        for (WordES wordES : wordESList) {
+            WordESSearchResponse wordESSearchResponse = WordESSearchResponse.builder()
+                .id(wordES.getId())
+                .wordName(wordES.getName())
+                .wordDescription(wordES.getDescription())
+                .wordExample(wordES.getExample())
+                .hashtagList(wordES.getHashtags())
+                .memberNickname(wordES.getMemberNickname())
+                .createDate(wordES.getCreateDate())
+                .build();
+            wordESSearchResponseList.add(wordESSearchResponse);
+        }
+
+        return wordESSearchResponseList;
+    }
+
+    public List<WordESSearchResponse> mainPage( Pageable pageable){
+        Sort sort = Sort.by(Direction.DESC, "createDate");
+        Pageable newpageable = PageRequest.of(0, 10, sort);
+        List<WordES> wordESList = wordESRepository.findAll(newpageable).getContent();
         List<WordESSearchResponse> wordESSearchResponseList = new ArrayList<>();
         for (WordES wordES : wordESList) {
             WordESSearchResponse wordESSearchResponse = WordESSearchResponse.builder()
