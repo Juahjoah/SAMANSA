@@ -11,8 +11,7 @@ export default function CreatePage() {
   const [meaning, setMeaning] = useState(''); // 단어의 뜻
   const [example, setExample] = useState(''); // 예시 문장
   const [hashTag, setHashTag] = useState(''); // 해시 태그
-  setExample('');
-  setHashTag('');
+
   return (
     <div className={styles.components}>
       <div className={styles.regist}>
@@ -40,6 +39,20 @@ export default function CreatePage() {
             name={'단어의 뜻'}
             value={meaning}
           ></Textarea>
+          <div className={styles.wordTag}>예시 문장</div>
+          <Textarea
+            setValue={setExample}
+            variant={'example'}
+            name={'예시문장'}
+            value={example}
+          ></Textarea>
+          <div className={styles.wordTag}>해시 태그</div>
+          <Input
+            setValue={setHashTag}
+            variant={'tag'}
+            name={'헤시 태그'}
+            value={hashTag}
+          ></Input>
         </div>
         <div className={styles.button}>
           <CreateButton
