@@ -5,3 +5,26 @@
   justify-content: center;
   height: 100vh;
 }
+
+.nickname {
+  background-color: #d7d7d9;
+  width: 40rem;
+  height: 19rem;
+  padding: 3rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inputarea {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.nicknamemsg {
+  color: #e44f4f;
+  padding: 0.3rem;
+}

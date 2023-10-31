@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import Input from 'src/components/input';
+import Input from '@/components/input';
+import Button from '@/components/button';
 import styles from './NicknamePages.module.css';
 
 export default function NicknamePages() {
@@ -77,26 +78,37 @@ export default function NicknamePages() {
 
   return (
     <div className={styles.wrapper}>
-      <h1>닉네임 페이지</h1>
-      <Input setValue={setNickname} variant="nickname" value={nickname} />
-      <button
-        onClick={() => {
-          checkNickname();
-        }}
-      >
-        중복확인
-      </button>
-      <div>
-        <p>{isDuplicateMessage}</p>
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            saveNickname();
-          }}
-        >
-          시작하기
-        </button>
+      <div className={styles.nickname}>
+        <h2>사만사에서 사용할 닉네임을 입력해주세요.</h2>
+        {/* <p>
+          닉네임은 한 번 설정하면 변경할 수 없습니다. 신중하게 결정해주세요.
+        </p> */}
+        <div className={styles.namecheck}>
+          <div className={styles.inputarea}>
+            <Input setValue={setNickname} variant="nickname" value={nickname} />
+            <Button
+              variant="nickname"
+              onClick={() => {
+                checkNickname();
+              }}
+            >
+              중복확인
+            </Button>
+          </div>
+          <div>
+            <p className={styles.nicknamemsg}>{isDuplicateMessage}</p>
+          </div>
+        </div>
+        <div>
+          <Button
+            variant="nickname"
+            onClick={() => {
+              saveNickname();
+            }}
+          >
+            시작하기
+          </Button>
+        </div>
       </div>
     </div>
   );
