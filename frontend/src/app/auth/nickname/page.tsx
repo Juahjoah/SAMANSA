@@ -85,7 +85,13 @@ export default function NicknamePages() {
         </p> */}
         <div className={styles.namecheck}>
           <div className={styles.inputarea}>
-            <Input setValue={setNickname} variant="nickname" value={nickname} />
+            <div className={styles.inputcomponent}>
+              <Input
+                setValue={setNickname}
+                variant="nickname"
+                value={nickname}
+              />
+            </div>
             <Button
               variant="nickname"
               onClick={() => {
