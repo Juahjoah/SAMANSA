@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import Input from '@/components/input';
-import Button from '@/components/button';
+import Input from '@/components/Input';
+import Button from 'src/components/Button';
 import styles from './NicknamePages.module.css';
 
 export default function NicknamePages() {
@@ -85,7 +85,13 @@ export default function NicknamePages() {
         </p> */}
         <div className={styles.namecheck}>
           <div className={styles.inputarea}>
-            <Input setValue={setNickname} variant="nickname" value={nickname} />
+            <div className={styles.inputcomponent}>
+              <Input
+                setValue={setNickname}
+                variant="nickname"
+                value={nickname}
+              />
+            </div>
             <Button
               variant="nickname"
               onClick={() => {
