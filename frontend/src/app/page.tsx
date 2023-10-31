@@ -7,8 +7,8 @@ import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 
 //component
-import Input from '@/components/input';
-import Card from '@/components/card';
+import Input from '@/components/Input';
+import Card from '@/components/Card';
 
 interface Item {
   id: string;
@@ -28,8 +28,8 @@ export default function Home() {
   const [value, setValue] = useState(search == null ? '' : search);
   const [data, setData] = useState([]);
 
-  console.log('search : ' + search);
-  console.log('page : ' + page);
+  // console.log('search : ' + search);
+  // console.log('page : ' + page);
 
   useEffect(() => {
     fetch(
@@ -43,7 +43,6 @@ export default function Home() {
       .then((response) => response.json())
       .then((searchData) => {
         // console.log('사용자 정보 요청 성공:', userData);
-        console.log(searchData);
         setData(searchData);
       })
       .catch(() => {
