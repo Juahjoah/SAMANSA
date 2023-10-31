@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import LogoutButton from '../Button/logoutButton';
+import LogoutButton from '../Button/LogoutButton';
 import { VscAccount } from 'react-icons/vsc';
 
 export async function fetchData() {
