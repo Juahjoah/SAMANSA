@@ -5,7 +5,7 @@
     },
     "name": {
       "type": "text",
-      "analyzer": "nori_analyzer",
+      "analyzer": "nori",
       "fields": {
         "keyword": {
           "type": "keyword"
@@ -14,11 +14,11 @@
     },
     "description": {
       "type": "text",
-      "analyzer": "nori_analyzer"
+      "analyzer": "nori"
     },
     "example": {
       "type": "text",
-      "analyzer": "nori_analyzer"
+      "analyzer": "nori"
     },
     "memberId": {
       "type": "keyword"
