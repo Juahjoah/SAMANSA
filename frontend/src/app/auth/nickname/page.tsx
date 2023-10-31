@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import Input from '@/components/input';
-import Button from '@/components/button';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
 import styles from './NicknamePages.module.css';
 
 export default function NicknamePages() {
