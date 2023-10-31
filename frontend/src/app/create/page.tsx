@@ -1,7 +1,7 @@
 'use client';
-import CreateButton from '@/components/button/createButton/index';
-import Input from '@/components/input/index';
-import Textarea from '@/components/textarea/index';
+import CreateButton from '@/components/Button/createButton/index';
+import Input from '@/components/Input/index';
+import Textarea from '@/components/Textarea/index';
 import styles from './page.module.css';
 import { useState } from 'react';
 import Image from 'next/image';
@@ -38,21 +38,6 @@ export default function CreatePage() {
             name={'단어의 뜻'}
             value={meaning}
           ></Textarea>
-          <div className={styles.wordTag}>예시 문장</div>
-          <Textarea
-            setValue={setExample}
-            variant={'example'}
-            name={'예시문장'}
-            value={example}
-          ></Textarea>
-          <div className={styles.wordTag}>해시 태그</div>
-          <Input
-            setValue={setHashTag}
-            variant={'tag'}
-            name={'헤시 태그'}
-            value={hashTag}
-          ></Input>
-          {/* 단어: {word}, 단어의뜻: {meaning}, 예시문장: {example}, 해시태그:{' '} */}
         </div>
         <div className={styles.button}>
           <CreateButton
