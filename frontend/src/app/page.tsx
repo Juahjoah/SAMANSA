@@ -23,7 +23,7 @@ interface Item {
 export default function Home() {
   const searchParams = useSearchParams();
   const search = searchParams.get('search');
-  const page = searchParams.get('page');
+  // const page = searchParams.get('page');
 
   const [value, setValue] = useState(search == null ? '' : search);
   const [data, setData] = useState([]);
