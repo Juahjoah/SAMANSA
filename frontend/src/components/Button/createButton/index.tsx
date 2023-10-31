@@ -40,7 +40,7 @@ export default function CreateButton({
 
   // 단어 등록 요청
   const CreateWord = async () => {
-    if (!word || !meaning || !example) {
+    if (!word || !meaning ) {
       alert('빈 값이 있습니다. 값을 채워주세요!');
     } else {
       postData(url, data)
