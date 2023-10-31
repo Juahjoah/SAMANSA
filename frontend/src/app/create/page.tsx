@@ -11,6 +11,7 @@ export default function CreatePage() {
   const [meaning, setMeaning] = useState(''); // 단어의 뜻
   const [example, setExample] = useState(''); // 예시 문장
   const [hashTag, setHashTag] = useState(''); // 해시 태그
+    console.log(setExample,setHashTag)
   return (
     <div className={styles.components}>
       <div className={styles.regist}>
