@@ -3,13 +3,14 @@ package com.ssafy.memetionary.wordes.document;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.Mapping;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +39,9 @@ public class WordES {
     @Field(type = FieldType.Keyword)
     private String memberNickname;
 
-    @Field(type = FieldType.Date)
+    @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Builder.Default
-    private LocalDate createDate = LocalDate.now();
+    private LocalDateTime createDate = LocalDateTime.now();
 
     @Field(type = FieldType.Keyword)
     @Builder.Default
