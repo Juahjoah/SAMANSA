@@ -25,7 +25,6 @@ async function fetchData() {
 
 export default async function Home() {
   const CardData: CardItem[] = await fetchData();
-  console.log(CardData);
 
   return (
     <main className={styles.main}>

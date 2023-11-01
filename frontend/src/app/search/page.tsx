@@ -25,12 +25,9 @@ export default function Home() {
   const search = searchParams.get('word');
   // const page = searchParams.get('page');
 
-  const [value, setValue] = useState(search == null ? '' : search);
+  const value = search == null ? '' : search;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // console.log('search : ' + search);
-  // console.log('page : ' + page);
 
   useEffect(() => {
     fetch(
@@ -52,10 +49,10 @@ export default function Home() {
       });
   }, []);
 
-  function toCreate() {
-    // window.location.href = `${process.env.NEXT_PUBLIC_REDIRECT_URI}/create`;
-    window.location.href = '/create';
-  }
+  // function toCreate() {
+  //   // window.location.href = `${process.env.NEXT_PUBLIC_REDIRECT_URI}/create`;
+  //   window.location.href = '/create';
+  // }
 
   return (
     <main className={styles.main}>
@@ -68,7 +65,7 @@ export default function Home() {
             value="+"
             type="button"
             className={styles.createButton}
-            onClick={toCreate}
+            // onClick={toCreate}
           />
         </div>
       </div>
@@ -82,6 +79,7 @@ export default function Home() {
                 </div>
               ))
             ) : (
+              // 검색 결과가 없을 때
               <Card
                 item={{
                   id: '',
@@ -95,6 +93,7 @@ export default function Home() {
               />
             )
           ) : (
+            // 로딩중일때
             <Card
               item={{
                 id: '',
