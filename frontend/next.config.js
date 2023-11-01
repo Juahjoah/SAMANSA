@@ -3,7 +3,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['https://samansa.kr/'],
+    domains: ['samansa.kr'],
   },
 };
 
