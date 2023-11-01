@@ -116,6 +116,7 @@ public class WordESController {
         return ResponseEntity.status(HttpStatus.OK).body(wordESList);
     }
 
+    //엘라스틱 서치 자동 완성 - 단어 8
     @GetMapping("/auto-complete")
     public ResponseEntity<WordESAutoCompleteResponse> getAutoCompleteWords(@RequestParam String word) {
         log.debug("찾을 단어: " + word);
