@@ -6,6 +6,7 @@ import styles from './page.module.css';
 import { useState } from 'react';
 import Image from 'next/image';
 
+
 export default function CreatePage() {
   const [word, setWord] = useState(''); // 등록할 단어
   const [meaning, setMeaning] = useState(''); // 단어의 뜻
