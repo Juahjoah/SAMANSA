@@ -2,7 +2,7 @@ import KakaoLoginButton from '@/app/auth/login/_components/KakaoLoginButton';
 import NaverLoginButton from '@/app/auth/login/_components/NaverLoginButton';
 import Logo from '@/public/assets/logo_b_samansa.png';
 
-// import { useRouter } from 'next/navigation';
+import { EnterMain } from '@/components/Button/RouteButton';
 
 import styles from './LoginPage.module.css';
 import Image from 'next/image';
@@ -11,6 +11,9 @@ export default function LoginPage() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.login}>
+        <div className={styles.backBtn}>
+          <EnterMain />
+        </div>
         <Image
           width={0}
           height={0}
