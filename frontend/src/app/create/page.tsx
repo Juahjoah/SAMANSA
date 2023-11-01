@@ -28,7 +28,13 @@ export default function CreatePage() {
       <div className={styles.regist}>
         <div className={styles.title}>밈 등록 페이지</div>
         <div className={styles.icon}>
-          <Image src={hamburgerIcon} loader={imageLoader} height={70} width={80} alt="햄버그바" />
+          <Image
+            src={hamburgerIcon}
+            loader={imageLoader}
+            height={70}
+            width={80}
+            alt="햄버그바"
+          />
         </div>
         <div className={styles.registcard}>
           <div className={styles.wordTag}>
