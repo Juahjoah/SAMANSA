@@ -5,7 +5,7 @@ import Textarea from '@/components/Textarea/index';
 import styles from './page.module.css';
 import { useState } from 'react';
 import Image from 'next/image';
-import { EnterMain, EnterCreate } from '@/components/Button/RouteButton';
+
 
 export default function CreatePage() {
   const [word, setWord] = useState(''); // 등록할 단어
@@ -15,8 +15,6 @@ export default function CreatePage() {
 
   return (
     <div className={styles.components}>
-      <EnterMain></EnterMain>
-      <EnterCreate></EnterCreate>
       <div className={styles.regist}>
         <div className={styles.title}>밈 등록 페이지</div>
         <div className={styles.icon}>
