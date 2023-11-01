@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -146,9 +147,18 @@ public class WordESService {
     }
 
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
-        List<String> words = wordESRepository.findByName(word, PageRequest.of(0, 10))
-            .stream().map(WordES::getName)
-            .toList();
-        return WordESAutoCompleteResponse.builder().words(words).build();
+        List<String> words = wordESRepository.getAutoCompleteWords(word);
+        List<String> response = new ArrayList<>();
+        Set<String> duplicateWords = new HashSet<>();
+        for (String w : words) {
+            if (!duplicateWords.contains(w)) {
+                duplicateWords.add(w);
+                response.add(w);
+            }
+            if (response.size() >= 10)
+                break;
+        }
+
+        return WordESAutoCompleteResponse.builder().words(response).build();
     }
 }
