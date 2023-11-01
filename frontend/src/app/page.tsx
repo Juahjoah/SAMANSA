@@ -1,16 +1,11 @@
-'use client';
-//react & lib
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-
 //style
 import styles from './page.module.css';
 
 //component
-import Input from '@/components/Input';
+import SearchInput from '@/components/Input/SearchInput';
 import Card from '@/components/Card';
 
-interface Item {
+type CardItem = {
   id: string;
   wordName: string;
   wordDescription: string;
@@ -18,61 +13,33 @@ interface Item {
   hashtagList: string[];
   memberNickname: string;
   createDate: string;
+};
+
+async function fetchData() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/word/main`, {
+    cache: 'no-store',
+  });
+  const data: CardItem[] = await res.json();
+  return data;
 }
 
-export default function Home() {
-  const searchParams = useSearchParams();
-  const search = searchParams.get('search');
-  // const page = searchParams.get('page');
-
-  const [value, setValue] = useState(search == null ? '' : search);
-  const [data, setData] = useState([]);
-
-  // console.log('search : ' + search);
-  // console.log('page : ' + page);
-
-  useEffect(() => {
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/word/search?word=${
-        search == null ? '' : search
-      }`,
-      {
-        method: 'GET',
-      },
-    )
-      .then((response) => response.json())
-      .then((searchData) => {
-        // console.log('사용자 정보 요청 성공:', userData);
-        setData(searchData);
-      })
-      .catch(() => {
-        // console.error('사용자 정보 요청 실패:', error);
-      });
-  }, []);
-
-  function toCreate() {
-    // window.location.href = `${process.env.NEXT_PUBLIC_REDIRECT_URI}/create`;
-    window.location.href = '/create';
-  }
+export default async function Home() {
+  const CardData: CardItem[] = await fetchData();
+  console.log(CardData);
 
   return (
     <main className={styles.main}>
       <div className={styles.top}>
         <div className={styles.searchInput}>
-          <Input value={value} setValue={setValue} />
+          <SearchInput />
         </div>
         <div className={styles.create}>
-          <input
-            value="+"
-            type="button"
-            className={styles.createButton}
-            onClick={toCreate}
-          />
+          <input value="+" type="button" className={styles.createButton} />
         </div>
       </div>
       <div className={styles.content}>
         <div className={styles.searchResult}>
-          {data.map((item: Item) => (
+          {CardData.map((item: CardItem) => (
             <div key={item.id}>
               <Card item={item} />
             </div>
