@@ -36,6 +36,7 @@ export function Autocomplete({
     const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
       text == '' ? '' : `/search?word=${text}`
     }`;
+    window.location.href = url;
 
     setValue(text);
     setAutocomplete(false);

@@ -23,7 +23,7 @@ export default function ValueInput({
   switch (variant) {
     case 'word':
       variantClass = styles.word;
-      placeholder = '단어';
+      placeholder = '원하는 단어를 등록해주세요!';
       break;
     case 'tag':
       variantClass = styles.tag;
