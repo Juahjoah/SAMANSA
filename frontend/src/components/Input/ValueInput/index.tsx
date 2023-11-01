@@ -31,7 +31,7 @@ export default function ValueInput({
       break;
     case 'nickname':
       variantClass = styles.nickname;
-      placeholder = '사용할 닉네임을 입력하세요.';
+      placeholder = '닉네임을 입력하세요.';
       break;
   }
 
