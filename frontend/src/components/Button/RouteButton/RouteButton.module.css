@@ -1,11 +1,11 @@
 .mainButton {
-  height: 3rem;
-  width: 3rem;
+  height: 2rem;
+  width: 2rem;
   border: 4px solid black;
   text-align: center;
-  line-height: 2.3rem;
+  /* line-height: 2.3rem; */
   border-radius: 50%;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   font-weight: 600;
 }
 .mainButton:hover {
