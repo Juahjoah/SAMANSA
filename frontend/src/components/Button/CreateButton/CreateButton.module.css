@@ -1,19 +1,19 @@
 .createDiv {
   display: flex;
-  margin: 2.1rem auto;
+  margin: 2.7rem auto;
   width: 90%;
   justify-content: center;
+  height: 5.5rem;
 }
 
 .create {
-  width: 9rem;
-  height: 3rem;
-  background-color: #545f71;
+  width: 10rem;
+  height: 3.2rem;
+  background-color: #668dca;
   color: white;
   border-radius: 1rem;
   text-align: center;
-  line-height: 3rem;
-  margin-right: 3rem;
+  line-height: 3.2rem;
   cursor: pointer;
   transition: background-color 0.2s;
   font-size: 1.2rem;
@@ -21,13 +21,14 @@
 }
 
 .cancle {
-  width: 9rem;
-  height: 3rem;
+  width: 10rem;
+  height: 3.2rem;
   background-color: rgb(238, 94, 94);
   color: white;
   border-radius: 1rem;
   text-align: center;
-  line-height: 3rem;
+  margin-right: 3rem;
+  line-height: 3.2rem;
   cursor: pointer;
   transition: background-color 0.2s;
   font-size: 1.2rem;
@@ -35,7 +36,7 @@
 }
 
 .create:hover {
-  background-color: #333944;
+  background-color: #496ca5;
 }
 .cancle:hover {
   background-color: #eb4c1c;

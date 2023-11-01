@@ -1,6 +1,6 @@
 .components {
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
   /* border: 1px solid #171544; */
   background-color: #171544;
   padding-top: 10vh;
@@ -18,7 +18,7 @@
 .regist {
   position: relative;
   width: 850px;
-  height: 90%;
+  /* height: 90%; */
   margin: 0 auto;
   /* border: 1px solid black; */
   border-radius: 1rem;
@@ -37,7 +37,7 @@
 .title {
   width: 100%;
   height: 10%;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 600;
   padding: 2rem;
   /* margin: 2.5rem 0 0 2rem; */
@@ -47,7 +47,7 @@
 
 .registcard {
   width: 90%;
-  height: 75%;
+  /* height: 95%; */
   margin: 0 auto;
   /* border: 1px solid black; */
   animation: fadein 2.6s ease-in-out;
@@ -60,6 +60,11 @@
   animation: fadein 2.1s ease-in-out;
 }
 
+.wordTag span {
+  color: rgb(226, 118, 68);
+  margin-left: 10px;
+  font-size: 14px;
+}
 .icon {
   position: absolute;
   top: 0.5rem;

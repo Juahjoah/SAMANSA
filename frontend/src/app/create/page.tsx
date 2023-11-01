@@ -21,14 +21,19 @@ export default function CreatePage() {
           <Image src={hamburgerIcon} height={70} width={80} alt="햄버그바" />
         </div>
         <div className={styles.registcard}>
-          <div className={styles.wordTag}>등록하고 싶은 단어</div>
+          <div className={styles.wordTag}>
+            등록하고 싶은 단어
+            <span>* 필수 입력사항</span>
+          </div>
           <ValueInput
             setValue={setWord}
             variant={'word'}
             name={'단어등록'}
             value={word}
           ></ValueInput>
-          <div className={styles.wordTag}>단어의 뜻</div>
+          <div className={styles.wordTag}>
+            단어의 뜻<span>* 필수 입력사항</span>
+          </div>
           <Textarea
             setValue={setMeaning}
             variant={'decs'}
