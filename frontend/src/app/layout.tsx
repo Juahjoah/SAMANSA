@@ -6,7 +6,7 @@ import ReactQueryProvider from '@/utils/react-query-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: `TrenDictionry`,
+  title: `Samansa`,
 };
 
 export default function RootLayout({
