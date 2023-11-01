@@ -28,6 +28,12 @@
   --font-Pretendard-Regular: 'Pretendard-Regular';
   --font-Pretendard-Medium: 'Pretendard-Medium';
   --font-Pretendard-Bold: 'Pretendard-Bold';
+  --font-Pretendard-Black: 'Pretendard-Balck';
+  --font-Pretendard-ExtraBold: 'Pretendard-ExtraBold';
+  --font-Pretendard-Light: 'Pretendard-Light';
+  --font-Pretendard-Thin: 'Pretendard-Thin';
+  --font-Pretendard-ExtraLight: 'Pretendard-ExtraLight';
+  --font-Pretendard-SemiBold: 'Pretendard-SemiBold';
 }
 
 * {

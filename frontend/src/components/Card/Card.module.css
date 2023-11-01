@@ -16,6 +16,7 @@
   font-size: 2rem;
   margin: 0 0 2rem 0;
   color: rgb(var(--card-title-rgb));
+  font-weight: extra-bold;
 }
 
 .base p {
