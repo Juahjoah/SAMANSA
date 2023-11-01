@@ -1,6 +1,8 @@
 'use client';
 
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import styles from './Header.module.css';
+import Image from 'next/image';
 
 import LogoutButton from '../Button/LogoutButton';
 import { VscAccount } from 'react-icons/vsc';
@@ -16,19 +18,23 @@ export default function Header() {
     typeof window !== 'undefined'
       ? sessionStorage.getItem('accessToken')
       : null;
+  const router = useRouter();
 
   return (
-    <header>
-      <p> 로고 </p>
-      <div>header</div>
-      {accessToken ? <LogoutButton /> : null}
-      <Link
-        href={{
-          pathname: `auth/login`,
-        }}
-      >
-        <VscAccount />
-      </Link>
+    <header className={styles.base}>
+      <Image
+        src="assets/logo_w_samansa.png"
+        height={42}
+        width={180}
+        alt="logo"
+      />
+      {accessToken ? (
+        <LogoutButton />
+      ) : (
+        <div onClick={() => router.push('/auth/login')}>
+          로그인 <VscAccount />
+        </div>
+      )}
     </header>
   );
 }
