@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './Pagination.module.css';
 // import { useRouter } from 'next/router';
 
@@ -12,59 +12,32 @@ type paginationProps = {
 
 // 페이지 네이션 버튼
 export default function Pagination({ total, page, word }: paginationProps) {
-  const [length, setLength] = useState(total); // 총 페이지 갯수 - api 연동 필요
+  const length = Math.ceil(total / 10); // 총 페이지 갯수 - api 연동 필요
   const [selectedButton, setSelectedButton] = useState(page); // 선택된 페이지 넘버 - 리덕스or리코일에 저장
   // const router = useRouter();
   const CheckButton = (index: number) => {
     setSelectedButton(index);
-    const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-      word == '' ? '' : `/search?word=${word}&page=${selectedButton}`
-    }`;
-    window.location.href = url;
-
-    // router.push(`page${selectedButton}`); // 클릭한 페이지넘버로 이동
   };
   const MoveLeft = () => {
     // 페이지넘버 왼쪽 이동
     if (selectedButton > 0) {
       setSelectedButton(selectedButton - 1);
-      const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-        word == '' ? '' : `/search?word=${word}&page=${selectedButton}`
-      }`;
-      window.location.href = url;
-      // router.push(`page${selectedButton}`);
     }
   };
   const MoveRight = () => {
     // 페이지넘버 오른쪽 이동
     if (selectedButton < length - 1) {
       setSelectedButton(selectedButton + 1);
-      const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-        word == '' ? '' : `/search?word=${word}&page=${selectedButton}`
-      }`;
-      window.location.href = url;
-      // router.push(`page${selectedButton}`);
     }
   };
 
   const DefaultLeft = () => {
     // 제일 왼쪽으로 페이지 이동
     setSelectedButton(0);
-    const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-      word == '' ? '' : `/search?word=${word}&page=${selectedButton}`
-    }`;
-    window.location.href = url;
-    // router.push(`page${selectedButton}`);
   };
   const DefaultRight = () => {
     // 제일 오른쪽으로 페이지 이동
     setSelectedButton(length - 1);
-    const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-      word == '' ? '' : `/search?word=${word}&page=${selectedButton}`
-    }`;
-    window.location.href = url;
-    // router.push(`page${selectedButton}`);
-    setLength(total);
   };
 
   const PageElements = Array.from({ length }, (_, index) => (
@@ -85,6 +58,15 @@ export default function Pagination({ total, page, word }: paginationProps) {
       : selectedButton < 2
       ? PageElements.slice(selectedButton - 1, selectedButton + 4)
       : PageElements.slice(selectedButton - 2, selectedButton + 3);
+
+  useEffect(() => {
+    if (page != selectedButton) {
+      const url = `${
+        process.env.NEXT_PUBLIC_REDIRECT_URI
+      }${`/search?word=${word}&page=${selectedButton}`}`;
+      window.location.href = url;
+    }
+  }, [selectedButton]);
 
   return (
     <div className={styles.container}>

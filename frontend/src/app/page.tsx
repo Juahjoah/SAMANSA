@@ -6,7 +6,7 @@ import SearchInput from '@/components/Input/SearchInput';
 import Card from '@/components/Card';
 import Form from '@/components/Form';
 import { EnterCreate } from '@/components/Button/RouteButton';
-// import Pagination from '@/components/Button/PaginationButton';
+import Pagination from '@/components/Button/PaginationButton';
 
 type CardItem = {
   id: string;
@@ -60,7 +60,7 @@ export default async function Home() {
         </div>
       </div>
       <div className={styles.bottom}>
-        {/* <Pagination word={''} total={resultData.total} /> */}
+        <Pagination word={''} total={resultData.total} page={0} />
       </div>{' '}
     </main>
   );

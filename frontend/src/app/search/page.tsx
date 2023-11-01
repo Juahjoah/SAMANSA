@@ -35,10 +35,13 @@ export default function Home() {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
+    console.log('value  : ' + value);
+    console.log(value);
+    console.log(value == '');
     fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/word/search?word=${
-        search == null ? '' : search
-      }&page=${page}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/word/${
+        value == '' ? `main?` : `search?word=${value}&`
+      }page=${page}`,
       {
         method: 'GET',
       },
@@ -48,6 +51,7 @@ export default function Home() {
         setData(searchData.words);
         setTotal(searchData.total);
         setLoading(true);
+        console.log(searchData);
       })
       .catch(() => {});
   }, []);
@@ -80,7 +84,7 @@ export default function Home() {
                   wordDescription: '철자가 맞는지 다시한번 확인해 보세요',
                   wordExample: '',
                   hashtagList: [''],
-                  memberNickname: '',
+                  memberNickname: '사만사',
                   createDate: '',
                 }}
               />
@@ -94,7 +98,7 @@ export default function Home() {
                 wordDescription: '',
                 wordExample: '',
                 hashtagList: [''],
-                memberNickname: '',
+                memberNickname: '사만사',
                 createDate: '',
               }}
             />
