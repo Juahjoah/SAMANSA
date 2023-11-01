@@ -1,3 +1,23 @@
+/* 폰트 전역설정 */
+
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('/assets/fonts/Pretendard-Regular.woff') format('woff');
+  font-weight: 800;
+  /* font-display: swap; */
+}
+@font-face {
+  font-family: 'Pretendard-Medium';
+  src: url('/assets/fonts/Pretendard-Medium.woff') format('woff');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Pretendard-Bold';
+  src: url('/assets/fonts/Pretendard-Bold.woff') format('woff');
+  /* font-weight: 600; */
+  /* font-display: swap; */
+}
 :root {
   --card-background-rgb: 69, 68, 105;
   --padding-regular: 2rem;
@@ -5,9 +25,13 @@
   --font-regular-rgb: 255, 255, 255;
   --card-title-font-size: 2rem;
   --card-title-rgb: 51, 190, 125;
+  --font-Pretendard-Regular: 'Pretendard-Regular';
+  --font-Pretendard-Medium: 'Pretendard-Medium';
+  --font-Pretendard-Bold: 'Pretendard-Bold';
 }
 
 * {
+  font-family: var(--font-Pretendard-Regular);
   box-sizing: border-box;
   padding: 0;
   margin: 0;
