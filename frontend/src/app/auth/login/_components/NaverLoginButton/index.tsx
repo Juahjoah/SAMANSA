@@ -1,5 +1,5 @@
 'use client';
-import NaverLogin from '@/public/assets/NaverLogin.svg';
+import NaverLogin from '@/public/assets/login/NaverLogin.svg';
 import Image from 'next/image';
 // svgr loader install???????
 import { useRouter } from 'next/navigation';

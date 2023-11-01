@@ -3,6 +3,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
+import styles from './RedirectPage.module.css';
+
 export default function RedirectPage() {
   const accessToken =
     typeof window !== 'undefined'
@@ -57,8 +59,8 @@ export default function RedirectPage() {
   }, [router, BASE_URL, accessToken]);
 
   return (
-    <div>
-      <h1>리다이렉트 페이지</h1>
+    <div className={styles.wrapper}>
+      <span className={styles.loader}></span>
     </div>
   );
 }
