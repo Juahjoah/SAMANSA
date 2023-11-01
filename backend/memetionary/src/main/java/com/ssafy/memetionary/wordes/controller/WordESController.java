@@ -104,7 +104,7 @@ public class WordESController {
         return ResponseEntity.status(HttpStatus.OK).body(wordESList);
     }
     @GetMapping("/main")
-    public ResponseEntity<?> mainPage(@PageableDefault(size = 30) Pageable pageable){
+    public ResponseEntity<?> mainPage(@PageableDefault(size = 10) Pageable pageable){
         List<WordESSearchResponse> wordESList = new ArrayList<>();
 
         wordESList = wordESService.mainPage(pageable);
