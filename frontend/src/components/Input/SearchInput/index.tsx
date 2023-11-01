@@ -33,6 +33,10 @@ export function Autocomplete({
   }
 
   function clicked() {
+    const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
+      text == '' ? '' : `/search?word=${text}`
+    }`;
+
     setValue(text);
     setAutocomplete(false);
   }

@@ -9,6 +9,8 @@ import styles from './page.module.css';
 //component
 import SearchInput from '@/components/Input/SearchInput';
 import Card from '@/components/Card';
+import Form from '@/components/Form';
+import { EnterCreate } from '@/components/Button/RouteButton';
 
 type CardItem = {
   id: string;
@@ -40,19 +42,11 @@ export default function Home() {
     )
       .then((response) => response.json())
       .then((searchData) => {
-        // console.log('사용자 정보 요청 성공:', userData);
         setData(searchData);
         setLoading(true);
       })
-      .catch(() => {
-        // console.error('사용자 정보 요청 실패:', error);
-      });
+      .catch(() => {});
   }, []);
-
-  // function toCreate() {
-  //   // window.location.href = `${process.env.NEXT_PUBLIC_REDIRECT_URI}/create`;
-  //   window.location.href = '/create';
-  // }
 
   return (
     <main className={styles.main}>
@@ -61,12 +55,7 @@ export default function Home() {
           <SearchInput value={value} />
         </div>
         <div className={styles.create}>
-          <input
-            value="+"
-            type="button"
-            className={styles.createButton}
-            // onClick={toCreate}
-          />
+          <EnterCreate />
         </div>
       </div>
       <div className={styles.content}>
@@ -108,7 +97,9 @@ export default function Home() {
           )}
         </div>
         <div>
-          <div className={styles.survey}></div>
+          <div className={styles.survey}>
+            <Form />
+          </div>
         </div>
       </div>
     </main>

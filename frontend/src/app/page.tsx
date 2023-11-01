@@ -4,6 +4,8 @@ import styles from './page.module.css';
 //component
 import SearchInput from '@/components/Input/SearchInput';
 import Card from '@/components/Card';
+import Form from '@/components/Form';
+import { EnterCreate } from '@/components/Button/RouteButton';
 
 type CardItem = {
   id: string;
@@ -33,7 +35,7 @@ export default async function Home() {
           <SearchInput />
         </div>
         <div className={styles.create}>
-          <input value="+" type="button" className={styles.createButton} />
+          <EnterCreate />
         </div>
       </div>
       <div className={styles.content}>
@@ -45,7 +47,9 @@ export default async function Home() {
           ))}
         </div>
         <div>
-          <div className={styles.survey}></div>
+          <div className={styles.survey}>
+            <Form />
+          </div>
         </div>
       </div>
     </main>
