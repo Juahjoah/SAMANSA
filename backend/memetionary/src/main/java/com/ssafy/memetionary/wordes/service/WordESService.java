@@ -106,7 +106,7 @@ public class WordESService {
 
     //엘라스틱 서치 단어 검색 - 단어 1
     public List<WordESSearchResponse> searchByName(String name, Pageable pageable) {
-        List<WordES> wordESList = wordESRepository.findByName(name, pageable).getContent();
+        List<WordES> wordESList = wordESRepository.findByName(name, pageable);
         List<WordESSearchResponse> wordESSearchResponseList = new ArrayList<>();
         for (WordES wordES : wordESList) {
             WordESSearchResponse wordESSearchResponse = WordESSearchResponse.builder()
