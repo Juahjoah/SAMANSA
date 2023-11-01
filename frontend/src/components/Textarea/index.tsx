@@ -23,11 +23,11 @@ export default function Textarea({
   switch (variant) {
     case 'decs':
       variantClass = styles.decs;
-      placeholder = '정의';
+      placeholder = '단어의 정의를 설명해주세요.';
       break;
     case 'example':
       variantClass = styles.example;
-      placeholder = '예문';
+      placeholder = '간단한 문장으로 밈이 사용되는 상황을 나타내 주세요.';
       break;
   }
 
