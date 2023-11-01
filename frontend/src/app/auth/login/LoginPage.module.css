@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.login {
+  background-color: #d7d7d9;
+  max-width: calc(100% - 30rem);
+  height: auto;
+  max-height: max-content;
+  padding: 3rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.loginMsg {
+  color: #363636;
+  margin: 0.5rem;
+  padding: 1rem;
+}
+
+.loginTitle {
+  padding: 0.5rem;
+  margin: 0.5rem;
+}
