@@ -7,7 +7,6 @@
   width: 52rem;
   height: auto;
   border-radius: 1rem;
-  cursor: pointer;
   padding: 2rem;
   color: rgb(var(--font-regular-rgb));
 }
@@ -17,6 +16,11 @@
   margin: 0 0 2rem 0;
   color: rgb(var(--card-title-rgb));
   font-family: var(--font-Pretendard-ExtraBold);
+  cursor: pointer;
+}
+
+.title:hover {
+  color: rgb(var(--card-title-hover-rgb));
 }
 
 .description {
@@ -36,4 +40,8 @@
 
 .nickname {
   color: rgb(var(--card-title-rgb));
+  cursor: pointer;
+}
+.nickname:hover {
+  color: rgb(var(--card-title-hover-rgb));
 }
