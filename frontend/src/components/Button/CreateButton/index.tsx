@@ -59,11 +59,11 @@ export default function CreateButton({
   };
   return (
     <div className={styles.createDiv}>
-      <div className={styles.create} onClick={CreateWord}>
-        등록하기
-      </div>
       <div className={styles.cancle} onClick={CancleWord}>
         취소하기
+      </div>
+      <div className={styles.create} onClick={CreateWord}>
+        등록하기
       </div>
     </div>
   );
