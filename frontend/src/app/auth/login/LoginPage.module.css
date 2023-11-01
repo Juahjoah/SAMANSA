@@ -22,10 +22,15 @@
 .loginMsg {
   color: #363636;
   margin: 0.5rem;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .loginTitle {
   padding: 0.5rem;
   margin: 0.5rem;
+}
+
+.loginbackBtn {
+  padding: 0.5rem;
+  margin-top: 1rem;
 }
