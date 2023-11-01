@@ -46,7 +46,7 @@ export default function CreatePage() {
           <ValueInput
             setValue={setHashTag}
             variant={'tag'}
-            name={'헤시 태그'}
+            name={'헤시 태그.'}
             value={hashTag}
           ></ValueInput>
         </div>
