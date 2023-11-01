@@ -8,8 +8,8 @@
 
 .nickname {
   background-color: #d7d7d9;
-  max-width: calc(100% - 50rem);
-  height: calc(100% - 37rem);
+  max-width: calc(100% - 30rem);
+  height: calc(100% - 23rem);
   padding: 3rem;
   border-radius: 0.5rem;
   display: flex;
