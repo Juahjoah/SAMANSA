@@ -6,14 +6,17 @@ import com.ssafy.memetionary.common.exception.WordNotFoundException;
 import com.ssafy.memetionary.member.service.MemberService;
 import com.ssafy.memetionary.util.HeaderUtils;
 import com.ssafy.memetionary.wordes.document.WordES;
+import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteResponse;
 import com.ssafy.memetionary.wordes.dto.WordESLikeRequest;
 import com.ssafy.memetionary.wordes.dto.WordESRegisterRequest;
 import com.ssafy.memetionary.wordes.dto.WordESSearchResponse;
 import com.ssafy.memetionary.wordes.repository.WordESRepository;
 import com.ssafy.memetionary.wordes.service.WordESService;
 import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -103,6 +106,8 @@ public class WordESController {
 
         return ResponseEntity.status(HttpStatus.OK).body(wordESList);
     }
+
+    //최신 단어 리스트 조회 - 단어 2
     @GetMapping("/main")
     public ResponseEntity<?> mainPage(@PageableDefault(size = 10) Pageable pageable){
         List<WordESSearchResponse> wordESList = new ArrayList<>();
@@ -111,4 +116,10 @@ public class WordESController {
         return ResponseEntity.status(HttpStatus.OK).body(wordESList);
     }
 
+    @GetMapping("/auto-complete")
+    public ResponseEntity<WordESAutoCompleteResponse> getAutoCompleteWords(@RequestParam String word) {
+        log.debug("찾을 단어: " + word);
+        WordESAutoCompleteResponse response = wordESService.getAutoCompleteWords(word);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }

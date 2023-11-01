@@ -4,10 +4,13 @@ import com.ssafy.memetionary.common.CustomErrorType;
 import com.ssafy.memetionary.common.exception.WordNotFoundException;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.document.WordESRequestType;
+import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteResponse;
 import com.ssafy.memetionary.wordes.dto.WordESRegisterRequest;
 import com.ssafy.memetionary.wordes.dto.WordESSearchResponse;
 import com.ssafy.memetionary.wordes.repository.WordESRepository;
+
 import java.util.ArrayList;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -28,8 +31,7 @@ public class WordESService {
 
     private final WordESRepository wordESRepository;
 
-    public void registerWordES(WordESRegisterRequest request, String memberId,
-        String memberNickname) {
+    public void registerWordES(WordESRegisterRequest request, String memberId, String memberNickname) {
         log.debug("request = " + request);
         WordES wordES = WordES.builder()
             .memberId(memberId)
@@ -141,5 +143,12 @@ public class WordESService {
         }
 
         return wordESSearchResponseList;
+    }
+
+    public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
+        List<String> words = wordESRepository.findByName(word, PageRequest.of(0, 10))
+            .stream().map(WordES::getName)
+            .toList();
+        return WordESAutoCompleteResponse.builder().words(words).build();
     }
 }
