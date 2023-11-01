@@ -9,11 +9,7 @@ import lombok.Data;
 @Builder
 public class WordESSearchResponse {
 
-    private String id;
-    private String wordName;
-    private String wordDescription;
-    private String wordExample;
-    private List<String> hashtagList;
-    private String memberNickname;
-    private LocalDateTime createDate;
+    long total;
+    List<WordESSearchItem> words;
+
 }
