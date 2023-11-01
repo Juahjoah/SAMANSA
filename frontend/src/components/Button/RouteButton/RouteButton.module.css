@@ -1,0 +1,30 @@
+.mainButton {
+  height: 3rem;
+  width: 3rem;
+  border: 4px solid black;
+  text-align: center;
+  line-height: 2.3rem;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+.mainButton:hover {
+  font-size: 1.8rem;
+  color: rgb(211, 195, 195);
+}
+
+.createButton {
+  background-color: #33be7d;
+  color: white;
+  text-align: center;
+  line-height: 2.7rem;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  font-size: 2.5rem;
+}
+.createButton:hover {
+  background-color: #0caf63;
+  /* color: rgb(211, 195, 195); */
+  font-size: 2.7rem;
+}
