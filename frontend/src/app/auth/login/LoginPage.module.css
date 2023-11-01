@@ -6,36 +6,31 @@
   height: 100vh;
 }
 
-.nickname {
+.login {
   background-color: #d7d7d9;
   max-width: calc(100% - 30rem);
   height: auto;
-  max-height: calc(100% - 23rem);
+  max-height: max-content;
   padding: 3rem;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-}
-.inputcomponent {
-  max-width: 100%;
+  justify-content: space-between;
 }
 
-.inputarea {
-  display: flex;
-  justify-content: center;
-  max-width: 100%;
-  margin-top: 2rem;
+.loginMsg {
+  color: #363636;
+  margin: 0.5rem;
   padding: 0.5rem;
 }
 
-.nicknamemsg {
-  color: #e44f4f;
-  padding: 0.3rem;
-  margin-left: 0.5rem;
+.loginTitle {
+  padding: 0.5rem;
+  margin: 0.5rem;
 }
 
-.nicknamebtn {
-  padding: 1rem;
+.loginbackBtn {
+  padding: 0.5rem;
+  margin-top: 1rem;
 }

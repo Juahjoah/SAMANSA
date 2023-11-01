@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import Input from '@/components/Input';
+import Input from '@/components/Input/ValueInput';
 import Button from '@/components/Button';
 import styles from './NicknamePages.module.css';
 
@@ -101,11 +101,11 @@ export default function NicknamePages() {
               중복확인
             </Button>
           </div>
-          <div>
-            <p className={styles.nicknamemsg}>{isDuplicateMessage}</p>
+          <div className={styles.nicknamemsg}>
+            <p>{isDuplicateMessage}</p>
           </div>
         </div>
-        <div>
+        <div className={styles.nicknamebtn}>
           <Button
             variant="nickname"
             onClick={() => {

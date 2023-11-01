@@ -1,6 +1,6 @@
 'use client';
 
-import KakaoLogin from '@/public/assets/KaKaoLogin.svg';
+import KakaoLogin from '@/public/assets/login/KaKaoLogin.svg';
 import Image from 'next/image';
 // svgr loader install???????
 import { useRouter } from 'next/navigation';
