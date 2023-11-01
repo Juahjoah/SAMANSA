@@ -19,6 +19,8 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +84,8 @@ public class WordESController {
 
     //엘라스틱 서치 단어 좋아요/싫어요 - 단어 5
     @PutMapping("/like")
-    public ResponseEntity<?> likeWord(@RequestBody WordESLikeRequest wordESLikeRequest, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<?> likeWord(@RequestBody WordESLikeRequest wordESLikeRequest,
+        HttpServletRequest httpServletRequest) {
         String clientIP = headerUtils.getClientIP(httpServletRequest);
         log.debug("clientIP = " + clientIP);
         String wordId = wordESLikeRequest.getWordId();
@@ -94,12 +97,22 @@ public class WordESController {
 
     //엘라스틱 서치 단어 검색 - 단어 1
     @GetMapping("/search")
-    public ResponseEntity<?> searchWord(@RequestParam("word") String name) {
+    public ResponseEntity<?> searchWord(@RequestParam("word") String name,
+        @PageableDefault(size = 10) Pageable pageable) {
         System.out.println("name = " + name);
         List<WordESSearchResponse> wordESList = new ArrayList<>();
 
-        wordESList = wordESService.searchByName(name);
+        wordESList = wordESService.searchByName(name, pageable);
 
+        return ResponseEntity.status(HttpStatus.OK).body(wordESList);
+    }
+
+    //최신 단어 리스트 조회 - 단어 2
+    @GetMapping("/main")
+    public ResponseEntity<?> mainPage(@PageableDefault(size = 10) Pageable pageable){
+        List<WordESSearchResponse> wordESList = new ArrayList<>();
+
+        wordESList = wordESService.mainPage(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(wordESList);
     }
 
