@@ -28,7 +28,7 @@
     },
     "createDate": {
       "type": "date",
-      "format": "strict_date_time"
+      "format": "uuuu-MM-dd'T'HH:mm:ss"
     },
     "hashtags": {
       "type": "keyword"
