@@ -6,6 +6,7 @@ import SearchInput from '@/components/Input/SearchInput';
 import Card from '@/components/Card';
 import Form from '@/components/Form';
 import { EnterCreate } from '@/components/Button/RouteButton';
+// import Pagination from '@/components/Button/PaginationButton';
 
 type CardItem = {
   id: string;
@@ -17,16 +18,22 @@ type CardItem = {
   createDate: string;
 };
 
+type resultData = {
+  total: number;
+  words: CardItem[];
+};
+
 async function fetchData() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/word/main`, {
     cache: 'no-store',
   });
-  const data: CardItem[] = await res.json();
+  const data: resultData = await res.json();
+  // console.log(data);
   return data;
 }
 
 export default async function Home() {
-  const CardData: CardItem[] = await fetchData();
+  const resultData: resultData = await fetchData();
 
   return (
     <main className={styles.main}>
@@ -40,7 +47,7 @@ export default async function Home() {
       </div>
       <div className={styles.content}>
         <div className={styles.searchResult}>
-          {CardData.map((item: CardItem) => (
+          {resultData.words.map((item: CardItem) => (
             <div key={item.id}>
               <Card item={item} />
             </div>
@@ -52,6 +59,9 @@ export default async function Home() {
           </div>
         </div>
       </div>
+      <div className={styles.bottom}>
+        {/* <Pagination word={''} total={resultData.total} /> */}
+      </div>{' '}
     </main>
   );
 }

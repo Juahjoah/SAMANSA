@@ -11,6 +11,7 @@ import SearchInput from '@/components/Input/SearchInput';
 import Card from '@/components/Card';
 import Form from '@/components/Form';
 import { EnterCreate } from '@/components/Button/RouteButton';
+import Pagination from '@/components/Button/PaginationButton';
 
 type CardItem = {
   id: string;
@@ -25,24 +26,27 @@ type CardItem = {
 export default function Home() {
   const searchParams = useSearchParams();
   const search = searchParams.get('word');
-  // const page = searchParams.get('page');
+  const page = searchParams.get('page');
 
   const value = search == null ? '' : search;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [total, setTotal] = useState(0);
+
   useEffect(() => {
     fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/word/search?word=${
         search == null ? '' : search
-      }`,
+      }&page=${page}`,
       {
         method: 'GET',
       },
     )
       .then((response) => response.json())
       .then((searchData) => {
-        setData(searchData);
+        setData(searchData.words);
+        setTotal(searchData.total);
         setLoading(true);
       })
       .catch(() => {});
@@ -102,6 +106,11 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Pagination
+        word={search == null ? '' : search}
+        total={total}
+        page={parseInt(page == null ? '0' : page)}
+      />
     </main>
   );
 }
