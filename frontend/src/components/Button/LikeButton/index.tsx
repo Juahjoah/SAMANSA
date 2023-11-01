@@ -19,10 +19,6 @@ export default function LikeButton() {
   const [dislikeState, setDislikeState] = useState('');
   // 내가이미 좋아요를 눌렀는지, 싫어요를 눌렀는지 , 좋아요 유저수, 싫어요 유저수
 
-  // hover 상태관리
-  const [isLikeButtonHovered, setIsLikeButtonHovered] = useState(false);
-  const [isDislikeButtonHovered, setIsDislikeButtonHovered] = useState(false);
-
   const BASE_URL = 'https://samansa.kr/api/word/like';
 
   // 좋아요 요청함수
