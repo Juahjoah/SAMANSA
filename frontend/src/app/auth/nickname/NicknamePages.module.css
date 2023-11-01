@@ -9,7 +9,8 @@
 .nickname {
   background-color: #d7d7d9;
   max-width: calc(100% - 30rem);
-  height: calc(100% - 23rem);
+  height: auto;
+  max-height: calc(100% - 23rem);
   padding: 3rem;
   border-radius: 0.5rem;
   display: flex;
@@ -25,6 +26,8 @@
   display: flex;
   justify-content: center;
   max-width: 100%;
+  margin: 2rem;
+  padding: 0.5rem;
 }
 
 .nicknamemsg {
