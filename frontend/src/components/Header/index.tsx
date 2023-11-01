@@ -24,15 +24,17 @@ export default function Header() {
     <header className={styles.base}>
       <Image
         src="assets/logo_w_samansa.png"
-        height={42}
-        width={180}
+        width={0}
+        height={0}
+        sizes="100vw"
+        style={{ width: '30%', height: 'auto' }}
         alt="logo"
       />
       {accessToken ? (
         <LogoutButton />
       ) : (
         <div onClick={() => router.push('/auth/login')}>
-          로그인 <VscAccount />
+          <VscAccount size={50} />
         </div>
       )}
     </header>
