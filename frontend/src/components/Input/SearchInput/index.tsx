@@ -1,22 +1,23 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import styles from './Input.module.css';
+import styles from './SearchInput.module.css';
 
-interface InputProps {
-  setValue: (e: any) => void | any;
+type InputProps = {
+  setValue?: (e: any) => void | any;
   placeholder?: string;
   variant?: string;
   name?: string;
-  value: string;
-}
+  value?: string;
+  isMain?: boolean;
+};
 
-interface AutocompleteProps {
+type AutocompleteProps = {
   setValue: (e: any) => void;
   setAutocomplete: (e: any) => void;
   selected?: boolean;
   text?: string;
-}
+};
 
 export function Autocomplete({
   setValue,
@@ -59,17 +60,18 @@ export function AutocompleteEnd() {
   );
 }
 
-export default function Input({
-  setValue,
+export default function SearchInput({
   variant = 'search',
   name = '',
-  value = '',
+  value: ValueProps = '',
 }: InputProps) {
   //useState
   const [index, setIndex] = useState(0); //0:value 1~length:data
-  const [InputValue, setInputValue] = useState(value);
   const [autocomplete, setAutocomplete] = useState(false);
-  const [data, setData] = useState(['apple', 'banana', 'orange', 'kiwi']);
+  const [data, setData] = useState([]);
+  const [value, setValue] = useState(ValueProps);
+
+  const [InputValue, setInputValue] = useState(ValueProps);
 
   //place holder 설정
   let variantClass = '';
@@ -124,12 +126,9 @@ export default function Input({
   }
 
   function InputChange(e: any) {
-    if (variant != 'search') {
-      setValue(e.target.value);
-      setData(data);
-    } else {
-      setAutocomplete(true); // toDo =>
-      setValue(e.target.value);
+    setValue(e.target.value);
+    if (variant == 'search') {
+      setAutocomplete(true);
       setIndex(0);
     }
   }
@@ -153,12 +152,14 @@ export default function Input({
       case 'Enter':
         // "enter" 또는 "return" 키가 눌렸을 때의 동작
         // setValue(index == 0 ? value : InputValue);
-        const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}?search=${
-          index == 0 ? value : InputValue
+        const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
+          value == '' ? '' : `/search?word=${index == 0 ? value : InputValue}`
         }`;
-        window.location.href = url;
+
         setIndex(0);
         setAutocomplete(false);
+
+        window.location.href = url;
         break;
       default:
         return; // 키 이벤트를 처리하지 않는다면 종료합니다.
@@ -175,7 +176,7 @@ export default function Input({
 
   useEffect(() => {
     // console.log('value: useEffec');
-    if (value != '') {
+    if (value != '' && variant == 'search') {
       fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/word/auto-complete?word=${value}`,
         {
@@ -189,6 +190,7 @@ export default function Input({
           setData(data.words);
         })
         .catch(() => {
+          setData([]);
           // console.error('사용자 정보 요청 실패:', error);
         });
     }
