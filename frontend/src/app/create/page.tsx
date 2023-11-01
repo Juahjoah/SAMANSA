@@ -7,19 +7,37 @@ import { useState } from 'react';
 import Image from 'next/image';
 import hamburgerIcon from '@/public/assets/hamburgerIcon.png';
 
+// type ImageLoaderParams = {
+//   src: string;
+//   width: number;
+//   quality?: number;
+// };
+
 export default function CreatePage() {
   const [word, setWord] = useState(''); // 등록할 단어
   const [meaning, setMeaning] = useState(''); // 단어의 뜻
   const [example, setExample] = useState(''); // 예시 문장
   const [hashTag, setHashTag] = useState(''); // 해시 태그
+  // const imageLoader = ({ src, width, quality }: ImageLoaderParams) => {
+  //   return `${process.env.NEXT_PUBLIC_REDIRECT_URI}/${src}?w=${width}&q=${
+  //     quality || 75
+  //   }`;
+  // };
 
   return (
     <div className={styles.components}>
       <div className={styles.regist}>
         <div className={styles.title}>밈 등록 페이지</div>
         <div className={styles.icon}>
-          <Image src={hamburgerIcon} height={70} width={80} alt="햄버그바" />
+          <Image
+            src={hamburgerIcon}
+            // loader={imageLoader}
+            height={70}
+            width={80}
+            alt="햄버그바"
+          />
         </div>
+
         <div className={styles.registcard}>
           <div className={styles.wordTag}>
             등록하고 싶은 단어
