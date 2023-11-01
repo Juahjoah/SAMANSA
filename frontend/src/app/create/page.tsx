@@ -1,6 +1,6 @@
 'use client';
 import CreateButton from '@/components/Button/CreateButton/index';
-import Input from '@/components/Input/index';
+import ValueInput from '@/components/Input/ValueInput/index';
 import Textarea from '@/components/Textarea/index';
 import styles from './page.module.css';
 import { useState } from 'react';
