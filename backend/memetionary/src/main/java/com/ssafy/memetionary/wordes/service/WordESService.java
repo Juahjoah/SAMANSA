@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -57,7 +59,8 @@ public class WordESService {
     //엘라스틱 서치 단어 좋아요/싫어요 - 단어 5
     public void likeWord(String clientIP, String wordId, boolean wordLike) {
         WordES wordES = wordESRepository.findById(wordId)
-            .orElseThrow(() -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
+            .orElseThrow(
+                () -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
         log.debug(wordES.getLikes().toString());
         Set<String> likes = new HashSet<>(wordES.getLikes());
         Set<String> dislikes = new HashSet<>(wordES.getDislikes());
@@ -71,7 +74,8 @@ public class WordESService {
         likeProcess(isLike, isDislike, wordLike, wordES, clientIP);
     }
 
-    private void likeProcess(boolean isLike, boolean isDislike, boolean wordLike, WordES wordES, String clientIP) {
+    private void likeProcess(boolean isLike, boolean isDislike, boolean wordLike, WordES wordES,
+        String clientIP) {
         //좋아요, 싫어요 한적 없는 경우
         if (!isLike && !isDislike) {
             if (wordLike) {
@@ -101,8 +105,29 @@ public class WordESService {
     }
 
     //엘라스틱 서치 단어 검색 - 단어 1
-    public List<WordESSearchResponse> searchByName(String name) {
-        List<WordES> wordESList = wordESRepository.findByName(name);
+    public List<WordESSearchResponse> searchByName(String name, Pageable pageable) {
+        List<WordES> wordESList = wordESRepository.findByName(name, pageable).getContent();
+        List<WordESSearchResponse> wordESSearchResponseList = new ArrayList<>();
+        for (WordES wordES : wordESList) {
+            WordESSearchResponse wordESSearchResponse = WordESSearchResponse.builder()
+                .id(wordES.getId())
+                .wordName(wordES.getName())
+                .wordDescription(wordES.getDescription())
+                .wordExample(wordES.getExample())
+                .hashtagList(wordES.getHashtags())
+                .memberNickname(wordES.getMemberNickname())
+                .createDate(wordES.getCreateDate())
+                .build();
+            wordESSearchResponseList.add(wordESSearchResponse);
+        }
+
+        return wordESSearchResponseList;
+    }
+
+    public List<WordESSearchResponse> mainPage( Pageable pageable){
+        Sort sort = Sort.by(Direction.DESC, "createDate");
+        Pageable newpageable = PageRequest.of(0, 10, sort);
+        List<WordES> wordESList = wordESRepository.findAll(newpageable).getContent();
         List<WordESSearchResponse> wordESSearchResponseList = new ArrayList<>();
         for (WordES wordES : wordESList) {
             WordESSearchResponse wordESSearchResponse = WordESSearchResponse.builder()
