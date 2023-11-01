@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 
+import Button from '@/components/Button';
+
 // export async function fetchData() {
 //   const res = await fetch('https://samansa.kr', { cache: 'no-store' });
 //   const json = await res.json();
@@ -42,7 +44,7 @@ export default function LogoutButton() {
 
   return (
     <div>
-      <button onClick={handleLogout}>로그아웃</button>
+      <Button onClick={handleLogout}>로그아웃</Button>
     </div>
   );
 }
