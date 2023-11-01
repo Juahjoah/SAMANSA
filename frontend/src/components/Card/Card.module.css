@@ -12,13 +12,28 @@
   color: rgb(var(--font-regular-rgb));
 }
 
-.base div {
+.title {
   font-size: 2rem;
   margin: 0 0 2rem 0;
   color: rgb(var(--card-title-rgb));
-  font-weight: extra-bold;
+  font-family: var(--font-Pretendard-ExtraBold);
 }
 
-.base p {
+.description {
   margin: 0 0 2rem 0;
+  font-family: var(--font-Pretendard-Medium);
+}
+
+.example {
+  margin: 0 0 2rem 0;
+  font-family: var(--font-Pretendard-Thin);
+}
+
+.wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nickname {
+  color: rgb(var(--card-title-rgb));
 }

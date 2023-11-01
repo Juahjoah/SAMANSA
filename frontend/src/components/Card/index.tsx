@@ -3,7 +3,13 @@ import styles from './Card.module.css';
 export default function Card({ variant = 'large', item }: CardProps) {
   const { wordName, wordDescription, wordExample, memberNickname, createDate } =
     item;
-
+  let formattedDate = '';
+  if (createDate) {
+    const date = new Date(createDate);
+    formattedDate = `${date.getFullYear()}년 ${
+      date.getMonth() + 1
+    }월 ${date.getDate()}일`;
+  }
   let variantClass;
   switch (variant) {
     case 'large':
@@ -18,11 +24,13 @@ export default function Card({ variant = 'large', item }: CardProps) {
   }
   return (
     <div className={`${styles.base} ${variantClass}`}>
-      <div>{wordName}</div>
-      <p>{wordDescription}</p>
-      <p>{wordExample}</p>
-      <p>{memberNickname}</p>
-      <p>{createDate}</p>
+      <div className={styles.title}>{wordName}</div>
+      <p className={styles.description}>{wordDescription}</p>
+      <i className={styles.example}>{wordExample}</i>
+      <div className={styles.wrapper}>
+        <p className={styles.date}>{formattedDate}</p> &nbsp;by&nbsp;
+        <p className={styles.nickname}>{memberNickname}</p>
+      </div>
     </div>
   );
 }
