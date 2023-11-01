@@ -58,7 +58,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
             words = new ArrayList<>();
             String clientResponse = client.search(s -> s
                     .index(INDEX)
-                    .size(10)
+                    .size(50)
                     .query(q -> q
                         .bool(b -> b
                             .should(sh -> sh
