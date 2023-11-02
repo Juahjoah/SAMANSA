@@ -3,7 +3,8 @@ import Image from 'next/image';
 
 export default function Form() {
   const rand = Math.floor(Math.random() * 17) + 1;
-  const path = '/assets/form/' + String(rand).padStart(3, '0') + '.png';
+  const path = 'assets/form/' + String(rand).padStart(3, '0') + '.png';
+  // console.log(rand);
   return (
     <a
       className={styles.form}

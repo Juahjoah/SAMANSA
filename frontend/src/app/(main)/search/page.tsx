@@ -35,9 +35,6 @@ export default function Home() {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    console.log('value  : ' + value);
-    console.log(value);
-    console.log(value == '');
     fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/word/${
         value == '' ? `main?` : `search?word=${value}&`
@@ -51,7 +48,7 @@ export default function Home() {
         setData(searchData.words);
         setTotal(searchData.total);
         setLoading(true);
-        console.log(searchData);
+        // console.log(searchData);
       })
       .catch(() => {});
   }, []);
