@@ -31,9 +31,16 @@
 }
 
 .nicknamemsg {
-  color: #e44f4f;
   padding: 0.3rem;
   margin-left: 0.5rem;
+}
+
+.error {
+  color: #e44f4f;
+}
+
+.success {
+  color: #61b442;
 }
 
 .nicknamebtn {

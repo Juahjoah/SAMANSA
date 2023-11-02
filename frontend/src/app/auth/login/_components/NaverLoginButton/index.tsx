@@ -1,4 +1,7 @@
 'use client';
+
+import styles from './NaverLoginButton.module.css';
+
 import NaverLogin from '@/public/assets/login/NaverLogin.svg';
 import Image from 'next/image';
 // svgr loader install???????
@@ -21,6 +24,7 @@ export default function NaverLoginButton() {
       {/* <p>네이버 로그인</p> */}
       {/* <NaverLogin src={NaverLogin} alt="naver" /> */}
       <Image
+        className={styles.loginLogo}
         onClick={() => {
           handleNaverLogin();
         }}
