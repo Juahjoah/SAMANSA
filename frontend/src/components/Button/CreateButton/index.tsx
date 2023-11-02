@@ -4,13 +4,16 @@ import { useRouter } from 'next/navigation';
 
 // api 요청 함수
 export async function postData(url = '', data = {}) {
-  const Token =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLqtJHrsLAiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjk4OTg1NTk5fQ.E9zp0qtoA7_poAC-66Ho4dCpFpufxXGUUBjdcaUsPT8';
+  const accessToken: string | null =
+    typeof window !== 'undefined'
+      ? sessionStorage.getItem('accessToken')
+      : null;
+
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${Token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(data),
   });
