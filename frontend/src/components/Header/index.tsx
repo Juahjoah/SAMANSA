@@ -54,7 +54,7 @@ export default function Header() {
 
   return (
     <header className={styles.base}>
-      <div onClick={() => router.push('/')}>
+      <div className={styles.logo} onClick={() => router.push('/')}>
         <Image
           src="assets/logo_w_samansa.png"
           width={0}
