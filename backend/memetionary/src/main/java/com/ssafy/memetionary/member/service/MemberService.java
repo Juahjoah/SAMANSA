@@ -54,12 +54,12 @@ public class MemberService {
     }
     //닉네임 등록 - 멤버 2
 
+    //닉네임 중복 검사 - 멤버 3
     public IsDuplicateNicknameResponse isDuplicateNickname(String nickname) {
         Optional<Member> findMember = memberRepository.findByNickname(nickname);
-        boolean isDuplicateNickname = findMember.isPresent();
+        boolean isDuplicateNickname = findMember.isPresent() && findMember.get().isChangeStatus();
         return IsDuplicateNicknameResponse.builder().isDuplicate(isDuplicateNickname).build();
     }
-    //닉네임 중복 검사 - 멤버 3
 
     //사용자 닉네임 조회
     public String getMemberNickname(String memberId) {
