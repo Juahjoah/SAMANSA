@@ -11,12 +11,23 @@
   max-width: calc(100% - 30rem);
   height: auto;
   max-height: max-content;
-  padding: 3rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: center; */
+  /* align-content: center; */
+}
+
+.loginContent {
+  padding: 2rem;
+  text-align: center;
+}
+
+.loginLogo {
+  width: 80%;
+  height: auto;
 }
 
 .loginMsg {
@@ -30,16 +41,6 @@
   margin: 0.5rem;
 }
 
-.loginbackBtn {
-  padding: 0.5rem;
-  margin-top: 1rem;
-}
-
 .backBtn {
-  padding: 0 0 1.5rem 1.5rem;
   margin-left: auto;
-}
-
-.loginBtn {
-  cursor: pointer;
 }

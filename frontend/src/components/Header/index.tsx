@@ -18,32 +18,7 @@ export default function Header() {
     typeof window !== 'undefined'
       ? sessionStorage.getItem('accessToken')
       : null;
-  // const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
   const [isClient, setIsClient] = useState(false);
-
-  // const handleLogout = () => {
-  //   fetch(`${BASE_URL}/member`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //     },
-  //   })
-  //     .then((response) => {
-  //       if (response.ok) {
-  //         sessionStorage.removeItem('accessToken');
-  //         sessionStorage.removeItem('nickname');
-  //         router.push('/');
-  //         // 페이지 새로고침을 트리거
-  //         if (typeof window !== 'undefined') {
-  //           window.location.reload();
-  //         }
-  //         return response.json();
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error('로그아웃 실패:', error);
-  //     });
-  // };
 
   useEffect(() => {
     setIsClient(true);
@@ -51,28 +26,28 @@ export default function Header() {
 
   return (
     <header className={styles.base}>
-      <a className={styles.logo} href="/">
-        <Image
-          src="assets/logo_w_samansa.png"
-          width={0}
-          height={0}
-          sizes="100vw"
-          style={{ width: '30%', height: 'auto' }}
-          alt="logo"
-          className={styles.logo}
-        />
-      </a>
-
-      {isClient && accessToken ? (
-        // <div onClick={handleLogout}>
-        //   <VscAccount size={50} />
-        // </div>
-        <LogoutButton />
-      ) : (
-        <a href="/auth/login">
-          <PiUserCircleDuotone size={50} className={styles.account} />
+      <div>
+        <a href="/">
+          <Image
+            className={styles.headerLogo}
+            src="assets/logo_w_samansa.png"
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: '40%', height: 'auto' }}
+            alt="logo"
+          />
         </a>
-      )}
+      </div>
+      <div className={styles.userBtn}>
+        {isClient && accessToken ? (
+          <LogoutButton />
+        ) : (
+          <a href="/auth/login">
+            <PiUserCircleDuotone size={50} className={styles.account} />
+          </a>
+        )}
+      </div>
     </header>
   );
 }

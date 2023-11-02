@@ -1,5 +1,7 @@
 'use client';
 
+import styles from './KakaoLoginButton.module.css';
+
 import KakaoLogin from '@/public/assets/login/KaKaoLogin.svg';
 import Image from 'next/image';
 // svgr loader install???????
@@ -22,6 +24,7 @@ export default function KakaoLoginButton() {
       {/* <p>카카오 로그인</p> */}
       {/* <KakaoLoginLogo /> */}
       <Image
+        className={styles.loginLogo}
         onClick={() => {
           handleKakaoLogin();
         }}
