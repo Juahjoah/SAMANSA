@@ -26,7 +26,7 @@ export default function LoginPage() {
           />
           <h2 className={styles.loginTitle}>사만사에 오신 것을 환영합니다. </h2>
           <p className={styles.loginMsg}> 간편하게 로그인 해보세요!</p>
-          <div className={styles.loginBtn}>
+          <div>
             <KakaoLoginButton />
             <NaverLoginButton />
           </div>
