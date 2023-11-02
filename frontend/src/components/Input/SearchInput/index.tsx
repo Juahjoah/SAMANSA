@@ -34,7 +34,7 @@ export function Autocomplete({
 
   function clicked() {
     const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-      text == '' ? '' : `/search?word=${text}`
+      text == '' ? '' : `?word=${text}`
     }`;
     window.location.href = url;
 
@@ -158,7 +158,7 @@ export default function SearchInput({
         // "enter" 또는 "return" 키가 눌렸을 때의 동작
         // setValue(index == 0 ? value : InputValue);
         const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-          value == '' ? '' : `/search?word=${index == 0 ? value : InputValue}`
+          value == '' ? '' : `?word=${index == 0 ? value : InputValue}`
         }`;
 
         setIndex(0);

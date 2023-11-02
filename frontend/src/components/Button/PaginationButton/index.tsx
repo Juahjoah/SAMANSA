@@ -63,7 +63,7 @@ export default function Pagination({ total, page, word }: paginationProps) {
     if (page != selectedButton) {
       const url = `${
         process.env.NEXT_PUBLIC_REDIRECT_URI
-      }${`/search?word=${word}&page=${selectedButton + 1}`}`;
+      }${`?word=${word}&page=${selectedButton + 1}`}`;
       window.location.href = url;
     }
   }, [selectedButton]);
