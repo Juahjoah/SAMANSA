@@ -20,6 +20,11 @@ export default function NicknamePages() {
 
   // 닉네임 중복확인
   const checkNickname = () => {
+    const trimmedNickname = nickname.trim();
+    if (!trimmedNickname) {
+      alert('닉네임을 입력해주세요.');
+      return;
+    }
     fetch(`${BASE_URL}/member/duplicate`, {
       method: 'POST',
       headers: {
@@ -27,7 +32,7 @@ export default function NicknamePages() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        nickname: nickname,
+        nickname: trimmedNickname,
       }),
     })
       .then((response) => response.json())
@@ -45,7 +50,8 @@ export default function NicknamePages() {
 
   // 닉네임 저장하기
   const saveNickname = () => {
-    if (!nickname) {
+    const trimmedNickname = nickname.trim();
+    if (!trimmedNickname) {
       alert('닉네임을 입력해주세요.');
       return;
     }
@@ -56,7 +62,7 @@ export default function NicknamePages() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        nickname: nickname,
+        nickname: trimmedNickname,
       }),
     })
       .then((response) => response.json())
@@ -64,7 +70,7 @@ export default function NicknamePages() {
         if (response) {
           // console.log('닉네임 저장 성공');
           sessionStorage.removeItem('accessToken');
-          sessionStorage.setItem('nickname', nickname);
+          sessionStorage.setItem('nickname', trimmedNickname);
           sessionStorage.setItem('accessToken', response.token);
           setNickname('');
           router.push('/');
