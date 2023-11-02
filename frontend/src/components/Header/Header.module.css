@@ -1,12 +1,13 @@
 .base {
   display: flex;
   color: white;
-  height: 8rem;
   /* border: 2px solid red; */
   width: 68rem;
-  margin: 1rem auto 0;
+  height: 8rem;
+  margin: 1rem 0 0 13rem;
+  /* margin: 3rem auto 0; */
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .base div {
