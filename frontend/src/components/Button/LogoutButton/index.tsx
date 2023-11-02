@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 
 import styles from './LogoutButton.module.css';
 
-
 export default function LogoutButton() {
   const router = useRouter();
   const accessToken: string | null =
