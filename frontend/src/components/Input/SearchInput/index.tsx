@@ -92,7 +92,7 @@ export default function SearchInput({
       break;
     case 'search':
       variantClass = styles.search;
-      placeholder = '단어 #태그 @사용자 를 검색하세요';
+      placeholder = '단어를 검색하세요';
       break;
     case 'nickname':
       variantClass = styles.nickname;
