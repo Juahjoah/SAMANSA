@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { PiUserCircleMinusDuotone } from 'react-icons/pi';
-// import styles from './LogoutButton.module.css';
+import styles from './LogoutButton.module.css';
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function LogoutButton() {
 
   return (
     <div onClick={handleLogout}>
-      <PiUserCircleMinusDuotone size={50} />
+      <PiUserCircleMinusDuotone className={styles.logoutBtn} size={50} />
       {/* <button onClick={handleLogout}>로그아웃</button> */}
     </div>
   );
