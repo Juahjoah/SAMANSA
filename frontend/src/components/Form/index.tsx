@@ -17,13 +17,16 @@ export default function Form() {
       href="https://forms.gle/G3rjuTbyuGvdQaCP6"
       target="_blank"
     >
-      <Image
-        src={path}
-        alt="toServay"
-        width={160}
-        height={480}
-        onError={(event) => fail()}
-      />
+      {path && (
+        <Image
+          src={path}
+          alt="toServay"
+          width={160}
+          height={480}
+          loading="lazy"
+          // priority={false}
+        />
+      )}
     </a>
   );
 }
