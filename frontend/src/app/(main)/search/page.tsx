@@ -26,8 +26,9 @@ type CardItem = {
 export default function Home() {
   const searchParams = useSearchParams();
   const search = searchParams.get('word');
-  const page = searchParams.get('page');
+  const pageParam = searchParams.get('page');
 
+  const page = pageParam == null ? 1 : parseInt(pageParam);
   const value = search == null ? '' : search;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -35,13 +36,10 @@ export default function Home() {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    console.log('value  : ' + value);
-    console.log(value);
-    console.log(value == '');
     fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/word/${
         value == '' ? `main?` : `search?word=${value}&`
-      }page=${page}`,
+      }page=${page - 1}`,
       {
         method: 'GET',
       },
@@ -51,7 +49,7 @@ export default function Home() {
         setData(searchData.words);
         setTotal(searchData.total);
         setLoading(true);
-        console.log(searchData);
+        // console.log(searchData);
       })
       .catch(() => {});
   }, []);
@@ -113,7 +111,7 @@ export default function Home() {
       <Pagination
         word={search == null ? '' : search}
         total={total}
-        page={parseInt(page == null ? '0' : page)}
+        page={page - 1}
       />
     </main>
   );
