@@ -2,13 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import Button from '@/components/Button';
-
-// export async function fetchData() {
-//   const res = await fetch('https://samansa.kr', { cache: 'no-store' });
-//   const json = await res.json();
-//   return json;
-// }
+import styles from './LogoutButton.module.css';
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -44,7 +38,9 @@ export default function LogoutButton() {
 
   return (
     <div>
-      <Button onClick={handleLogout}>로그아웃</Button>
+      <button className={styles.base} onClick={handleLogout}>
+        로그아웃
+      </button>
     </div>
   );
 }
