@@ -28,7 +28,7 @@
   font-family: var(--font-Pretendard-Medium);
 }
 
-.example {
+.example span {
   margin: 0 0 2rem 0;
   font-family: var(--font-Pretendard-Thin);
 }
