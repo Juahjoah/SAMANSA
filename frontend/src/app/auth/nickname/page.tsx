@@ -34,7 +34,6 @@ export default function NicknamePages() {
       .then((response) => {
         if (response.duplicate) {
           setIsDuplicateMessage('이미 사용중인 닉네임입니다.');
-          // setNickname('');
         } else {
           setIsDuplicateMessage('사용 가능한 닉네임입니다.');
         }
@@ -102,7 +101,15 @@ export default function NicknamePages() {
             </Button>
           </div>
           <div className={styles.nicknamemsg}>
-            <p>{isDuplicateMessage}</p>
+            <p
+              className={`${styles.message} ${
+                isDuplicateMessage === '이미 사용중인 닉네임입니다.'
+                  ? styles.error
+                  : styles.success
+              }`}
+            >
+              {isDuplicateMessage}
+            </p>
           </div>
         </div>
         <div className={styles.nicknamebtn}>
