@@ -16,12 +16,13 @@ export default function LoginPage() {
         </div>
         <div className={styles.loginContent}>
           <Image
+            className={styles.loginLogo}
+            src={Logo}
+            alt="logo"
             width={0}
             height={0}
             sizes="100vw"
-            style={{ width: '80%', height: '30%' }}
-            src={Logo}
-            alt="logo"
+            // style={{ width: '80%', height: '30%' }}
           />
           <h2 className={styles.loginTitle}>사만사에 오신 것을 환영합니다. </h2>
           <p className={styles.loginMsg}> 간편하게 로그인 해보세요!</p>

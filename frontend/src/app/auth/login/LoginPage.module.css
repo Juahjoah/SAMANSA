@@ -25,6 +25,11 @@
   text-align: center;
 }
 
+.loginLogo {
+  width: 80%;
+  height: auto;
+}
+
 .loginMsg {
   color: #363636;
   margin: 0.5rem;
