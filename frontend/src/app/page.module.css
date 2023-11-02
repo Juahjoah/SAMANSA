@@ -17,9 +17,7 @@
 .searchInput {
   width: calc(100% - 5rem);
 }
-.create {
-  margin: 0 1rem 0 1rem;
-}
+
 .createButton {
   background-color: #33be7d;
   color: white;
@@ -37,7 +35,7 @@
   display: flex;
   justify-content: space-between;
   width: 80%;
-
+  padding: 1rem;
   margin-top: 1rem;
 }
 

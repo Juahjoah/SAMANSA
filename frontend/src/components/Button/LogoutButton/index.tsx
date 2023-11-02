@@ -4,12 +4,6 @@ import { useRouter } from 'next/navigation';
 
 import Button from '@/components/Button';
 
-// export async function fetchData() {
-//   const res = await fetch('https://samansa.kr', { cache: 'no-store' });
-//   const json = await res.json();
-//   return json;
-// }
-
 export default function LogoutButton() {
   const router = useRouter();
   const accessToken: string | null =

@@ -16,6 +16,11 @@
   font-size: 18px;
 }
 
-.base div:hover {
+/* .base div:hover {
   color: rgb(84, 170, 228);
+} */
+
+.account,
+.logo {
+  cursor: pointer;
 }

@@ -29,12 +29,14 @@ export default function Header() {
         sizes="100vw"
         style={{ width: '30%', height: 'auto' }}
         alt="logo"
+        className={styles.logo}
+        onClick={() => router.push('/')}
       />
       {accessToken ? (
         <LogoutButton />
       ) : (
         <div onClick={() => router.push('/auth/login')}>
-          <VscAccount size={50} />
+          <VscAccount size={50} className={styles.account} />
         </div>
       )}
     </header>
