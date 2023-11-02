@@ -7,7 +7,7 @@ import styles from './Header.module.css';
 import Image from 'next/image';
 
 import LogoutButton from '../Button/LogoutButton';
-import { VscAccount } from 'react-icons/vsc';
+import { PiUserCircleDuotone } from 'react-icons/pi';
 
 export async function fetchData() {
   const res = await fetch('https://samansa.kr', { cache: 'no-store' });
@@ -72,7 +72,7 @@ export default function Header() {
         <LogoutButton />
       ) : (
         <div onClick={() => router.push('/auth/login')}>
-          <VscAccount size={50} className={styles.account} />
+          <PiUserCircleDuotone size={50} className={styles.account} />
         </div>
       )}
     </header>
