@@ -21,6 +21,14 @@
 } */
 
 .account,
-.logo {
+.headerLogo {
   cursor: pointer;
+}
+
+.userBtn {
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center; */
+  margin: auto;
 }

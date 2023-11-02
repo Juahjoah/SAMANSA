@@ -26,25 +26,28 @@ export default function Header() {
 
   return (
     <header className={styles.base}>
-      <a href="/">
-        <Image
-          className={styles.logo}
-          src="assets/logo_w_samansa.png"
-          width={0}
-          height={0}
-          sizes="100vw"
-          style={{ width: '30%', height: 'auto' }}
-          alt="logo"
-        />
-      </a>
-
-      {isClient && accessToken ? (
-        <LogoutButton />
-      ) : (
-        <a href="/auth/login">
-          <PiUserCircleDuotone size={50} className={styles.account} />
+      <div>
+        <a href="/">
+          <Image
+            className={styles.headerLogo}
+            src="assets/logo_w_samansa.png"
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: '40%', height: 'auto' }}
+            alt="logo"
+          />
         </a>
-      )}
+      </div>
+      <div className={styles.userBtn}>
+        {isClient && accessToken ? (
+          <LogoutButton />
+        ) : (
+          <a href="/auth/login">
+            <PiUserCircleDuotone size={50} className={styles.account} />
+          </a>
+        )}
+      </div>
     </header>
   );
 }
