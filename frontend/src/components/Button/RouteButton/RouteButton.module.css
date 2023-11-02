@@ -22,9 +22,9 @@
   width: 3rem;
   border-radius: 50%;
   font-size: 2.5rem;
+  cursor: pointer;
+  margin: 0;
 }
 .createButton:hover {
   background-color: #0caf63;
-  /* color: rgb(211, 195, 195); */
-  font-size: 2.7rem;
 }

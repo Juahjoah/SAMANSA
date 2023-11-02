@@ -28,7 +28,6 @@ async function fetchData() {
     cache: 'no-store',
   });
   const data: resultData = await res.json();
-  // console.log(data);
   return data;
 }
 
@@ -53,15 +52,13 @@ export default async function Home() {
             </div>
           ))}
         </div>
-        <div>
-          <div className={styles.survey}>
-            <Form />
-          </div>
+        <div className={styles.survey}>
+          <Form />
         </div>
       </div>
       <div className={styles.bottom}>
         <Pagination word={''} total={resultData.total} page={0} />
-      </div>{' '}
+      </div>
     </main>
   );
 }

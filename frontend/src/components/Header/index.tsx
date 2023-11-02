@@ -72,7 +72,7 @@ export default function Header() {
         <LogoutButton />
       ) : (
         <div onClick={() => router.push('/auth/login')}>
-          <VscAccount size={50} />
+          <VscAccount size={50} className={styles.account} />
         </div>
       )}
     </header>
