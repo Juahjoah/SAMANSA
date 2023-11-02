@@ -1,6 +1,6 @@
 'use client';
 import styles from './CreateButton.module.css';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 // api 요청 함수
 export async function postData(url = '', data = {}) {
@@ -32,33 +32,43 @@ export default function CreateButton({
   example: string;
   hashTag: string;
 }) {
-  const url = 'https://samansa.kr/api/word'; // api요청 url
+  // const url = 'https://samansa.kr/api/word'; // api요청 url
   const data = {
     wordName: word,
     wordDescription: meaning,
     wordExample: example,
     wordHashtag: hashTag,
   }; // 등록할 단어 정보
-  const router = useRouter();
+
+  // 앞뒤 띄어쓰기 제거
+  const replacWord = word.replace(/^\s+|\s+$/gm, '');
+  const replacDescription = meaning.replace(/^\s+|\s+$/gm, '');
+  const replacExample = example.replace(/^\s+|\s+$/gm, '');
+
+  const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}/`;
 
   // 단어 등록 요청
   const CreateWord = async () => {
-    if (!word || !meaning) {
-      alert('빈 값이 있습니다. 값을 채워주세요!');
+    if (!replacWord) {
+      alert('단어입력이 안되어있어요!');
+    } else if (!replacDescription) {
+      alert('단어의 정의가 없어요.');
+    } else if (!replacExample) {
+      alert('예시문장이 필요해요!');
     } else {
-      postData(url, data)
+      postData(`${url}/api/word`, data)
         .then((data) => {
           console.log(data);
+          window.location.href = url;
         })
         .catch((err) => {
           console.log(err);
         });
-      router.push('/');
     }
   };
   // 단어 등록 취소
   const CancleWord = () => {
-    router.push('/');
+    window.location.href = url;
   };
   return (
     <div className={styles.createDiv}>

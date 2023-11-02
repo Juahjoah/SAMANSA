@@ -1,6 +1,5 @@
 'use client';
 
-// import { useState } from 'react';
 import styles from './Textarea.module.css';
 
 interface TextareaProps {
@@ -31,13 +30,21 @@ export default function Textarea({
       break;
   }
 
-  // const [value, setValue] = useState(initvalue);
+  const ChangeTextarea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = e.target.value;
+
+    // 글자 수 제한 적용
+    if (newValue.length <= 250) {
+      setValue && setValue(newValue);
+    }
+  };
+
   return (
     <div className={styles.wrapper}>
       <textarea
         placeholder={placeholder}
         className={`${styles.base} ${variantClass}`}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={ChangeTextarea}
         name={name}
         value={value}
       />
