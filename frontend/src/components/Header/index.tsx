@@ -62,6 +62,7 @@ export default function Header() {
           sizes="100vw"
           style={{ width: '30%', height: 'auto' }}
           alt="logo"
+          className={styles.logo}
         />
       </div>
 
