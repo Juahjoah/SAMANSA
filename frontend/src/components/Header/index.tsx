@@ -1,6 +1,4 @@
 'use client';
-
-import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 import styles from './Header.module.css';
@@ -20,7 +18,6 @@ export default function Header() {
     typeof window !== 'undefined'
       ? sessionStorage.getItem('accessToken')
       : null;
-  const router = useRouter();
   // const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
   const [isClient, setIsClient] = useState(false);
 
@@ -54,7 +51,7 @@ export default function Header() {
 
   return (
     <header className={styles.base}>
-      <div className={styles.logo} onClick={() => router.push('/')}>
+      <a className={styles.logo} href="/">
         <Image
           src="assets/logo_w_samansa.png"
           width={0}
@@ -64,7 +61,7 @@ export default function Header() {
           alt="logo"
           className={styles.logo}
         />
-      </div>
+      </a>
 
       {isClient && accessToken ? (
         // <div onClick={handleLogout}>
@@ -72,9 +69,9 @@ export default function Header() {
         // </div>
         <LogoutButton />
       ) : (
-        <div onClick={() => router.push('/auth/login')}>
+        <a href="/auth/login">
           <PiUserCircleDuotone size={50} className={styles.account} />
-        </div>
+        </a>
       )}
     </header>
   );
