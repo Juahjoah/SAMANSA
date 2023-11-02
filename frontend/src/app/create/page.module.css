@@ -1,31 +1,16 @@
 .components {
   width: 100vw;
-  /* height: 100vh; */
-  /* border: 1px solid #171544; */
   background-color: #171544;
   padding-top: 10vh;
-  /* padding-bottom: 10vh; */
-}
-@keyframes fadein {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 .regist {
   position: relative;
   width: 850px;
-  /* height: 90%; */
   margin: 0 auto;
-  /* border: 1px solid black; */
   border-radius: 1rem;
-  /* box-shadow: 2px 4px 2px rgb(98, 97, 124); */
   background-color: #454469;
   color: white;
-  animation: fadein 1s ease-in-out;
 }
 
 @media (max-width: 900px) {
@@ -40,29 +25,22 @@
   font-size: 1.6rem;
   font-weight: 600;
   padding: 2rem;
-  /* margin: 2.5rem 0 0 2rem; */
-  /* border: 1px solid #0f07e4; */
-  animation: fadein 1.5s ease-in-out;
 }
 
 .registcard {
   width: 90%;
-  /* height: 95%; */
   margin: 0 auto;
-  /* border: 1px solid black; */
-  animation: fadein 2.6s ease-in-out;
   overflow: auto;
 }
 .wordTag {
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0.9rem 0 0.8rem 0;
-  animation: fadein 2.1s ease-in-out;
 }
 
 .wordTag span {
   color: rgb(226, 118, 68);
-  margin-left: 10px;
+  margin-left: 6px;
   font-size: 14px;
 }
 .icon {
@@ -71,16 +49,9 @@
   right: 2rem;
   animation: fadein 1.5s ease-in-out;
 }
-/* .cardPedding {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid red;
-  box-sizing: border-box;
-} */
+
 .button {
   width: 100%;
   height: 15%;
-  /* border: 1px solid black; */
   animation: fadein 2.5s ease-in-out;
 }

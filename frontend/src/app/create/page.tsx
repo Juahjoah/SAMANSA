@@ -41,7 +41,7 @@ export default function CreatePage() {
         <div className={styles.registcard}>
           <div className={styles.wordTag}>
             등록하고 싶은 단어
-            <span>* 필수 입력사항</span>
+            <span>*</span>
           </div>
           <ValueInput
             setValue={setWord}
@@ -50,7 +50,7 @@ export default function CreatePage() {
             value={word}
           ></ValueInput>
           <div className={styles.wordTag}>
-            단어의 뜻<span>* 필수 입력사항</span>
+            단어의 뜻<span>*</span>
           </div>
           <Textarea
             setValue={setMeaning}
@@ -58,7 +58,10 @@ export default function CreatePage() {
             name={'단어의 뜻'}
             value={meaning}
           ></Textarea>
-          <div className={styles.wordTag}>예시 문장</div>
+          <div className={styles.wordTag}>
+            예시 문장 <span>*</span>
+          </div>
+
           <Textarea
             setValue={setExample}
             variant={'example'}
