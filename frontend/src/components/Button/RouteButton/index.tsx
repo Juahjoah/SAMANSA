@@ -5,13 +5,8 @@ import { useRouter } from 'next/navigation';
 export function EnterMain() {
   const router = useRouter();
   return (
-    <div
-      className={styles.mainButton}
-      onClick={() => {
-        router.push('/');
-      }}
-    >
-      x
+    <div className={styles.mainButton}>
+      <a href="/">⨉</a>
     </div>
   );
 }
