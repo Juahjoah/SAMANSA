@@ -18,7 +18,13 @@ export default function Form() {
       href="https://forms.gle/G3rjuTbyuGvdQaCP6"
       target="_blank"
     >
-      <Image src={selectedImage} priority={true} alt="My Image" width={160} height={480} />
+      <Image 
+        src={selectedImage}
+        priority={true}
+        alt="My Image"
+        width={160}
+        height={480}
+      />
     </a>
   );
 }
