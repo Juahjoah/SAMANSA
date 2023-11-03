@@ -1,6 +1,6 @@
 import styles from './Header.module.css';
 import Image from 'next/image';
-
+import logo from '@/public/assets/logo_w_samansa.png';
 import LogoutButton from '../Button/LogoutButton';
 
 export default function Header() {
@@ -10,7 +10,7 @@ export default function Header() {
         <a href="/">
           <Image
             className={styles.headerLogo}
-            src="assets/logo_w_samansa.png"
+            src={logo}
             priority={true}
             width={0}
             height={0}
