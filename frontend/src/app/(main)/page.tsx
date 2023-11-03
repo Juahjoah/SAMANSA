@@ -1,4 +1,5 @@
 //react
+import { Suspense } from 'react';
 
 //style
 import styles from './page.module.css';
@@ -72,13 +73,15 @@ export default async function Home({ searchParams }: getParams) {
         </div>
       </div>
       <div className={styles.content}>
-        <div className={styles.searchResult}>
-          {resultData.words.map((item: CardItem) => (
-            <div key={item.id}>
-              <Card item={item} />
-            </div>
-          ))}
-        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <div className={styles.searchResult}>
+            {resultData.words.map((item: CardItem) => (
+              <div key={item.id}>
+                <Card item={item} />
+              </div>
+            ))}
+          </div>
+        </Suspense>
         <div className={styles.survey}>
           <Form />
         </div>

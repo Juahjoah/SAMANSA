@@ -15,7 +15,7 @@
   font-size: 2rem;
   margin: 0 0 2rem 0;
   color: rgb(var(--card-title-rgb));
-  font-family: var(--font-Pretendard-ExtraBold);
+  font-weight: 800;
   cursor: pointer;
 }
 
@@ -25,17 +25,19 @@
 
 .description {
   margin: 0 0 2rem 0;
-  font-family: var(--font-Pretendard-Medium);
+  font-weight: 500;
 }
 
 .example span {
   margin: 0 0 2rem 0;
-  font-family: var(--font-Pretendard-Thin);
+  font-weight: 100;
 }
 
 .wrapper {
   display: flex;
   justify-content: flex-end;
+  margin: 2rem 0 0 0;
+  font-weight: 500;
 }
 
 .nickname {
