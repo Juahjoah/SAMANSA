@@ -2,9 +2,10 @@
 import { Suspense } from 'react';
 
 //style
-import styles from './page.module.css';
+import styles from './Home.module.css';
 
 //component
+import Header from '@/components/Header';
 import SearchInput from '@/components/Input/SearchInput';
 import Card from '@/components/Card';
 import Form from '@/components/Form';
@@ -63,32 +64,35 @@ export default async function Home({ searchParams }: getParams) {
   const resultData: resultData = await fetchData({ value, page });
 
   return (
-    <main className={styles.main}>
-      <div className={styles.top}>
-        <div className={styles.searchInput}>
-          <SearchInput value={value} />
-        </div>
-        <div className={styles.create}>
-          <EnterCreate />
-        </div>
-      </div>
-      <div className={styles.content}>
-        <Suspense fallback={<div>Loading...</div>}>
-          <div className={styles.searchResult}>
-            {resultData.words.map((item: CardItem) => (
-              <div key={item.id}>
-                <Card item={item} />
-              </div>
-            ))}
+    <>
+      <Header />
+      <main className={styles.main}>
+        <div className={styles.top}>
+          <div className={styles.searchInput}>
+            <SearchInput value={value} />
           </div>
-        </Suspense>
-        <div className={styles.survey}>
-          <Form />
+          <div className={styles.create}>
+            <EnterCreate />
+          </div>
         </div>
-      </div>
-      <div className={styles.bottom}>
-        <Pagination word={value} total={resultData.total} page={page - 1} />
-      </div>
-    </main>
+        <div className={styles.content}>
+          <Suspense fallback={<div>Loading...</div>}>
+            <div className={styles.searchResult}>
+              {resultData.words.map((item: CardItem) => (
+                <div key={item.id}>
+                  <Card item={item} />
+                </div>
+              ))}
+            </div>
+          </Suspense>
+          <div className={styles.survey}>
+            <Form />
+          </div>
+        </div>
+        <div className={styles.bottom}>
+          <Pagination word={value} total={resultData.total} page={page - 1} />
+        </div>
+      </main>
+    </>
   );
 }
