@@ -8,7 +8,6 @@ import form5 from '@/public/assets/form/005.png';
 import form6 from '@/public/assets/form/006.png';
 
 const images = [form1, form2, form3, form4, form5, form6];
-
 export default function Form() {
   const rand = Math.floor(Math.random() * images.length); // 랜덤 인덱스 선택
   const selectedImage = images[rand]; // 랜덤 이미지 선택
