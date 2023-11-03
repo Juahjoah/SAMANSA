@@ -42,9 +42,13 @@ public class MemberService {
 
     @Transactional
     public JwtToken modifyNickname(String memberId, String nickname) {
-        Optional<Member> findMember = memberRepository.findById(memberId);
-        findMember.get().setNickname(nickname);
-        findMember.get().setChangeStatus(true);
+        Member findMember = memberRepository.findById(memberId)
+            .orElseThrow(() -> new MemberNotFoundException(CustomErrorType.MEMBER_NOT_FOUND.getMessage()));
+        if (nickname.trim().isEmpty()) {
+            throw new NicknameEmptyException(CustomErrorType.NICKNAME_EMPTY.getMessage());
+        }
+        findMember.setNickname(nickname);
+        findMember.setChangeStatus(true);
 
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
         User userDetails = new User(memberId, "", Collections.singleton(authority));
