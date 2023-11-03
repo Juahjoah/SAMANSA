@@ -2,6 +2,7 @@ package com.ssafy.memetionary.member.service;
 
 import com.ssafy.memetionary.common.CustomErrorType;
 import com.ssafy.memetionary.common.exception.MemberNotFoundException;
+import com.ssafy.memetionary.common.exception.NicknameEmptyException;
 import com.ssafy.memetionary.member.dto.IsChangeNicknameResponse;
 import com.ssafy.memetionary.member.dto.IsDuplicateNicknameResponse;
 import com.ssafy.memetionary.member.entity.Member;
@@ -30,12 +31,13 @@ public class MemberService {
     private final JwtTokenService jwtTokenService;
 
     public IsChangeNicknameResponse isChangeNickname(String memberId) {
-        Optional<Member> findMember = memberRepository.findById(memberId);
-        boolean isChangeNickname = findMember.get().isChangeStatus();
+        Member findMember = memberRepository.findById(memberId)
+            .orElseThrow(() -> new MemberNotFoundException(CustomErrorType.MEMBER_NOT_FOUND.getMessage()));
+        boolean isChangeNickname = findMember.isChangeStatus();
         if (!isChangeNickname) {
             return IsChangeNicknameResponse.builder().isChange(false).message("닉네임 변경이 가능합니다.").build();
         }
-        String nickname = findMember.get().getNickname();
+        String nickname = findMember.getNickname();
         return IsChangeNicknameResponse.builder().isChange(true).message("닉네임 변경이 불가합니다.").nickname(nickname).build();
     }
     //닉네임 변경 여부 조회 - 멤버 1
@@ -67,10 +69,9 @@ public class MemberService {
 
     //사용자 닉네임 조회
     public String getMemberNickname(String memberId) {
-        Optional<Member> findMember = memberRepository.findById(memberId);
-        return findMember
-            .orElseThrow(() -> new MemberNotFoundException(CustomErrorType.MEMBER_NOT_FOUND.getMessage()))
-            .getNickname();
+        Member findMember = memberRepository.findById(memberId)
+            .orElseThrow(() -> new MemberNotFoundException(CustomErrorType.MEMBER_NOT_FOUND.getMessage()));
+        return findMember.getNickname();
     }
 
     //로그아웃 - 멤버 4
