@@ -18,7 +18,7 @@ export default function Form() {
       href="https://forms.gle/G3rjuTbyuGvdQaCP6"
       target="_blank"
     >
-      <Image 
+      <Image
         src={selectedImage}
         priority={true}
         alt="My Image"
