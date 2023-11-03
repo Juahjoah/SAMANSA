@@ -1,9 +1,18 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
 import { useRouter } from 'next/navigation';
 
+import { PiUserCircleDuotone } from 'react-icons/pi';
 import { PiUserCircleMinusDuotone } from 'react-icons/pi';
 import styles from './LogoutButton.module.css';
+
+export async function fetchData() {
+  const res = await fetch('https://samansa.kr', { cache: 'no-store' });
+  const json = await res.json();
+  return json;
+}
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -12,6 +21,12 @@ export default function LogoutButton() {
       ? sessionStorage.getItem('accessToken')
       : null;
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleLogout = () => {
     fetch(`${BASE_URL}/member`, {
@@ -39,7 +54,14 @@ export default function LogoutButton() {
 
   return (
     <div onClick={handleLogout}>
-      <PiUserCircleMinusDuotone className={styles.logoutBtn} size={50} />
+      {isClient && accessToken ? (
+        <PiUserCircleMinusDuotone className={styles.logoutBtn} size={50} />
+      ) : (
+        <a href="/auth/login">
+          <PiUserCircleDuotone size={50} className={styles.account} />
+        </a>
+      )}
+
       {/* <button onClick={handleLogout}>로그아웃</button> */}
     </div>
   );
