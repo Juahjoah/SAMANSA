@@ -4,9 +4,13 @@ import { useState, useEffect } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { PiUserCircleDuotone } from 'react-icons/pi';
-import { PiUserCircleMinusDuotone } from 'react-icons/pi';
+// import { PiUserCircleDuotone } from 'react-icons/pi';
+// import { PiUserCircleMinusDuotone } from 'react-icons/pi';
+import Image from 'next/image';
 import styles from './LogoutButton.module.css';
+
+import LoginIcon from '@/public/assets/login/login_w_b.svg';
+import LogoutIcon from '@/public/assets/login/logout_w_b.svg';
 
 export async function fetchData() {
   const res = await fetch('https://samansa.kr', { cache: 'no-store' });
@@ -53,12 +57,30 @@ export default function LogoutButton() {
   };
 
   return (
-    <div onClick={handleLogout}>
+    <div>
       {isClient && accessToken ? (
-        <PiUserCircleMinusDuotone className={styles.logoutBtn} size={50} />
+        <div onClick={handleLogout}>
+          <Image
+            className={styles.logBtn}
+            src={LoginIcon}
+            priority={true}
+            width={50}
+            height={50}
+            alt="logout"
+          />
+        </div>
       ) : (
+        // <PiUserCircleMinusDuotone className={styles.logoutBtn} size={50} />
         <a href="/auth/login">
-          <PiUserCircleDuotone size={50} className={styles.account} />
+          {/* <PiUserCircleDuotone size={50} className={styles.account} /> */}
+          <Image
+            className={styles.logBtn}
+            src={LogoutIcon}
+            priority={true}
+            width={50}
+            height={50}
+            alt="logout"
+          />
         </a>
       )}
 
