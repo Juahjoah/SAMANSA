@@ -65,7 +65,7 @@ export default async function Home({ searchParams }: getParams) {
     <main className={styles.main}>
       <div className={styles.top}>
         <div className={styles.searchInput}>
-          <SearchInput />
+          <SearchInput value={value} />
         </div>
         <div className={styles.create}>
           <EnterCreate />
