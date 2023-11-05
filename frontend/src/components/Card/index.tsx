@@ -1,8 +1,15 @@
 import styles from './Card.module.css';
+import VoteButton from '../Button/VoteButton';
 
 export default function Card({ variant = 'large', item }: CardProps) {
-  const { wordName, wordDescription, wordExample, memberNickname, createDate } =
-    item;
+  const {
+    id,
+    wordName,
+    wordDescription,
+    wordExample,
+    memberNickname,
+    createDate,
+  } = item;
   let formattedDate = '';
 
   const formattedDescription = wordDescription.split('\n').map((item, key) => {
@@ -48,6 +55,7 @@ export default function Card({ variant = 'large', item }: CardProps) {
       <p className={styles.description}>{formattedDescription}</p>
       <i className={styles.example}>{formattedExample}</i>
       <div className={styles.wrapper}>
+        <VoteButton wordId={id} />
         <p className={styles.date}>{formattedDate}</p> &nbsp;by&nbsp;
         <p className={styles.nickname}>{memberNickname}</p>
       </div>
