@@ -1,0 +1,72 @@
+@font-face {
+  font-family: 'Pretendard-Thin';
+  src: url('/fonts/Pretendard-Thin.woff') format('woff');
+  font-weight: 100;
+}
+@font-face {
+  font-family: 'Pretendard-ExtraLight';
+  src: url('/fonts/Pretendard-ExtraLight.woff') format('woff');
+  font-weight: 200;
+}
+@font-face {
+  font-family: 'Pretendard-Light';
+  src: url('/fonts/Pretendard-Light.woff') format('woff');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('/fonts/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  /* font-display: swap; */
+}
+@font-face {
+  font-family: 'Pretendard-Medium';
+  src: url('/fonts/Pretendard-Medium.woff') format('woff');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Pretendard-Bold';
+  src: url('/fonts/Pretendard-Bold.woff') format('woff');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Pretendard-ExtraBold';
+  src: url('/fonts/Pretendard-ExtraBold.woff') format('woff');
+  font-weight: 800;
+}
+
+:root {
+  --card-background-rgb: 69, 68, 105;
+  --padding-regular: 2rem;
+  --margin-regular: 0 0 2rem 0;
+  --font-regular-rgb: 255, 255, 255;
+  --card-title-font-size: 2rem;
+  --card-title-rgb: 51, 190, 125;
+  --card-title-hover-rgb: 12, 175, 99;
+}
+
+* {
+  font-family: Pretendard;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  font-family: var(--font-pretendard);
+  background-color: #171544;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+div {
+  font-family: var(--font-pretendard);
+}

@@ -1,0 +1,15 @@
+.base {
+  display: flex;
+  height: 30px;
+  /* background-color: aquamarine; */
+}
+
+.base div {
+  display: flex;
+  margin-right: 15px;
+}
+
+.tag {
+  margin-left: 7spx;
+  line-height: 30px;
+}
