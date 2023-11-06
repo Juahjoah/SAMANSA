@@ -124,7 +124,7 @@ public class WordESController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    //엘라스틱 서치 단어 와전 일치 조회 - 단어 9
+    //엘라스틱 서치 단어 완전 일치 조회 - 단어 9
     @GetMapping("/exact")
     public ResponseEntity<?> searchExactWord(@RequestParam("word") String name,
         @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
