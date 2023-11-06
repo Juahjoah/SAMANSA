@@ -38,7 +38,7 @@ public class WordESService {
         WordES wordES = WordES.builder()
             .memberId(memberId)
             .memberNickname(memberNickname)
-            .name(request.getWordName())
+            .name(request.getWordName().trim())
             .description(request.getWordDescription())
             .example(request.getWordExample())
             .hashtags(getHashtags(request.getWordHashtag()))
