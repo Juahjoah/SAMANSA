@@ -1,6 +1,8 @@
 package com.ssafy.memetionary.wordes.repository;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.SourceConfig;
 import co.elastic.clients.json.JsonData;
 import com.nimbusds.jose.shaded.gson.JsonArray;
@@ -10,14 +12,17 @@ import com.nimbusds.jose.shaded.gson.JsonParser;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.document.WordESRequestType;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class WordESRepositoryImpl implements WordESRepositoryCustom {
 
-    final String INDEX = "word";
+    @Value("#{@esConfig.getWordIndexName()}")
+    private String INDEX;
     private final ElasticsearchClient client;
 
     public WordESRepositoryImpl(ElasticsearchClient client) {
@@ -54,6 +59,42 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         List<String> words = null;
         try {
             assert client != null;
+
+            SearchResponse<Object> response = client.search(s -> s
+                    .index(INDEX)
+                    .size(10)
+                    .source(SourceConfig.of(sc -> sc
+                        .filter(f -> f
+                            .includes(List.of("name", "description", "example"))
+                        )
+                    ))
+                    .query(q -> q
+                        .match(m -> m
+                            .field("name")
+                            .query(word)
+                        )
+                    )
+                , Object.class
+            );
+
+            log.debug("response = " + response);
+
+            List<Object> tmp = response.hits().hits().stream().map(Hit::source)
+                .map(sourceMap -> {
+                    log.debug("sourceMap = " + sourceMap);
+                    log.debug(sourceMap.getClass().toString());
+                    if(sourceMap instanceof Map<?,?>){
+                        String name = (String)((Map<?, ?>) sourceMap).get("name");
+                        log.debug("name = " + name);
+                        String description = (String)((Map<?, ?>) sourceMap).get("description");
+                        log.debug("description = " + description);
+
+                        String example = (String)((Map<?, ?>) sourceMap).get("example");
+                        log.debug("example = " + example);
+                    }
+                    return sourceMap;
+                }).toList();
+
 
             words = new ArrayList<>();
             String clientResponse = client.search(s -> s
