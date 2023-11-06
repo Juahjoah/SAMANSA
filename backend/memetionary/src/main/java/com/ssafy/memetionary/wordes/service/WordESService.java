@@ -33,7 +33,8 @@ public class WordESService {
 
     private final WordESRepository wordESRepository;
 
-    public void registerWordES(WordESRegisterRequest request, String memberId, String memberNickname) {
+    public void registerWordES(WordESRegisterRequest request, String memberId,
+        String memberNickname) {
         log.debug("request = " + request);
         WordES wordES = WordES.builder()
             .memberId(memberId)
@@ -77,7 +78,7 @@ public class WordESService {
     }
 
     private void likeProcess(boolean isLike, boolean isDislike, boolean wordLike, WordES wordES,
-                             String clientIP) {
+        String clientIP) {
         //좋아요, 싫어요 한적 없는 경우
         if (!isLike && !isDislike) {
             if (wordLike) {
@@ -110,14 +111,24 @@ public class WordESService {
     public WordESSearchResponse searchByName(String name, Pageable pageable,
         String clientIP) {
 //        List<WordES> wordESList = wordESRepository.findByName(name, pageable);
-        WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(name, clientIP, pageable);
+        WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(name, clientIP,
+            pageable);
+
+        return wordESSearchResponse;
+    }
+
+    public WordESSearchResponse searchExactByName(String name, Pageable pageable,
+        String clientIP) {
+        WordESSearchResponse wordESSearchResponse = wordESRepository.searchExactWords(name,
+            clientIP, pageable);
 
         return wordESSearchResponse;
     }
 
     public WordESSearchResponse mainPage(Pageable pageable) {
         Sort sort = Sort.by(Direction.DESC, "createDate");
-        Pageable newpageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        Pageable newpageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+            sort);
         List<WordES> wordESList = wordESRepository.findAll(newpageable).getContent();
         List<WordESSearchItem> wordESSearchItems = new ArrayList<>();
         for (WordES wordES : wordESList) {
@@ -151,8 +162,9 @@ public class WordESService {
                 duplicateWords.add(w);
                 response.add(w);
             }
-            if (response.size() >= 10)
+            if (response.size() >= 10) {
                 break;
+            }
         }
 
         return WordESAutoCompleteResponse.builder().words(response).build();

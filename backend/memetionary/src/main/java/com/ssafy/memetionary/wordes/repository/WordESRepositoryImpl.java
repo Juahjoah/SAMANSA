@@ -232,5 +232,121 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         return wordESSearchResponse;
     }
 
+    @Override
+    public WordESSearchResponse searchExactWords(String word, String clientIP, Pageable pageable) {
+        List<WordESSearchItem> words = new ArrayList<>();
+        long total;
+
+        try {
+            assert client != null;
+
+            SearchResponse<Object> response = client.search(s -> s
+                    .index("word")
+                    .from(pageable.getPageNumber())
+                    .size(10)
+                    .source(SourceConfig.of(sc -> sc
+                        .filter(f -> f
+                            .includes(List.of("name", "description", "example", "memberNickname",
+                                "createDate", "hashtags"))
+                        )
+                    ))
+                    .query(q -> q
+                        .term(t -> t
+                            .field("name.keyword")
+                            .value(word)
+                        )
+                    )
+                    .scriptFields("has_like", sf -> sf
+                        .script(sc -> sc
+                            .inline(i -> i
+                                .source("doc['likes'].contains(params.ip)")
+                                .params("ip", JsonData.of(clientIP))
+                            )
+                        )
+                    )
+                    .scriptFields("has_dislike", sf -> sf
+                        .script(sc -> sc
+                            .inline(i -> i
+                                .source("doc['dislikes'].contains(params.ip)")
+                                .params("ip", JsonData.of(clientIP))
+                            )
+                        )
+                    )
+                    .scriptFields("is_writer", sf -> sf
+                        .script(sc -> sc
+                            .inline(i -> i
+                                .source("doc['memberId'].value == params.ip")
+                                .params("ip", JsonData.of(clientIP))
+                            )
+                        )
+                    )
+                , Object.class
+            );
+
+            total = response.hits().total().value();
+            response.hits().hits().stream()
+                .forEach(hit -> {
+                    String id = hit.id();
+                    // Source 처리
+                    Map<?, ?> sourceMap = (Map<?, ?>) hit.source();
+//                    log.debug("sourceMap = " + sourceMap);
+//                    log.debug(sourceMap.getClass().toString());
+                    WordESSearchItem wordESSearchItem = null;
+                    if (sourceMap instanceof Map<?, ?>) {
+                        String name = (String) (sourceMap).get("name");
+//                        log.debug("name = " + name);
+                        String description = (String) (sourceMap).get("description");
+//                        log.debug("description = " + description);
+                        String example = (String) (sourceMap).get("example");
+//                        log.debug("example = " + example);
+                        String memberNickname = (String) (sourceMap).get(
+                            "memberNickname");
+//                        log.debug("memberNickname = " + memberNickname);
+                        String createDate = (String) (sourceMap).get("createDate");
+                        LocalDateTime localDateTime = LocalDateTime.parse(createDate);
+//                        log.debug("createDate = " + createDate);
+                        List<String> hashtags = (List<String>) (sourceMap).get(
+                            "hashtags");
+//                        log.debug("hashtags = " + hashtags);
+
+                        Map<?, ?> fieldMap = hit.fields();
+                        JsonElement likeElement = JsonParser.parseString(
+                            fieldMap.get("has_like").toString());
+                        JsonElement dislikeElement = JsonParser.parseString(
+                            fieldMap.get("has_dislike").toString());
+                        JsonElement isWriterElement = JsonParser.parseString(
+                            fieldMap.get("is_writer").toString());
+
+                        boolean hasLike = likeElement.getAsJsonArray().get(0).getAsBoolean();
+                        boolean hasDislike = dislikeElement.getAsJsonArray().get(0).getAsBoolean();
+                        boolean isWriter = isWriterElement.getAsJsonArray().get(0).getAsBoolean();
+
+                        wordESSearchItem = WordESSearchItem.builder()
+                            .id(id)
+                            .wordName(name)
+                            .wordDescription(description)
+                            .wordExample(example)
+                            .createDate(localDateTime)
+                            .memberNickname(memberNickname)
+                            .hashtagList(hashtags)
+                            .hasLike(hasLike)
+                            .hasDislike(hasDislike)
+                            .isWriter(isWriter)
+                            .build();
+                        words.add(wordESSearchItem);
+//                        log.debug(words.toString());
+                    }
+                });
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        WordESSearchResponse wordESSearchResponse = WordESSearchResponse.builder()
+            .words(words)
+            .total(total)
+            .build();
+        return wordESSearchResponse;
+    }
+
 
 }
