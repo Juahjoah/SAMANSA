@@ -123,4 +123,16 @@ public class WordESController {
         WordESAutoCompleteResponse response = wordESService.getAutoCompleteWords(word);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @GetMapping("/exact")
+    public ResponseEntity<?> searchExactWord(@RequestParam("word") String name,
+        @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
+        System.out.println("name = " + name);
+
+        String clientIP = headerUtils.getClientIP(httpServletRequest);
+
+        WordESSearchResponse words = wordESService.searchExactByName(name, pageable, clientIP);
+
+        return ResponseEntity.status(HttpStatus.OK).body(words);
+    }
 }
