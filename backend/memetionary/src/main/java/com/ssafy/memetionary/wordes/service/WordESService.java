@@ -107,29 +107,12 @@ public class WordESService {
     }
 
     //엘라스틱 서치 단어 검색 - 단어 1
-    public WordESSearchResponse searchByName(String name, Pageable pageable) {
-        List<WordES> wordESList = wordESRepository.findByName(name, pageable).getContent();
-        List<WordESSearchItem> wordESSearchItems = new ArrayList<>();
-        for (WordES wordES : wordESList) {
-            WordESSearchItem wordESSearchItem = WordESSearchItem.builder()
-                .id(wordES.getId())
-                .wordName(wordES.getName())
-                .wordDescription(wordES.getDescription())
-                .wordExample(wordES.getExample())
-                .hashtagList(wordES.getHashtags())
-                .memberNickname(wordES.getMemberNickname())
-                .createDate(wordES.getCreateDate())
-                .build();
-            wordESSearchItems.add(wordESSearchItem);
-        }
+    public WordESSearchResponse searchByName(String name, Pageable pageable,
+        String clientIP) {
+//        List<WordES> wordESList = wordESRepository.findByName(name, pageable);
+        WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(name, clientIP, pageable);
 
-        long total = wordESRepository.findByName(name, pageable).getTotalElements();
-        log.debug("total = " + total);
-
-        return WordESSearchResponse.builder()
-            .total(total)
-            .words(wordESSearchItems)
-            .build();
+        return wordESSearchResponse;
     }
 
     public WordESSearchResponse mainPage(Pageable pageable) {
