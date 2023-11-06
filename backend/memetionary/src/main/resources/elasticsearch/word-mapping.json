@@ -9,6 +9,14 @@
       "fields": {
         "keyword": {
           "type": "keyword"
+        },
+        "ngram": {
+          "type": "text",
+          "analyzer": "my_ngram_analyzer"
+        },
+        "jaso": {
+          "type": "text",
+          "analyzer": "suggest_index_analyzer"
         }
       }
     },

@@ -17,8 +17,9 @@ import java.util.List;
 @Getter
 //@Setting(settingPath = "elasticsearch/word-setting.json")
 @Mapping(mappingPath = "elasticsearch/word-mapping.json")
-@Document(indexName = "word")
+@Document(indexName = "#{@esConfig.getWordIndexName()}")
 public class WordES {
+
     @Id
     @Field(type = FieldType.Keyword)
     private String id;
