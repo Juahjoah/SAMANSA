@@ -1,20 +1,19 @@
 package com.ssafy.memetionary.wordes.repository;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
-import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.SourceConfig;
 import co.elastic.clients.json.JsonData;
-import com.nimbusds.jose.shaded.gson.JsonArray;
-import com.nimbusds.jose.shaded.gson.JsonElement;
-import com.nimbusds.jose.shaded.gson.JsonObject;
-import com.nimbusds.jose.shaded.gson.JsonParser;
+import com.ssafy.memetionary.common.CustomErrorType;
+import com.ssafy.memetionary.common.exception.WordAutoCompleteException;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.document.WordESRequestType;
+import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteItem;
+import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -55,8 +54,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
     }
 
     @Override
-    public List<String> getAutoCompleteWords(String word) {
-        List<String> words = null;
+    public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
         try {
             assert client != null;
 
@@ -65,13 +63,15 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .size(10)
                     .source(SourceConfig.of(sc -> sc
                         .filter(f -> f
-                            .includes(List.of("name", "description", "example"))
+                            .includes(List.of("name", "description"))
                         )
                     ))
                     .query(q -> q
-                        .match(m -> m
-                            .field("name")
+                        .multiMatch(mm -> mm
                             .query(word)
+                            .fields(List.of("name^10", "name.ngram^3", "name.jaso"))
+                            .operator(Operator.And)
+                            .prefixLength(3)
                         )
                     )
                 , Object.class
@@ -79,75 +79,32 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
 
             log.debug("response = " + response);
 
-            List<Object> tmp = response.hits().hits().stream().map(Hit::source)
-                .map(sourceMap -> {
-                    log.debug("sourceMap = " + sourceMap);
-                    log.debug(sourceMap.getClass().toString());
-                    if(sourceMap instanceof Map<?,?>){
-                        String name = (String)((Map<?, ?>) sourceMap).get("name");
-                        log.debug("name = " + name);
-                        String description = (String)((Map<?, ?>) sourceMap).get("description");
-                        log.debug("description = " + description);
+            double maxScore = response.hits().maxScore();
+            log.debug(maxScore + "");
 
-                        String example = (String)((Map<?, ?>) sourceMap).get("example");
-                        log.debug("example = " + example);
-                    }
-                    return sourceMap;
+            List<WordESAutoCompleteItem> wordESAutoCompleteItems = response.hits().hits().stream()
+                .filter(hit -> hit.score() >= maxScore / 5)
+                .map(hit -> {
+                    Map<String, String> result = (Map<String, String>) hit.source();
+                    log.debug(hit.source().getClass().toString());
+                    log.debug(result.get("name"));
+                    log.debug(result.get("description"));
+                    log.debug(hit.score() + "");
+                    return WordESAutoCompleteItem.builder()
+                        .name(result.get("name"))
+                        .description(result.get("description"))
+                        .build();
                 }).toList();
+            log.debug("wordESAutoCompleteItems = " + wordESAutoCompleteItems);
 
+            return WordESAutoCompleteResponse.builder()
+                .words(wordESAutoCompleteItems)
+                .build();
 
-            words = new ArrayList<>();
-            String clientResponse = client.search(s -> s
-                    .index(INDEX)
-                    .size(50)
-                    .query(q -> q
-                        .bool(b -> b
-                            .should(sh -> sh
-                                .prefix(p -> p
-                                    .field("name")
-                                    .value(word)
-                                    .boost(2.0f)
-                                )
-                            )
-                            .should(sh -> sh
-                                .match(m -> m
-                                    .field("name")
-                                    .query(word)
-                                )
-                            )
-                        )
-                    )
-                    .source(SourceConfig.of(sc -> sc
-                        .filter(f -> f
-                            .includes(List.of("name"))
-                        )
-                    ))
-                ,
-                Object.class
-            ).toString();
-
-            clientResponse = clientResponse.substring(16);
-            log.debug(clientResponse);
-
-            JsonElement jsonElement = JsonParser.parseString(clientResponse);
-            JsonArray hits = jsonElement.getAsJsonObject()
-                .getAsJsonObject("hits")
-                .getAsJsonArray("hits");
-            log.debug(hits.toString());
-
-            for (JsonElement hitElement : hits) {
-                JsonObject hitObject = hitElement.getAsJsonObject();
-                String sourceStr = hitObject.getAsJsonPrimitive("_source").getAsString();
-                int startIndex = sourceStr.indexOf("=") + 1;
-                int endIndex = sourceStr.indexOf("}");
-                String name = sourceStr.substring(startIndex, endIndex);
-                log.debug(name);
-                words.add(name);
-            }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new WordAutoCompleteException(CustomErrorType.WORD_AUTO_COMPLETE_FAIL.getMessage());
         }
-        return words;
     }
 
 }

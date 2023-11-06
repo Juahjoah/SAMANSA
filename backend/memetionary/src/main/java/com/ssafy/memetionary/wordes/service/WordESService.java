@@ -160,18 +160,6 @@ public class WordESService {
     }
 
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
-        List<String> words = wordESRepository.getAutoCompleteWords(word);
-        List<String> response = new ArrayList<>();
-        Set<String> duplicateWords = new HashSet<>();
-        for (String w : words) {
-            if (!duplicateWords.contains(w)) {
-                duplicateWords.add(w);
-                response.add(w);
-            }
-            if (response.size() >= 10)
-                break;
-        }
-
-        return WordESAutoCompleteResponse.builder().words(response).build();
+        return wordESRepository.getAutoCompleteWords(word);
     }
 }
