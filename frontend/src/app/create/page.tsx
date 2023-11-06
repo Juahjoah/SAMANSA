@@ -2,7 +2,7 @@
 import CreateButton from '@/components/Button/CreateButton/index';
 import ValueInput from '@/components/Input/ValueInput/index';
 import Textarea from '@/components/Textarea/index';
-import styles from './page.module.css';
+import styles from './CreatePage.module.css';
 import { useState } from 'react';
 
 // type ImageLoaderParams = {
