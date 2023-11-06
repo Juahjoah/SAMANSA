@@ -45,7 +45,7 @@ export default function CreateButton({
   const replacDescription = meaning.replace(/^\s+|\s+$/gm, '');
   const replacExample = example.replace(/^\s+|\s+$/gm, '');
 
-  const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}/`;
+  const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}`;
 
   // 단어 등록 요청
   const CreateWord = async () => {
