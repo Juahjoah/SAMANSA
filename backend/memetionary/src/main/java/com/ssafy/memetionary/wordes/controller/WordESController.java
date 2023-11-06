@@ -85,7 +85,7 @@ public class WordESController {
     //엘라스틱 서치 단어 좋아요/싫어요 - 단어 5
     @PutMapping("/like")
     public ResponseEntity<?> likeWord(@RequestBody WordESLikeRequest wordESLikeRequest,
-                                      HttpServletRequest httpServletRequest) {
+        HttpServletRequest httpServletRequest) {
         String clientIP = headerUtils.getClientIP(httpServletRequest);
         log.debug("clientIP = " + clientIP);
         String wordId = wordESLikeRequest.getWordId();
@@ -98,11 +98,14 @@ public class WordESController {
     //엘라스틱 서치 단어 검색 - 단어 1
     @GetMapping("/search")
     public ResponseEntity<?> searchWord(@RequestParam("word") String name,
-                                        @PageableDefault(size = 10) Pageable pageable) {
-        log.debug("name = " + name);
-        WordESSearchResponse response = wordESService.searchByName(name, pageable);
+        @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
+        System.out.println("name = " + name);
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        String clientIP = headerUtils.getClientIP(httpServletRequest);
+
+        WordESSearchResponse words = wordESService.searchByName(name, pageable, clientIP);
+
+        return ResponseEntity.status(HttpStatus.OK).body(words);
     }
 
     //최신 단어 리스트 조회 - 단어 2
@@ -114,9 +117,23 @@ public class WordESController {
 
     //엘라스틱 서치 자동 완성 - 단어 8
     @GetMapping("/auto-complete")
-    public ResponseEntity<WordESAutoCompleteResponse> getAutoCompleteWords(@RequestParam String word) {
+    public ResponseEntity<WordESAutoCompleteResponse> getAutoCompleteWords(
+        @RequestParam String word) {
         log.debug("찾을 단어: " + word);
         WordESAutoCompleteResponse response = wordESService.getAutoCompleteWords(word);
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    //엘라스틱 서치 단어 와전 일치 조회 - 단어 9
+    @GetMapping("/exact")
+    public ResponseEntity<?> searchExactWord(@RequestParam("word") String name,
+        @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
+        System.out.println("name = " + name);
+
+        String clientIP = headerUtils.getClientIP(httpServletRequest);
+
+        WordESSearchResponse words = wordESService.searchExactByName(name, pageable, clientIP);
+
+        return ResponseEntity.status(HttpStatus.OK).body(words);
     }
 }

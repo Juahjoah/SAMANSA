@@ -17,4 +17,7 @@ public class WordESSearchItem {
     private List<String> hashtagList;
     private String memberNickname;
     private LocalDateTime createDate;
+    private boolean hasLike;
+    private boolean hasDislike;
+    private boolean isWriter;
 }

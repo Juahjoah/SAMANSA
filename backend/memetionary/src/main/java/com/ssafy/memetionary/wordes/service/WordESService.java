@@ -33,7 +33,8 @@ public class WordESService {
 
     private final WordESRepository wordESRepository;
 
-    public void registerWordES(WordESRegisterRequest request, String memberId, String memberNickname) {
+    public void registerWordES(WordESRegisterRequest request, String memberId,
+        String memberNickname) {
         log.debug("request = " + request);
         WordES wordES = WordES.builder()
             .memberId(memberId)
@@ -77,7 +78,7 @@ public class WordESService {
     }
 
     private void likeProcess(boolean isLike, boolean isDislike, boolean wordLike, WordES wordES,
-                             String clientIP) {
+        String clientIP) {
         //좋아요, 싫어요 한적 없는 경우
         if (!isLike && !isDislike) {
             if (wordLike) {
@@ -107,34 +108,27 @@ public class WordESService {
     }
 
     //엘라스틱 서치 단어 검색 - 단어 1
-    public WordESSearchResponse searchByName(String name, Pageable pageable) {
-        List<WordES> wordESList = wordESRepository.findByName(name, pageable).getContent();
-        List<WordESSearchItem> wordESSearchItems = new ArrayList<>();
-        for (WordES wordES : wordESList) {
-            WordESSearchItem wordESSearchItem = WordESSearchItem.builder()
-                .id(wordES.getId())
-                .wordName(wordES.getName())
-                .wordDescription(wordES.getDescription())
-                .wordExample(wordES.getExample())
-                .hashtagList(wordES.getHashtags())
-                .memberNickname(wordES.getMemberNickname())
-                .createDate(wordES.getCreateDate())
-                .build();
-            wordESSearchItems.add(wordESSearchItem);
-        }
+    public WordESSearchResponse searchByName(String name, Pageable pageable,
+        String clientIP) {
+//        List<WordES> wordESList = wordESRepository.findByName(name, pageable);
+        WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(name, clientIP,
+            pageable);
 
-        long total = wordESRepository.findByName(name, pageable).getTotalElements();
-        log.debug("total = " + total);
+        return wordESSearchResponse;
+    }
 
-        return WordESSearchResponse.builder()
-            .total(total)
-            .words(wordESSearchItems)
-            .build();
+    public WordESSearchResponse searchExactByName(String name, Pageable pageable,
+        String clientIP) {
+        WordESSearchResponse wordESSearchResponse = wordESRepository.searchExactWords(name,
+            clientIP, pageable);
+
+        return wordESSearchResponse;
     }
 
     public WordESSearchResponse mainPage(Pageable pageable) {
         Sort sort = Sort.by(Direction.DESC, "createDate");
-        Pageable newpageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        Pageable newpageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+            sort);
         List<WordES> wordESList = wordESRepository.findAll(newpageable).getContent();
         List<WordESSearchItem> wordESSearchItems = new ArrayList<>();
         for (WordES wordES : wordESList) {
@@ -160,6 +154,6 @@ public class WordESService {
     }
 
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
-        return wordESRepository.getAutoCompleteWords(word);
+        return wordESRepository.getAutoCompleteWords(word);        
     }
 }
