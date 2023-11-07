@@ -3,9 +3,11 @@
 import styles from './NaverLoginButton.module.css';
 
 import NaverLogin from '@/public/assets/login/NaverLogin.svg';
+import NaverLoginM from '@/public/assets/login/NaverLogin_s.svg';
 import Image from 'next/image';
 // svgr loader install???????
 import { useRouter } from 'next/navigation';
+import { useMediaQuery } from 'react-responsive';
 
 export default function NaverLoginButton() {
   const router = useRouter();
@@ -13,6 +15,8 @@ export default function NaverLoginButton() {
   const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
   const NAVER_URL = `${APP_URL}/oauth2/authorization/naver?redirect_uri=${REDIRECT_URI}/auth/redirect`;
+
+  const isMobile = useMediaQuery({ maxWidth: 992 });
 
   const handleNaverLogin = () => {
     router.push(NAVER_URL);
@@ -28,7 +32,7 @@ export default function NaverLoginButton() {
         onClick={() => {
           handleNaverLogin();
         }}
-        src={NaverLogin}
+        src={isMobile ? NaverLoginM : NaverLogin}
         alt="naver"
       />
     </div>
