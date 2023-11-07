@@ -24,7 +24,7 @@ export default function LoginPage() {
             sizes="100vw"
             style={{ width: '80%', height: 'auto' }}
           />
-          <h2 className={styles.loginTitle}>사만사에 오신 것을 환영합니다. </h2>
+          <p className={styles.loginTitle}>사만사에 오신 것을 환영합니다. </p>
           <p className={styles.loginMsg}> 간편하게 로그인 해보세요!</p>
           <div className={styles.loginBtnArea}>
             <KakaoLoginButton />
