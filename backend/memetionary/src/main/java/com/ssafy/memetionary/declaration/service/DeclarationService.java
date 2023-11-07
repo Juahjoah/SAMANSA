@@ -6,6 +6,7 @@ import com.ssafy.memetionary.declaration.entity.Declaration;
 import com.ssafy.memetionary.declaration.entity.DeclarationLog;
 import com.ssafy.memetionary.declaration.repository.DeclarationLogRepository;
 import com.ssafy.memetionary.declaration.repository.DeclarationRepository;
+import com.ssafy.memetionary.wordes.service.WordESService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,9 @@ public class DeclarationService {
 
     private final DeclarationRepository declarationRepository;
     private final DeclarationLogRepository declarationLogRepository;
+    private final WordESService wordESService;
+
+    private final int MAX_DECLARATION = 5;
 
     //단어 신고 - 신고 1
     @Transactional
@@ -42,5 +46,9 @@ public class DeclarationService {
             .build();
         declaration.setCount(declaration.getCount() + 1);
         declarationLogRepository.save(declarationLog);
+
+        if(declaration.getCount() >= MAX_DECLARATION){
+            wordESService.delete(wordId);
+        }
     }
 }
