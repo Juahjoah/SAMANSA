@@ -16,7 +16,7 @@ export default function KakaoLoginButton() {
 
   const KAKAO_URL = `${APP_URL}/oauth2/authorization/kakao?redirect_uri=${REDIRECT_URI}/auth/redirect`;
 
-  const isMobile = useMediaQuery({ maxWidth: 992 });
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   const handleKakaoLogin = () => {
     router.push(KAKAO_URL);
