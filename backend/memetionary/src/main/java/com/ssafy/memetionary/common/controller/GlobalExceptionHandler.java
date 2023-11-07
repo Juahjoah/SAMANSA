@@ -1,6 +1,7 @@
 package com.ssafy.memetionary.common.controller;
 
 import com.ssafy.memetionary.common.dto.MessageResponse;
+import com.ssafy.memetionary.common.exception.AlreadyReportException;
 import com.ssafy.memetionary.common.exception.MemberNotFoundException;
 import com.ssafy.memetionary.common.exception.NicknameEmptyException;
 import com.ssafy.memetionary.common.exception.WordNotFoundException;
@@ -15,7 +16,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
         MemberNotFoundException.class,
         WordNotFoundException.class,
-        NicknameEmptyException.class
+        NicknameEmptyException.class,
+        AlreadyReportException.class
     })
     public ResponseEntity<MessageResponse> customBadRequestException(Exception e) {
         return ResponseEntity
