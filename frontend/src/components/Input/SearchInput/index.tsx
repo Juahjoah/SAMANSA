@@ -16,14 +16,19 @@ type AutocompleteProps = {
   setValue: (e: any) => void;
   setAutocomplete: (e: any) => void;
   selected?: boolean;
-  text?: string;
+  word: Word;
+};
+
+type Word = {
+  name: string;
+  description: string;
 };
 
 export function Autocomplete({
   setValue,
   setAutocomplete,
   selected = false,
-  text = '',
+  word = { name: '', description: '' },
 }: AutocompleteProps) {
   let variantClass;
   if (selected) {
@@ -34,21 +39,22 @@ export function Autocomplete({
 
   function clicked() {
     const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-      text == '' ? '' : `?word=${text}`
+      word.name == '' ? '' : `?word=${word.name}`
     }`;
     window.location.href = url;
 
-    setValue(text);
+    setValue(word.name);
     setAutocomplete(false);
   }
   return (
     <div className={styles.wrapper}>
-      <input
+      <div
         className={`${styles.base} ${styles.autocomplete} ${variantClass}`}
         onClick={clicked}
-        value={text}
-        readOnly
-      />
+      >
+        {word.name}
+        <span className={`${styles.description}`}>{word.description}</span>
+      </div>
     </div>
   );
 }
@@ -73,7 +79,7 @@ export default function SearchInput({
   //useState
   const [index, setIndex] = useState(0); //0:value 1~length:data
   const [autocomplete, setAutocomplete] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([{ name: '', description: '' }]);
   const [value, setValue] = useState(ValueProps);
 
   const [InputValue, setInputValue] = useState(ValueProps);
@@ -108,25 +114,20 @@ export default function SearchInput({
     //원래 InputValue == value 인 경우
     else if (index == 0) {
       if (d == 1) {
-        setInputValue(data[0]);
         setIndex(1);
       } else if (d == -1) {
-        setInputValue(data[data.length - 1]);
         setIndex(data.length);
       }
-      setInputValue(data[index - 1]);
       return;
     }
     //결과로 value
     else if (d + index > data.length || d + index < 1) {
-      setInputValue(value);
       setIndex(0);
       return;
     }
     //결과로 autoComplete list 중
     else {
       setIndex(index + d);
-      setInputValue(data[index - 1]);
     }
   }
 
@@ -156,7 +157,6 @@ export default function SearchInput({
         break;
       case 'Enter':
         // "enter" 또는 "return" 키가 눌렸을 때의 동작
-        // setValue(index == 0 ? value : InputValue);
         const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
           value == '' ? '' : `?word=${index == 0 ? value : InputValue}`
         }`;
@@ -175,7 +175,7 @@ export default function SearchInput({
     if (index == 0) {
       setInputValue(value);
     } else {
-      setInputValue(data[index - 1]);
+      setInputValue(data[index - 1].name);
     }
   }, [index]);
 
@@ -190,8 +190,6 @@ export default function SearchInput({
       )
         .then((response) => response.json())
         .then((data) => {
-          // console.log('사용자 정보 요청 성공:', userData);
-          // console.log(data.words);
           setData(data.words);
         })
         .catch(() => {
@@ -216,12 +214,12 @@ export default function SearchInput({
 
       {autocomplete && (
         <div>
-          {data.map((text, i) => (
+          {data.map((word, i) => (
             <Autocomplete
               setValue={setValue}
               setAutocomplete={setAutocomplete}
               selected={index == i + 1}
-              text={text}
+              word={word}
               key={i}
             />
           ))}{' '}
