@@ -127,13 +127,16 @@ public class WordESController {
     //엘라스틱 서치 단어 완전 일치 조회 - 단어 9
     @GetMapping("/exact")
     public ResponseEntity<?> searchExactWord(@RequestParam("word") String name,
+        @RequestParam("memberNickname") String nickname,
         @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
         System.out.println("name = " + name);
 
         String clientIP = headerUtils.getClientIP(httpServletRequest);
 
-        WordESSearchResponse words = wordESService.searchExactByName(name, pageable, clientIP);
+        WordESSearchResponse words = wordESService.searchExact(name, nickname, pageable, clientIP);
 
         return ResponseEntity.status(HttpStatus.OK).body(words);
     }
+
+
 }

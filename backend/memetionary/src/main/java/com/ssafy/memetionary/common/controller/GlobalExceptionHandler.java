@@ -4,6 +4,7 @@ import com.ssafy.memetionary.common.dto.MessageResponse;
 import com.ssafy.memetionary.common.exception.AlreadyReportException;
 import com.ssafy.memetionary.common.exception.MemberNotFoundException;
 import com.ssafy.memetionary.common.exception.NicknameEmptyException;
+import com.ssafy.memetionary.common.exception.QueryNotFoundException;
 import com.ssafy.memetionary.common.exception.WordNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class GlobalExceptionHandler {
         MemberNotFoundException.class,
         WordNotFoundException.class,
         NicknameEmptyException.class,
+        QueryNotFoundException.class,
         AlreadyReportException.class
     })
     public ResponseEntity<MessageResponse> customBadRequestException(Exception e) {
