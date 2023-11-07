@@ -35,6 +35,10 @@ export default function KakaoLoginButton() {
         }}
         src={isMobile ? KakaoLoginM : KakaoLogin}
         alt="kakao"
+        width={0}
+        height={0}
+        sizes="100vw"
+        style={{ width: '100%', height: 'auto' }}
       />
     </div>
   );
