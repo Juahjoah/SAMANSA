@@ -2,13 +2,17 @@ package com.ssafy.memetionary.wordes.repository;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.SourceConfig;
 import co.elastic.clients.json.JsonData;
 import com.nimbusds.jose.shaded.gson.JsonElement;
 import com.nimbusds.jose.shaded.gson.JsonParser;
 import com.ssafy.memetionary.common.CustomErrorType;
+import com.ssafy.memetionary.common.exception.QueryNotFoundException;
 import com.ssafy.memetionary.common.exception.WordAutoCompleteException;
+import com.ssafy.memetionary.common.exception.WordNotFoundException;
+import com.ssafy.memetionary.wordes.document.SearchFieldType;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.document.WordESRequestType;
 import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteItem;
@@ -111,15 +115,17 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new WordAutoCompleteException(CustomErrorType.WORD_AUTO_COMPLETE_FAIL.getMessage());
+            throw new WordAutoCompleteException(
+                CustomErrorType.WORD_AUTO_COMPLETE_FAIL.getMessage());
         }
     }
 
     @Override
-    public WordESSearchResponse searchWords(String word, String clientIP, Pageable pageable) {
+    public WordESSearchResponse searchWords(String queryType, SearchFieldType fieldType,
+        String word,
+        String clientIP, Pageable pageable) {
         List<WordESSearchItem> words = new ArrayList<>();
         long total;
-
         try {
             assert client != null;
 
@@ -133,11 +139,8 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                                 "createDate", "hashtags"))
                         )
                     ))
-                    .query(q -> q
-                        .match(m -> m
-                            .field("name")
-                            .query(word)
-                        )
+                    .query(
+                        makeQuery(queryType, fieldType, word)
                     )
                     .scriptFields("has_like", sf -> sf
                         .script(sc -> sc
@@ -231,121 +234,29 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         return wordESSearchResponse;
     }
 
-    @Override
-    public WordESSearchResponse searchExactWords(String word, String clientIP, Pageable pageable) {
-        List<WordESSearchItem> words = new ArrayList<>();
-        long total;
-
-        try {
-            assert client != null;
-
-            SearchResponse<Object> response = client.search(s -> s
-                    .index("word")
-                    .from(pageable.getPageNumber())
-                    .size(10)
-                    .source(SourceConfig.of(sc -> sc
-                        .filter(f -> f
-                            .includes(List.of("name", "description", "example", "memberNickname",
-                                "createDate", "hashtags"))
-                        )
-                    ))
-                    .query(q -> q
-                        .term(t -> t
-                            .field("name.keyword")
-                            .value(word)
-                        )
-                    )
-                    .scriptFields("has_like", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['likes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
-                    )
-                    .scriptFields("has_dislike", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['dislikes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
-                    )
-                    .scriptFields("is_writer", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['memberId'].value == params.ip")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
-                    )
-                , Object.class
-            );
-
-            total = response.hits().total().value();
-            response.hits().hits().stream()
-                .forEach(hit -> {
-                    String id = hit.id();
-                    // Source 처리
-                    Map<?, ?> sourceMap = (Map<?, ?>) hit.source();
-//                    log.debug("sourceMap = " + sourceMap);
-//                    log.debug(sourceMap.getClass().toString());
-                    WordESSearchItem wordESSearchItem = null;
-                    if (sourceMap instanceof Map<?, ?>) {
-                        String name = (String) (sourceMap).get("name");
-//                        log.debug("name = " + name);
-                        String description = (String) (sourceMap).get("description");
-//                        log.debug("description = " + description);
-                        String example = (String) (sourceMap).get("example");
-//                        log.debug("example = " + example);
-                        String memberNickname = (String) (sourceMap).get(
-                            "memberNickname");
-//                        log.debug("memberNickname = " + memberNickname);
-                        String createDate = (String) (sourceMap).get("createDate");
-                        LocalDateTime localDateTime = LocalDateTime.parse(createDate);
-//                        log.debug("createDate = " + createDate);
-                        List<String> hashtags = (List<String>) (sourceMap).get(
-                            "hashtags");
-//                        log.debug("hashtags = " + hashtags);
-
-                        Map<?, ?> fieldMap = hit.fields();
-                        JsonElement likeElement = JsonParser.parseString(
-                            fieldMap.get("has_like").toString());
-                        JsonElement dislikeElement = JsonParser.parseString(
-                            fieldMap.get("has_dislike").toString());
-                        JsonElement isWriterElement = JsonParser.parseString(
-                            fieldMap.get("is_writer").toString());
-
-                        boolean hasLike = likeElement.getAsJsonArray().get(0).getAsBoolean();
-                        boolean hasDislike = dislikeElement.getAsJsonArray().get(0).getAsBoolean();
-                        boolean isWriter = isWriterElement.getAsJsonArray().get(0).getAsBoolean();
-
-                        wordESSearchItem = WordESSearchItem.builder()
-                            .id(id)
-                            .wordName(name)
-                            .wordDescription(description)
-                            .wordExample(example)
-                            .createDate(localDateTime)
-                            .memberNickname(memberNickname)
-                            .hashtagList(hashtags)
-                            .hasLike(hasLike)
-                            .hasDislike(hasDislike)
-                            .isWriter(isWriter)
-                            .build();
-                        words.add(wordESSearchItem);
-//                        log.debug(words.toString());
-                    }
-                });
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    private final Query makeQuery(String queryType, SearchFieldType fieldType, String name) {
+        if (queryType.equals("match")) {
+            return matchQuery(fieldType, name);
         }
-        WordESSearchResponse wordESSearchResponse = WordESSearchResponse.builder()
-            .words(words)
-            .total(total)
-            .build();
-        return wordESSearchResponse;
+        if (queryType.equals("term")) {
+            return termQuery(fieldType, name);
+        }
+        throw new QueryNotFoundException(queryType + "인 쿼리가 없습니다.");
     }
 
+    private final Query matchQuery(SearchFieldType fieldType, String name) {
+        return Query.of(q -> q
+            .match(m -> m
+                .field(fieldType.getFieldName())
+                .query(name)
+            ));
+    }
 
+    private final Query termQuery(SearchFieldType fieldType, String name) {
+        return Query.of(q -> q
+            .term(t -> t
+                .field(fieldType.getFieldName())
+                .value(name)
+            ));
+    }
 }
