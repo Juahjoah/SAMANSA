@@ -125,7 +125,7 @@ public class WordESService {
         return wordESSearchResponse;
     }
 
-    public WordESSearchResponse searchExact(String name, String nickName, Pageable pageable,
+    public WordESSearchResponse searchExact(String name, String nickName, String hashtag, Pageable pageable,
         String clientIP) {
         String queryType = "term";
         if (!name.equals("")) {
@@ -136,6 +136,11 @@ public class WordESService {
         if (!nickName.equals("")) {
             SearchFieldType fieldType = SearchFieldType.MEMBER_NICKNAME;
             return wordESRepository.searchWords(queryType, fieldType, nickName,
+                clientIP, pageable);
+        }
+        if (!hashtag.equals("")) {
+            SearchFieldType fieldType = SearchFieldType.HASHTAG;
+            return wordESRepository.searchWords(queryType, fieldType, hashtag,
                 clientIP, pageable);
         }
         throw new WordNotFoundException("찾는 단어 또는 사람이 없습니다.");
