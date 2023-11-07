@@ -2,6 +2,7 @@ package com.ssafy.memetionary.wordes.service;
 
 import com.ssafy.memetionary.common.CustomErrorType;
 import com.ssafy.memetionary.common.exception.WordNotFoundException;
+import com.ssafy.memetionary.wordes.document.SearchFieldType;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.document.WordESRequestType;
 import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteResponse;
@@ -110,19 +111,28 @@ public class WordESService {
     //엘라스틱 서치 단어 검색 - 단어 1
     public WordESSearchResponse searchByName(String name, Pageable pageable,
         String clientIP) {
-//        List<WordES> wordESList = wordESRepository.findByName(name, pageable);
-        WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(name, clientIP,
-            pageable);
+        String queryType = "match";
+        SearchFieldType fieldType = SearchFieldType.NAME;
+        WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(queryType,
+            fieldType, name, clientIP, pageable);
 
         return wordESSearchResponse;
     }
 
-    public WordESSearchResponse searchExactByName(String name, Pageable pageable,
+    public WordESSearchResponse searchExact(String name, String nickName, Pageable pageable,
         String clientIP) {
-        WordESSearchResponse wordESSearchResponse = wordESRepository.searchExactWords(name,
-            clientIP, pageable);
-
-        return wordESSearchResponse;
+        String queryType = "term";
+        if (!name.equals("")) {
+            SearchFieldType fieldType = SearchFieldType.NAME_KEYWORD;
+            return wordESRepository.searchWords(queryType, fieldType, name,
+                clientIP, pageable);
+        }
+        if (!nickName.equals("")) {
+            SearchFieldType fieldType = SearchFieldType.MEMBER_NICKNAME;
+            return wordESRepository.searchWords(queryType, fieldType, nickName,
+                clientIP, pageable);
+        }
+        throw new WordNotFoundException("찾는 단어 또는 사람이 없습니다.");
     }
 
     public WordESSearchResponse mainPage(Pageable pageable) {
@@ -154,6 +164,6 @@ public class WordESService {
     }
 
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
-        return wordESRepository.getAutoCompleteWords(word);        
+        return wordESRepository.getAutoCompleteWords(word);
     }
 }
