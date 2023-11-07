@@ -20,12 +20,7 @@ export default function IndexButton() {
     'ㅌ',
     'ㅍ',
     'ㅎ',
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
+    'new',
   ];
   // const router = useRouter()
 
@@ -39,13 +34,16 @@ export default function IndexButton() {
   return (
     <div className={styles.container}>
       <div className={styles.browseButton} onClick={CheckingModal}>
-        Browse
+        <p>A-Z</p>
+        <div className={styles.arrow}>▼</div>
       </div>
       {modalCheck ? (
         <div className={styles.modal}>
           {IndexList.map((item, index) => (
             <div
-              className={styles.button}
+              className={`${styles.button} ${
+                item === 'new' ? styles.newButton : ''
+              }`}
               key={index}
               onClick={() => checkButton(index)}
             >
