@@ -8,15 +8,16 @@
 
 .nickname {
   background-color: #d7d7d9;
-  max-width: calc(100% - 30rem);
+  max-width: calc(100% - 25rem);
   height: auto;
-  max-height: calc(100% - 23rem);
   padding: 3rem;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  word-break: keep-all;
+  overflow: hidden;
 }
 .inputcomponent {
   max-width: 100%;
@@ -28,6 +29,14 @@
   max-width: 100%;
   margin-top: 2rem;
   padding: 0.5rem;
+}
+
+.nicknameTitle {
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 0.5rem 0;
+  margin: 0.5rem 0;
+  word-break: keep-all;
 }
 
 .nicknamemsg {
@@ -45,4 +54,10 @@
 
 .nicknamebtn {
   padding: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .nickname {
+    max-width: calc(100% - 5rem);
+  }
 }

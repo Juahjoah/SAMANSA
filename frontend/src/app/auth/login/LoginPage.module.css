@@ -8,7 +8,7 @@
 
 .login {
   background-color: #d7d7d9;
-  max-width: calc(100% - 30rem);
+  max-width: calc(100% - 20rem);
   height: auto;
   max-height: max-content;
   padding: 1rem;
@@ -19,28 +19,48 @@
   /* justify-content: center; */
   /* align-content: center; */
 }
-
 .loginContent {
   padding: 2rem;
   text-align: center;
-}
-
-.loginLogo {
-  width: 80%;
-  height: auto;
 }
 
 .loginMsg {
   color: #363636;
   margin: 0.5rem;
   padding: 0.5rem;
+  word-break: keep-all;
 }
 
 .loginTitle {
+  font-size: 1.5em;
+  font-weight: bold;
   padding: 0.5rem;
   margin: 0.5rem;
+  word-break: keep-all;
 }
 
 .backBtn {
   margin-left: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .login {
+    max-width: calc(100% - 10rem);
+  }
+  .loginBtnArea {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .login {
+    max-width: calc(100% - 3rem);
+  }
+  .loginBtnArea {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
 }
