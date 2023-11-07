@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum SearchFieldType {
     NAME("name"),
     NAME_KEYWORD("name.keyword"),
-    MEMBER_NICKNAME("memberNickname");
+    MEMBER_NICKNAME("memberNickname"),
+    HASHTAG("hashtags");
     private final String fieldName;
 }
