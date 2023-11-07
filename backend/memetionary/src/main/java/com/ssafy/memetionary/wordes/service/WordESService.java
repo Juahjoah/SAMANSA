@@ -59,6 +59,12 @@ public class WordESService {
         wordESRepository.delete(wordES);
     }
 
+    public void delete(String wordId) {
+        WordES wordES = wordESRepository.findById(wordId)
+            .orElseThrow(() -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
+        delete(wordES);
+    }
+
     //엘라스틱 서치 단어 좋아요/싫어요 - 단어 5
     public void likeWord(String clientIP, String wordId, boolean wordLike) {
         WordES wordES = wordESRepository.findById(wordId)
