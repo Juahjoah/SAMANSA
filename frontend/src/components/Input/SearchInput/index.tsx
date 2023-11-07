@@ -13,7 +13,6 @@ type InputProps = {
 };
 
 type AutocompleteProps = {
-  setValue: (e: any) => void;
   setAutocomplete: (e: any) => void;
   selected?: boolean;
   word: Word;
@@ -25,7 +24,6 @@ type Word = {
 };
 
 export function Autocomplete({
-  setValue,
   setAutocomplete,
   selected = false,
   word = { name: '', description: '' },
@@ -38,13 +36,13 @@ export function Autocomplete({
   }
 
   function clicked() {
-    const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-      word.name == '' ? '' : `?word=${word.name}`
-    }`;
-    window.location.href = url;
-
-    setValue(word.name);
     setAutocomplete(false);
+
+    const url = `${
+      process.env.NEXT_PUBLIC_REDIRECT_URI
+    }${`?type=search&value=${word.name}`}`;
+
+    window.location.href = url;
   }
   return (
     <div className={styles.wrapper}>
@@ -157,8 +155,12 @@ export default function SearchInput({
         break;
       case 'Enter':
         // "enter" 또는 "return" 키가 눌렸을 때의 동작
+
+        //지금 input 창의 값 가져옴
+        const search = index == 0 ? value : InputValue;
+
         const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-          value == '' ? '' : `?word=${index == 0 ? value : InputValue}`
+          search == '' ? `` : `?type=search&value=${search}`
         }`;
 
         setIndex(0);
@@ -190,10 +192,14 @@ export default function SearchInput({
       )
         .then((response) => response.json())
         .then((data) => {
-          setData(data.words);
+          if (data.words.legth == 0) {
+            setData([{ name: '', description: '' }]);
+          } else {
+            setData(data.words);
+          }
         })
         .catch(() => {
-          setData([]);
+          setData([{ name: '', description: '' }]);
           // console.error('사용자 정보 요청 실패:', error);
         });
     }
@@ -210,13 +216,14 @@ export default function SearchInput({
         onKeyDown={(e) => activeEnter(e)}
         name={name}
         value={index == 0 ? value : InputValue}
+        autoFocus
       />
 
       {autocomplete && (
         <div>
           {data.map((word, i) => (
             <Autocomplete
-              setValue={setValue}
+              // setValue={setValue}
               setAutocomplete={setAutocomplete}
               selected={index == i + 1}
               word={word}

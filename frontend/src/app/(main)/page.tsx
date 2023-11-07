@@ -13,8 +13,9 @@ import { EnterCreate } from '@/components/Button/RouteButton';
 import Pagination from '@/components/Button/PaginationButton';
 
 type Params = {
-  word: string;
-  page: string;
+  type: string;
+  value: string;
+  page: number;
 };
 
 type getParams = {
@@ -37,31 +38,47 @@ type resultData = {
 };
 
 type fetchDataInput = {
+  type: string;
   value: string;
   page: number;
 };
 
-async function fetchData({ value, page }: fetchDataInput) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/word/${
-      value == '' ? `main?` : `search?word=${value}&`
-    }page=${page - 1}`,
-    {
-      cache: 'no-store',
-    },
-  );
+async function fetchData({ type, value, page }: fetchDataInput) {
+  let url = `${process.env.NEXT_PUBLIC_API_URL}/word/`;
+
+  switch (type) {
+    case 'main':
+    case 'search':
+      url = `${url}${type}?word=${value}&page=${page - 1}`;
+      break;
+    case 'test':
+      //test
+      break;
+
+    default:
+      break;
+  }
+
+  const res = await fetch(url, {
+    cache: 'no-store',
+  });
   const data: resultData = await res.json();
   return data;
 }
 
 export default async function Home({ searchParams }: getParams) {
-  const search = searchParams.word;
+  const typeParam = searchParams.type;
+  const valueParam = searchParams.value;
   const pageParam = searchParams.page;
+  const type = typeParam == null ? 'main' : typeParam;
+  const value = valueParam == null ? '' : valueParam;
+  const page = pageParam == null ? 1 : pageParam;
 
-  const page = pageParam == null ? 1 : parseInt(pageParam);
-  const value = search == null ? '' : search;
-
-  const resultData: resultData = await fetchData({ value, page });
+  const resultData: resultData = await fetchData({
+    type,
+    value,
+    page,
+  });
 
   return (
     <>
@@ -90,7 +107,11 @@ export default async function Home({ searchParams }: getParams) {
           </div>
         </div>
         <div className={styles.bottom}>
-          <Pagination word={value} total={resultData.total} page={page - 1} />
+          <Pagination
+            type={type}
+            value={value}
+            pagination={{ total: resultData.total, page: page }}
+          />
         </div>
       </main>
     </>
