@@ -48,12 +48,12 @@ export default function DeleteButton({
 
   return (
     <div className={styles.base}>
-      {/* {nickname === memberNickname ? (
+      {nickname === memberNickname ? (
         <div onClick={DeleteWord}>삭제</div>
       ) : (
         <div />
-      )} */}
-      {nickname === memberNickname && <div onClick={DeleteWord}>삭제</div>}
+      )}
+      {/* {nickname === memberNickname && <div onClick={DeleteWord}>삭제</div>} */}
     </div>
   );
 }
