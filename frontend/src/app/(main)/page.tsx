@@ -11,6 +11,7 @@ import Card from '@/components/Card';
 import Form from '@/components/Form';
 import { EnterCreate } from '@/components/Button/RouteButton';
 import Pagination from '@/components/Button/PaginationButton';
+import IndexButton from '@/components/Button/IndexButton';
 
 type Params = {
   type: string;
@@ -88,6 +89,7 @@ export default async function Home({ searchParams }: getParams) {
           <div className={styles.searchInput}>
             <SearchInput value={value} />
           </div>
+          <IndexButton></IndexButton>
           <div className={styles.create}>
             <EnterCreate />
           </div>

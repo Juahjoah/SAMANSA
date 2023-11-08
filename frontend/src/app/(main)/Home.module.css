@@ -5,13 +5,14 @@
   align-items: center;
   padding: 1rem 6rem 6rem 6rem;
   min-height: 100vh;
+  margin: 0 auto;
   width: 96rem;
 }
 
 .top {
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 81%;
   margin: 2rem 0 4rem 0;
 }
 
@@ -35,8 +36,7 @@
 .content {
   display: flex;
   justify-content: space-between;
-  width: 80%;
-  padding: 1rem;
+  width: 81%;
   margin-top: 1rem;
 }
 
