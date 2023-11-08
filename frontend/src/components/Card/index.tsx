@@ -1,6 +1,6 @@
 import styles from './Card.module.css';
 import DeleteButton from '@/components/Button/DeleteButton';
-import ReportButton from '@/components/Button/ReportButton';
+
 export default function Card({ variant = 'large', item }: CardProps) {
   const {
     id,
@@ -57,7 +57,6 @@ export default function Card({ variant = 'large', item }: CardProps) {
       <i className={styles.example}>{formattedExample}</i>
       <div className={styles.alert}>
         <DeleteButton requestData={requestData} />
-        <ReportButton requestData={requestData} />
       </div>
       <div className={styles.wrapper}>
         <p className={styles.date}>{formattedDate}</p> &nbsp;by&nbsp;
