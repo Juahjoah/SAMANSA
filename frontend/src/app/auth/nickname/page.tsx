@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import Input from '@/components/Input/ValueInput';
 import Button from '@/components/Button';
 import styles from './NicknamePages.module.css';
-import NicknamePages from './page';
 
 export default function NicknamePages() {
   const router = useRouter();
