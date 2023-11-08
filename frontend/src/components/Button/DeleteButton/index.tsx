@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 import styles from './DeleteButton.module.css';
 
@@ -48,12 +48,12 @@ export default function DeleteButton({
 
   return (
     <div className={styles.base}>
-      {nickname === memberNickname ? (
+      {/* {memberNickname === 'joung' ? (
         <div onClick={DeleteWord}>삭제</div>
       ) : (
         <div />
-      )}
-      {/* {nickname === memberNickname && <div onClick={DeleteWord}>삭제</div>} */}
+      )} */}
+      {nickname === memberNickname && <div onClick={DeleteWord}>삭제</div>}
     </div>
   );
 }
