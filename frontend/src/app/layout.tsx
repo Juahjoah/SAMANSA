@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import './globals.css';
-import ReactQueryProvider from '@/utils/react-query-provider';
+import ReactQueryProvider from '@/utils/ReactQueryProvider';
 import localFont from 'next/font/local';
 
 const myFont = localFont({
