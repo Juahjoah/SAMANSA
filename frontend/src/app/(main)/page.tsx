@@ -1,5 +1,5 @@
 //react
-import { Suspense } from 'react';
+// import { Suspense } from 'react';
 
 //style
 import styles from './Home.module.css';
