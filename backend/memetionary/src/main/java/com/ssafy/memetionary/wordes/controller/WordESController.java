@@ -85,7 +85,7 @@ public class WordESController {
     //엘라스틱 서치 단어 좋아요/싫어요 - 단어 5
     @PutMapping("/like")
     public ResponseEntity<?> likeWord(@RequestBody WordESLikeRequest wordESLikeRequest,
-        HttpServletRequest httpServletRequest) {
+                                      HttpServletRequest httpServletRequest) {
         String clientIP = headerUtils.getClientIP(httpServletRequest);
         log.debug("clientIP = " + clientIP);
         String wordId = wordESLikeRequest.getWordId();
@@ -98,7 +98,7 @@ public class WordESController {
     //엘라스틱 서치 단어 검색 - 단어 1
     @GetMapping("/search")
     public ResponseEntity<?> searchWord(@RequestParam("word") String name,
-        @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
+                                        @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
         System.out.println("name = " + name);
 
         String clientIP = headerUtils.getClientIP(httpServletRequest);
@@ -111,7 +111,7 @@ public class WordESController {
     //최신 단어 리스트 조회 - 단어 2
     @GetMapping("/main")
     public ResponseEntity<?> mainPage(@PageableDefault(size = 10) Pageable pageable,
-        HttpServletRequest httpServletRequest) {
+                                      HttpServletRequest httpServletRequest) {
         String clientIP = headerUtils.getClientIP(httpServletRequest);
         WordESSearchResponse response = wordESService.mainPage(pageable, clientIP);
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -129,9 +129,9 @@ public class WordESController {
     //엘라스틱 서치 단어 완전 일치 조회 - 단어 9
     @GetMapping("/exact")
     public ResponseEntity<?> searchExactWord(@RequestParam("word") String name,
-        @RequestParam("memberNickname") String nickname,
-        @RequestParam("hashtag") String hashtag,
-        @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
+                                             @RequestParam("memberNickname") String nickname,
+                                             @RequestParam("hashtag") String hashtag,
+                                             @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
         System.out.println("name = " + name);
 
         String clientIP = headerUtils.getClientIP(httpServletRequest);
@@ -142,5 +142,14 @@ public class WordESController {
         return ResponseEntity.status(HttpStatus.OK).body(words);
     }
 
+    //단어 초성 색인 - 단어 10
+    @GetMapping("/index")
+    public ResponseEntity<WordESSearchResponse> searchWordIndex(
+        @RequestParam("startWith") String name, @PageableDefault(size = 10) Pageable pageable
+    ) {
+        WordESSearchResponse words = wordESService.searchWordIndex(name, pageable);
+
+        return ResponseEntity.status(HttpStatus.OK).body(words);
+    }
 
 }
