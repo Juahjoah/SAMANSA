@@ -22,7 +22,7 @@ export default function LoginPage() {
             width={0}
             height={0}
             sizes="100vw"
-            style={{ width: '80%', height: 'auto' }}
+            style={{ width: '90%', height: 'auto' }}
           />
           <p className={styles.loginTitle}>사만사에 오신 것을 환영합니다. </p>
           <p className={styles.loginMsg}> 간편하게 로그인 해보세요!</p>
