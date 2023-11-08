@@ -47,9 +47,3 @@
     font-size: 0.8rem;
   }
 }
-@media screen and (max-width: 768px) {
-  .nickname {
-    width: auto;
-    font-size: 0.6rem;
-  }
-}
