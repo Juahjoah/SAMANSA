@@ -35,7 +35,7 @@
 
 .wrapper {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin: 2rem 0 0 0;
   font-weight: 500;
 }
@@ -46,4 +46,8 @@
 }
 .nickname:hover {
   color: rgb(var(--card-title-hover-rgb));
+}
+
+.info {
+  display: flex;
 }

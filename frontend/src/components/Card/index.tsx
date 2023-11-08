@@ -1,5 +1,6 @@
 import styles from './Card.module.css';
 import VoteButton from '../Button/VoteButton';
+import { CardItem } from '@/app/(main)/page';
 
 export default function Card({ variant = 'large', item }: CardProps) {
   const {
@@ -9,7 +10,10 @@ export default function Card({ variant = 'large', item }: CardProps) {
     wordExample,
     memberNickname,
     createDate,
+    likeCount,
+    dislikeCount,
   } = item;
+
   let formattedDate = '';
 
   const formattedDescription = wordDescription.split('\n').map((item, key) => {
@@ -55,24 +59,18 @@ export default function Card({ variant = 'large', item }: CardProps) {
       <p className={styles.description}>{formattedDescription}</p>
       <i className={styles.example}>{formattedExample}</i>
       <div className={styles.wrapper}>
-        <VoteButton wordId={id} />
-        <p className={styles.date}>{formattedDate}</p> &nbsp;by&nbsp;
-        <p className={styles.nickname}>{memberNickname}</p>
+        <VoteButton wordId={id} {...{ likeCount, dislikeCount }} />
+        {/* <VoteButton wordId={id} likeCount={55} dislikeCount={66} /> */}
+        <p className={styles.date}>
+          {formattedDate}&nbsp;by&nbsp;
+          <span className={styles.nickname}>{memberNickname}</span>
+        </p>
       </div>
     </div>
   );
 }
 
-type Item = {
-  id?: string;
-  wordName: string;
-  wordDescription: string;
-  wordExample: string;
-  hashtagList?: string[];
-  memberNickname?: string;
-  createDate?: string;
-};
 type CardProps = {
   variant?: 'large' | 'medium' | 'small';
-  item: Item;
+  item: CardItem;
 };

@@ -21,7 +21,7 @@ type getParams = {
   searchParams: Params;
 };
 
-type CardItem = {
+export type CardItem = {
   id: string;
   wordName: string;
   wordDescription: string;
@@ -29,6 +29,11 @@ type CardItem = {
   hashtagList: string[];
   memberNickname: string;
   createDate: string;
+  likeCount: number;
+  dislikeCount: number;
+  hasLike: boolean;
+  hasDislike: boolean;
+  writer: boolean;
 };
 
 type resultData = {

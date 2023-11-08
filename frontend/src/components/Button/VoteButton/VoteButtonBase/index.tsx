@@ -1,16 +1,40 @@
 'use client';
 import styles from './VoteButtonBase.module.css';
+import { IoThumbsUpSharp } from 'react-icons/io5';
+import { IoThumbsDownSharp } from 'react-icons/io5';
 
-export default function VoteButtonBase(props: VoteButtonBaseProps) {
+export enum VoteState {
+  UP,
+  DOWN,
+  NONE,
+}
+
+export default function VoteButtonBase({
+  onVoteUp,
+  upVotes,
+  onVoteDown,
+  downVotes,
+  voteState,
+}: VoteButtonBaseProps) {
   return (
     <div className={styles.buttonRoot}>
-      <button onClick={props.onVoteUp}>
-        👍
-        <span>{props.upVotes}</span>
+      <button
+        onClick={onVoteUp}
+        className={
+          voteState === VoteState.UP ? styles.buttonSelected : styles.button
+        }
+      >
+        <IoThumbsUpSharp />
+        <span>{upVotes}</span>
       </button>
-      <button onClick={props.onVoteDown}>
-        👎
-        <span>{props.downVotes}</span>
+      <button
+        onClick={onVoteDown}
+        className={
+          voteState === VoteState.DOWN ? styles.buttonSelected : styles.button
+        }
+      >
+        <IoThumbsDownSharp />
+        <span>{downVotes}</span>
       </button>
     </div>
   );
@@ -21,4 +45,5 @@ type VoteButtonBaseProps = {
   onVoteDown: () => void;
   upVotes: number;
   downVotes: number;
+  voteState: VoteState;
 };
