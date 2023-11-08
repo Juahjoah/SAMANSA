@@ -20,19 +20,6 @@
   width: calc(100% - 5rem);
 }
 
-.createButton {
-  background-color: #33be7d;
-  color: white;
-
-  height: 3rem;
-  width: 3rem;
-
-  border: 0px;
-  border-radius: 1.5rem;
-
-  font-size: 2rem;
-}
-
 .content {
   display: flex;
   justify-content: space-between;
@@ -43,13 +30,9 @@
 .survey {
   width: 10rem;
   height: 30rem;
-
   border-radius: 1.5rem;
-
   background-color: white;
-
   top: 0rem;
-
   display: sticky;
 }
 
@@ -69,3 +52,16 @@
     width: 100%;
   }
 }
+@media (max-width: 630px) {
+  .index {
+    display: none;
+  }
+  .searchInput {
+    width: calc(100% - 4rem);
+  }
+}
+/* @media (max-width: 420px) {
+  .searchResult div {
+    width: 80vw;
+  }
+} */
