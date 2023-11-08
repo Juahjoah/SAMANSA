@@ -34,7 +34,6 @@ export default function ReportButton({
 }) {
   const { id, memberNickname } = requestData; // 카드의 id, 유저닉네임
   const url = `${process.env.NEXT_PUBLIC_API_URL}`;
-  //   const url = 'https://test.samansa.kr';
   const data = { wordId: id };
 
   // 로그인 유저의 정보
@@ -48,6 +47,8 @@ export default function ReportButton({
         console.log(memberNickname);
         if (data.message == '이미 신고하였습니다.') {
           alert('이미 신고하신 단어입니다.');
+        } else {
+          alert('신고하시겠습니까.');
         }
       })
       .catch(() => {
