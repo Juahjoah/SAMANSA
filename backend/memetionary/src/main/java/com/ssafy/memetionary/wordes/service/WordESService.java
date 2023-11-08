@@ -35,7 +35,7 @@ public class WordESService {
     private final WordESRepository wordESRepository;
 
     public void registerWordES(WordESRegisterRequest request, String memberId,
-        String memberNickname) {
+                               String memberNickname) {
         log.debug("request = " + request);
         WordES wordES = WordES.builder()
             .memberId(memberId)
@@ -85,7 +85,7 @@ public class WordESService {
     }
 
     private void likeProcess(boolean isLike, boolean isDislike, boolean wordLike, WordES wordES,
-        String clientIP) {
+                             String clientIP) {
         //좋아요, 싫어요 한적 없는 경우
         if (!isLike && !isDislike) {
             if (wordLike) {
@@ -116,7 +116,7 @@ public class WordESService {
 
     //엘라스틱 서치 단어 검색 - 단어 1
     public WordESSearchResponse searchByName(String name, Pageable pageable,
-        String clientIP) {
+                                             String clientIP) {
         String queryType = "match";
         SearchFieldType fieldType = SearchFieldType.NAME;
         WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(queryType,
@@ -126,7 +126,7 @@ public class WordESService {
     }
 
     public WordESSearchResponse searchExact(String name, String nickName, String hashtag, Pageable pageable,
-        String clientIP) {
+                                            String clientIP) {
         String queryType = "term";
         if (!name.equals("")) {
             SearchFieldType fieldType = SearchFieldType.NAME_KEYWORD;
@@ -146,15 +146,20 @@ public class WordESService {
         throw new WordNotFoundException("찾는 단어 또는 사람이 없습니다.");
     }
 
-    public WordESSearchResponse mainPage(Pageable pageable,String clientIP) {
+    public WordESSearchResponse mainPage(Pageable pageable, String clientIP) {
         String queryType = "matchAll";
         SearchFieldType fieldType = SearchFieldType.NAME;
-        String name="";
+        String name = "";
         return wordESRepository.searchWords(queryType, fieldType, name,
             clientIP, pageable);
     }
 
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
         return wordESRepository.getAutoCompleteWords(word);
+    }
+
+    //단어 초성 색인 - 단어 10
+    public WordESSearchResponse searchWordIndex(String name, Pageable pageable) {
+        return wordESRepository.searchWordIndex(name, pageable);
     }
 }
