@@ -38,7 +38,12 @@ export default function KakaoLoginButton() {
         width={0}
         height={0}
         sizes="100vw"
-        style={{ width: '100%', height: 'auto' }}
+        // style={{ width: '100%', height: 'auto' }}
+        style={
+          isMobile
+            ? { width: '130%', height: 'auto' }
+            : { width: '100%', height: 'auto' }
+        }
       />
     </div>
   );
