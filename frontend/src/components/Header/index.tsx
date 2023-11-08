@@ -29,15 +29,7 @@ export default function Header() {
       <div>
         <a href="/">
           {windowWidth !== null && windowWidth <= 750 ? (
-            <Image
-              className={styles.headerLogo}
-              src={mobile}
-              // priority={true}
-              width={75}
-              height={75}
-              // style={{ width: '200px', height: 'auto' }}
-              alt="logo_mobile"
-            />
+            <div className={styles.mobile_logo}>S</div>
           ) : (
             <Image
               className={styles.headerLogo}
