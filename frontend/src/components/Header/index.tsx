@@ -14,14 +14,13 @@ export default function Header() {
             priority={true}
             width={0}
             height={0}
-            sizes="100vw"
-            style={{ width: '40%', height: 'auto' }}
+            style={{ width: '440px', height: 'auto' }}
             alt="logo"
           />
         </a>
-      </div>
-      <div className={styles.userBtn}>
-        <LogoutButton />
+        <span className={styles.button}>
+          <LogoutButton />
+        </span>
       </div>
     </header>
   );
