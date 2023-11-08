@@ -1,8 +1,10 @@
 'use client';
-
-import styles from './IndexButton.module.css';
+//react
 import { useState } from 'react';
-// import { useRouter } from 'next/router'
+
+//style
+import styles from './IndexButton.module.css';
+
 export default function IndexButton() {
   const [modalCheck, setModalCheck] = useState(false);
   const IndexList = [
@@ -22,15 +24,18 @@ export default function IndexButton() {
     'ㅎ',
     'new',
   ];
-  // const router = useRouter()
 
-  const CheckingModal = () => {
+  //모달
+  function CheckingModal() {
     setModalCheck(!modalCheck);
-  };
-  const checkButton = (index: number) => {
-    console.log('임시버튼이동', index);
-    // router.push(`page${index}`)  // 클릭한 페이지넘버로 이동
-  };
+  }
+
+  //버튼 눌렀을 시
+  function checkButton(index: string) {
+    const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=index&value=${index}`;
+    window.location.href = url;
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.browseButton} onClick={CheckingModal}>
@@ -45,7 +50,7 @@ export default function IndexButton() {
                 item === 'new' ? styles.newButton : ''
               }`}
               key={index}
-              onClick={() => checkButton(index)}
+              onClick={() => checkButton(item)}
             >
               {item}
             </div>

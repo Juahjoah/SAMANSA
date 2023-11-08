@@ -9,6 +9,7 @@ import Header from '@/components/Header';
 import SearchInput from '@/components/Input/SearchInput';
 import Card from '@/components/Card';
 import Form from '@/components/Form';
+import IndexButton from '@/components/Button/IndexButton';
 import { EnterCreate } from '@/components/Button/RouteButton';
 import Pagination from '@/components/Button/PaginationButton';
 
@@ -35,6 +36,7 @@ type CardItem = {
 type resultData = {
   total: number;
   words: CardItem[];
+  error: boolean;
 };
 
 type fetchDataInput = {
@@ -47,23 +49,51 @@ async function fetchData({ type, value, page }: fetchDataInput) {
   let url = `${process.env.NEXT_PUBLIC_API_URL}/word/`;
 
   switch (type) {
+    //메인, 단어 검색
     case 'main':
     case 'search':
       url = `${url}${type}?word=${value}&page=${page - 1}`;
       break;
+    //단어 완전 일치 조회
+    case 'word':
+      url = `${url}exact?word=${value}&memberNickname=&hashtag=&page=${
+        page - 1
+      }`;
+      break;
+    case 'nickname':
+      url = `${url}exact?word=&memberNickname=${value}&hashtag=&page=${
+        page - 1
+      }`;
+      break;
+    case 'hashtag':
+      url = `${url}exact?word=&memberNickname=&hashtag=${value}&page=${
+        page - 1
+      }`;
+      break;
+    //단어 초성 색인
+    case 'index':
+      url = `${url}index?startWith=${value}&page=${page - 1}`;
+      break;
     case 'test':
       //test
       break;
-
     default:
+      url = url + 'main';
       break;
   }
-
+  console.log(url);
   const res = await fetch(url, {
     cache: 'no-store',
   });
-  const data: resultData = await res.json();
-  return data;
+
+  if (res.ok) {
+    const data: resultData = await res.json();
+    return data;
+  } else {
+    console.error(`HTTP Error: ${res.status}`);
+    const data: resultData = { total: 0, words: [], error: true };
+    return data;
+  }
 }
 
 export default async function Home({ searchParams }: getParams) {
@@ -86,22 +116,33 @@ export default async function Home({ searchParams }: getParams) {
       <main className={styles.main}>
         <div className={styles.top}>
           <div className={styles.searchInput}>
-            <SearchInput value={value} />
+            <SearchInput
+              value={type == 'main' || type == 'search' ? value : ''}
+            />
+          </div>
+          <div className={styles.index}>
+            <IndexButton />
           </div>
           <div className={styles.create}>
             <EnterCreate />
           </div>
         </div>
         <div className={styles.content}>
-          <Suspense fallback={<div>Loading...</div>}>
-            <div className={styles.searchResult}>
-              {resultData.words.map((item: CardItem) => (
+          <div className={styles.searchResult}>
+            {resultData.words.length == 0 ? (
+              resultData.error ? (
+                <div>잘못된 요청입니다.</div>
+              ) : (
+                <div>검색결과가 없습니다.</div>
+              )
+            ) : (
+              resultData.words.map((item: CardItem) => (
                 <div key={item.id}>
                   <Card item={item} />
                 </div>
-              ))}
-            </div>
-          </Suspense>
+              ))
+            )}
+          </div>
           <div className={styles.survey}>
             <Form />
           </div>
