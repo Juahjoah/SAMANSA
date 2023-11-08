@@ -11,7 +11,6 @@ import com.nimbusds.jose.shaded.gson.JsonParser;
 import com.ssafy.memetionary.common.CustomErrorType;
 import com.ssafy.memetionary.common.exception.QueryNotFoundException;
 import com.ssafy.memetionary.common.exception.WordAutoCompleteException;
-import com.ssafy.memetionary.common.exception.WordNotFoundException;
 import com.ssafy.memetionary.wordes.document.SearchFieldType;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.document.WordESRequestType;
@@ -19,14 +18,17 @@ import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteItem;
 import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteResponse;
 import com.ssafy.memetionary.wordes.dto.WordESSearchItem;
 import com.ssafy.memetionary.wordes.dto.WordESSearchResponse;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.data.domain.Pageable;
 
 @Slf4j
@@ -122,8 +124,8 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
 
     @Override
     public WordESSearchResponse searchWords(String queryType, SearchFieldType fieldType,
-        String word,
-        String clientIP, Pageable pageable) {
+                                            String word,
+                                            String clientIP, Pageable pageable) {
         List<WordESSearchItem> words = new ArrayList<>();
         long total;
         try {
@@ -240,21 +242,72 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         return wordESSearchResponse;
     }
 
-    private final Query makeQuery(String queryType, SearchFieldType fieldType, String name) {
+    @Override
+    public WordESSearchResponse searchWordIndex(String name, Pageable pageable) {
+        log.debug("name = " + name);
+        try {
+            SearchResponse<Object> response = client.search(s -> s
+                    .index(INDEX)
+                    .from(pageable.getPageNumber())
+                    .size(pageable.getPageSize())
+                    .query(Query.of(q -> q
+                        .prefix(p -> p
+                            .field("name.chosung")
+                            .value(name)
+                        )
+                    ))
+                , Object.class
+            );
+            log.debug("response = " + response);
+            long total = response.hits().total().value();
+
+            List<WordESSearchItem> wordESSearchItems = response.hits().hits().stream()
+                .map(hits -> {
+                    Map<String, Object> result = (Map<String, Object>) hits.source();
+
+                    assert result != null;
+
+
+                    return WordESSearchItem.builder()
+                        .id(hits.id())
+                        .wordName((String) result.get("name"))
+                        .wordDescription((String) result.get("description"))
+                        .wordExample((String) result.get("example"))
+                        .createDate(LocalDateTime.parse((String) result.get("createDate")))
+                        .memberNickname((String) result.get("memberNickname"))
+                        .hashtagList((List<String>) result.get("hashtags"))
+                        .likeCount(((Number) result.get("likeCount")).longValue())
+                        .dislikeCount(((Number) result.get("likeCount")).longValue())
+                        .build();
+                }).toList();
+
+            log.debug("wordESSearchItems = " + wordESSearchItems);
+
+            return WordESSearchResponse.builder()
+                .total(total)
+                .words(wordESSearchItems)
+                .build();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Query makeQuery(String queryType, SearchFieldType fieldType, String name) {
         if (queryType.equals("match")) {
             return matchQuery(fieldType, name);
         }
         if (queryType.equals("term")) {
             return termQuery(fieldType, name);
         }
-        if(queryType.equals("matchAll")){
-            return  Query.of(q -> q
+        if (queryType.equals("matchAll")) {
+            return Query.of(q -> q
                 .matchAll(ma -> ma));
         }
         throw new QueryNotFoundException(queryType + "인 쿼리가 없습니다.");
     }
 
-    private final Query matchQuery(SearchFieldType fieldType, String name) {
+    private Query matchQuery(SearchFieldType fieldType, String name) {
         return Query.of(q -> q
             .match(m -> m
                 .field(fieldType.getFieldName())
@@ -262,7 +315,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
             ));
     }
 
-    private final Query termQuery(SearchFieldType fieldType, String name) {
+    private Query termQuery(SearchFieldType fieldType, String name) {
         return Query.of(q -> q
             .term(t -> t
                 .field(fieldType.getFieldName())
