@@ -110,8 +110,10 @@ public class WordESController {
 
     //최신 단어 리스트 조회 - 단어 2
     @GetMapping("/main")
-    public ResponseEntity<?> mainPage(@PageableDefault(size = 10) Pageable pageable) {
-        WordESSearchResponse response = wordESService.mainPage(pageable);
+    public ResponseEntity<?> mainPage(@PageableDefault(size = 10) Pageable pageable,
+        HttpServletRequest httpServletRequest) {
+        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        WordESSearchResponse response = wordESService.mainPage(pageable, clientIP);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -134,7 +136,8 @@ public class WordESController {
 
         String clientIP = headerUtils.getClientIP(httpServletRequest);
 
-        WordESSearchResponse words = wordESService.searchExact(name, nickname,hashtag, pageable, clientIP);
+        WordESSearchResponse words = wordESService.searchExact(name, nickname, hashtag, pageable,
+            clientIP);
 
         return ResponseEntity.status(HttpStatus.OK).body(words);
     }
