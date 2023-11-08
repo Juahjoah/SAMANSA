@@ -132,7 +132,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
             assert client != null;
 
             SearchResponse<Object> response = client.search(s -> s
-                    .index("word")
+                    .index(INDEX)
                     .from(pageable.getPageNumber())
                     .size(10)
                     .source(SourceConfig.of(sc -> sc
