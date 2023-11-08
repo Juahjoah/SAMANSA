@@ -3,11 +3,9 @@
 import styles from './KakaoLoginButton.module.css';
 
 import KakaoLogin from '@/public/assets/login/KaKaoLogin.svg';
-import KakaoLoginM from '@/public/assets/login/KakaoLogin_s.svg';
 import Image from 'next/image';
 // svgr loader install???????
 import { useRouter } from 'next/navigation';
-import { useMediaQuery } from 'react-responsive';
 
 export default function KakaoLoginButton() {
   const router = useRouter();
@@ -15,8 +13,6 @@ export default function KakaoLoginButton() {
   const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
   const KAKAO_URL = `${APP_URL}/oauth2/authorization/kakao?redirect_uri=${REDIRECT_URI}/auth/redirect`;
-
-  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   const handleKakaoLogin = () => {
     router.push(KAKAO_URL);
@@ -33,17 +29,12 @@ export default function KakaoLoginButton() {
         onClick={() => {
           handleKakaoLogin();
         }}
-        src={isMobile ? KakaoLoginM : KakaoLogin}
+        src={KakaoLogin}
         alt="kakao"
         width={0}
         height={0}
         sizes="100vw"
-        // style={{ width: '100%', height: 'auto' }}
-        style={
-          isMobile
-            ? { width: '130%', height: 'auto' }
-            : { width: '100%', height: 'auto' }
-        }
+        style={{ width: '100%', height: 'auto' }}
       />
     </div>
   );
