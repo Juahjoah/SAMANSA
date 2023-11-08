@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 
 import styles from './DeleteButton.module.css';
 
@@ -29,14 +29,14 @@ export default function DeleteButton({
   requestData: ButtonProps;
 }) {
   const { id, memberNickname } = requestData; // 카드의 id, 유저닉네임
-  const url = `${process.env.NEXT_PUBLIC_API_URL}`;
+  const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}`;
 
   // 로그인 유저의 닉네임 정보
   const nickname: string | null =
     typeof window !== 'undefined' ? sessionStorage.getItem('nickname') : null;
 
   const DeleteWord = async () => {
-    DeleteData(`${url}/word/${id}`)
+    DeleteData(`${url}/api/word/${id}`)
       .then((data) => {
         console.log(data);
         window.location.href = url;
@@ -48,9 +48,12 @@ export default function DeleteButton({
 
   return (
     <div className={styles.base}>
-      {nickname === memberNickname ? (
+      {/* {nickname === memberNickname ? (
         <div onClick={DeleteWord}>삭제</div>
-      ) : null}
+      ) : (
+        <div />
+      )} */}
+      {nickname === memberNickname && <div onClick={DeleteWord}>삭제</div>}
     </div>
   );
 }
