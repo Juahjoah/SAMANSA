@@ -3,7 +3,6 @@
 import styles from './Header.module.css';
 import Image from 'next/image';
 import logo from '@/public/assets/logo_w_samansa.png';
-import mobile from '@/public/assets/logo_mobile.png';
 import LogoutButton from '../Button/LogoutButton';
 import { useEffect, useState } from 'react';
 
