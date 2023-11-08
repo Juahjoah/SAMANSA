@@ -247,6 +247,10 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         if (queryType.equals("term")) {
             return termQuery(fieldType, name);
         }
+        if(queryType.equals("matchAll")){
+            return  Query.of(q -> q
+                .matchAll(ma -> ma));
+        }
         throw new QueryNotFoundException(queryType + "인 쿼리가 없습니다.");
     }
 
