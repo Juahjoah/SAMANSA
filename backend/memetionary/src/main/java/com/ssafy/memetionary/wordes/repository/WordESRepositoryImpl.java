@@ -136,7 +136,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .source(SourceConfig.of(sc -> sc
                         .filter(f -> f
                             .includes(List.of("name", "description", "example", "memberNickname",
-                                "createDate", "hashtags"))
+                                "createDate", "hashtags", "likeCount", "dislikeCount"))
                         )
                     ))
                     .query(
@@ -175,8 +175,8 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     String id = hit.id();
                     // Source 처리
                     Map<?, ?> sourceMap = (Map<?, ?>) hit.source();
-//                    log.debug("sourceMap = " + sourceMap);
-//                    log.debug(sourceMap.getClass().toString());
+                    log.debug("sourceMap = " + sourceMap);
+                    log.debug(sourceMap.getClass().toString());
                     WordESSearchItem wordESSearchItem = null;
                     if (sourceMap instanceof Map<?, ?>) {
                         String name = (String) (sourceMap).get("name");
@@ -194,6 +194,10 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                         List<String> hashtags = (List<String>) (sourceMap).get(
                             "hashtags");
 //                        log.debug("hashtags = " + hashtags);
+                        long likecount = ((Number) sourceMap.get("likeCount")).longValue();
+                        log.debug("likecount = " + likecount);
+                        long dislikecount = ((Number) sourceMap.get("dislikeCount")).longValue();
+                        log.debug("dislikecount = " + dislikecount);
 
                         Map<?, ?> fieldMap = hit.fields();
                         JsonElement likeElement = JsonParser.parseString(
@@ -215,6 +219,8 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                             .createDate(localDateTime)
                             .memberNickname(memberNickname)
                             .hashtagList(hashtags)
+                            .likecount(likecount)
+                            .dislikecount(dislikecount)
                             .hasLike(hasLike)
                             .hasDislike(hasDislike)
                             .isWriter(isWriter)
