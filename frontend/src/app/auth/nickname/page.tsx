@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Input from '@/components/Input/ValueInput';
 import Button from '@/components/Button';
 import styles from './NicknamePages.module.css';
+import NicknamePages from './page';
 
 export default function NicknamePages() {
   const router = useRouter();
@@ -87,7 +88,9 @@ export default function NicknamePages() {
         <p className={styles.nicknameTitle}>
           사만사에서 사용할 닉네임을 입력해주세요.
         </p>
-        <p>닉네임을 설정하지 않는 경우, 이름이 닉네임으로 설정됩니다.</p>
+        <p className={styles.nicknameContent}>
+          닉네임을 설정하지 않는 경우, 이름이 닉네임으로 설정됩니다.
+        </p>
         <div className={styles.namecheck}>
           <div className={styles.inputarea}>
             <div className={styles.inputcomponent}>
