@@ -146,32 +146,12 @@ public class WordESService {
         throw new WordNotFoundException("찾는 단어 또는 사람이 없습니다.");
     }
 
-    public WordESSearchResponse mainPage(Pageable pageable) {
-        Sort sort = Sort.by(Direction.DESC, "createDate");
-        Pageable newpageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
-            sort);
-        List<WordES> wordESList = wordESRepository.findAll(newpageable).getContent();
-        List<WordESSearchItem> wordESSearchItems = new ArrayList<>();
-        for (WordES wordES : wordESList) {
-            WordESSearchItem wordESSearchItem = WordESSearchItem.builder()
-                .id(wordES.getId())
-                .wordName(wordES.getName())
-                .wordDescription(wordES.getDescription())
-                .wordExample(wordES.getExample())
-                .hashtagList(wordES.getHashtags())
-                .memberNickname(wordES.getMemberNickname())
-                .createDate(wordES.getCreateDate())
-                .build();
-            wordESSearchItems.add(wordESSearchItem);
-        }
-
-        long total = wordESRepository.findAll(newpageable).getTotalElements();
-        log.debug("total = " + total);
-
-        return WordESSearchResponse.builder()
-            .total(total)
-            .words(wordESSearchItems)
-            .build();
+    public WordESSearchResponse mainPage(Pageable pageable,String clientIP) {
+        String queryType = "matchAll";
+        SearchFieldType fieldType = SearchFieldType.NAME;
+        String name="";
+        return wordESRepository.searchWords(queryType, fieldType, name,
+            clientIP, pageable);
     }
 
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
