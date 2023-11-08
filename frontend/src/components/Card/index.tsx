@@ -1,10 +1,18 @@
 import styles from './Card.module.css';
-
+import DeleteButton from '@/components/Button/DeleteButton';
+import ReportButton from '@/components/Button/ReportButton';
 export default function Card({ variant = 'large', item }: CardProps) {
-  const { wordName, wordDescription, wordExample, memberNickname, createDate } =
-    item;
+  const {
+    id,
+    wordName,
+    wordDescription,
+    wordExample,
+    memberNickname,
+    createDate,
+  } = item;
   let formattedDate = '';
 
+  const requestData = { id, memberNickname };
   const formattedDescription = wordDescription.split('\n').map((item, key) => {
     return (
       <span key={key}>
@@ -47,6 +55,10 @@ export default function Card({ variant = 'large', item }: CardProps) {
       <div className={styles.title}>{wordName}</div>
       <p className={styles.description}>{formattedDescription}</p>
       <i className={styles.example}>{formattedExample}</i>
+      <div className={styles.alert}>
+        <DeleteButton requestData={requestData} />
+        <ReportButton requestData={requestData} />
+      </div>
       <div className={styles.wrapper}>
         <p className={styles.date}>{formattedDate}</p> &nbsp;by&nbsp;
         <p className={styles.nickname}>{memberNickname}</p>
