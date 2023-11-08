@@ -47,3 +47,8 @@
 .nickname:hover {
   color: rgb(var(--card-title-hover-rgb));
 }
+
+.alert {
+  display: flex;
+  justify-content: flex-end;
+}
