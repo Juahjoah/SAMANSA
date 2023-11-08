@@ -58,6 +58,7 @@
 
 @media screen and (max-width: 768px) {
   .nickname {
-    max-width: calc(100% - 5rem);
+    max-width: calc(100% - 1rem);
+    padding: 1rem;
   }
 }
