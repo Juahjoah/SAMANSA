@@ -36,7 +36,12 @@
   font-weight: bold;
   padding: 0.5rem 0;
   margin: 0.5rem 0;
+  text-align: center;
   word-break: keep-all;
+}
+
+.nicknameContent {
+  text-align: center;
 }
 
 .nicknamemsg {
