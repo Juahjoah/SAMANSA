@@ -33,11 +33,16 @@ export default function ReportButton({
   requestData: ButtonProps;
 }) {
   const { id, memberNickname } = requestData; // 카드의 id, 유저닉네임
-  const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}`;
   //   const url = 'https://test.samansa.kr';
   const data = { wordId: id };
+
+  // 로그인 유저의 정보
+  const nickname: string | null =
+    typeof window !== 'undefined' ? sessionStorage.getItem('nickname') : null;
+
   const ReportWord = async () => {
-    ReportData(`${url}/api/declaration`, data)
+    ReportData(`${url}/declaration`, data)
       .then((data) => {
         console.log(data.message);
         console.log(memberNickname);
@@ -52,8 +57,7 @@ export default function ReportButton({
 
   return (
     <div className={styles.base}>
-      이미지
-      <div onClick={ReportWord}>신고</div>
+      {nickname ? <div onClick={ReportWord}>신고하기</div> : null}
     </div>
   );
 }

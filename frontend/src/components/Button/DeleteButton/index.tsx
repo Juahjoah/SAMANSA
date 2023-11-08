@@ -29,14 +29,14 @@ export default function DeleteButton({
   requestData: ButtonProps;
 }) {
   const { id, memberNickname } = requestData; // 카드의 id, 유저닉네임
-  const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}`;
 
   // 로그인 유저의 닉네임 정보
   const nickname: string | null =
     typeof window !== 'undefined' ? sessionStorage.getItem('nickname') : null;
 
   const DeleteWord = async () => {
-    DeleteData(`${url}/api/word/${id}`)
+    DeleteData(`${url}/word/${id}`)
       .then((data) => {
         console.log(data);
         window.location.href = url;
