@@ -1,6 +1,7 @@
 import styles from './Card.module.css';
 import VoteButton from '../Button/VoteButton';
 import { CardItem } from '@/app/(main)/page';
+import DeleteButton from '@/components/Button/DeleteButton';
 
 export default function Card({ variant = 'large', item }: CardProps) {
   const {
@@ -16,6 +17,7 @@ export default function Card({ variant = 'large', item }: CardProps) {
 
   let formattedDate = '';
 
+  const requestData = { id, memberNickname };
   const formattedDescription = wordDescription.split('\n').map((item, key) => {
     return (
       <span key={key}>
@@ -58,6 +60,9 @@ export default function Card({ variant = 'large', item }: CardProps) {
       <div className={styles.title}>{wordName}</div>
       <p className={styles.description}>{formattedDescription}</p>
       <i className={styles.example}>{formattedExample}</i>
+      <div className={styles.alert}>
+        <DeleteButton requestData={requestData} />
+      </div>
       <div className={styles.wrapper}>
         <VoteButton wordId={id} {...{ likeCount, dislikeCount }} />
         {/* <VoteButton wordId={id} likeCount={55} dislikeCount={66} /> */}
