@@ -173,6 +173,11 @@ export default function SearchInput({
     }
   }
 
+  function handleFocusOut() {
+    setAutocomplete(false);
+    setValue(index == 0 ? value : InputValue);
+  }
+
   useEffect(() => {
     if (index == 0) {
       setInputValue(value);
@@ -182,7 +187,6 @@ export default function SearchInput({
   }, [index]);
 
   useEffect(() => {
-    // console.log('value: useEffec');
     if (value != '' && variant == 'search') {
       fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/word/auto-complete?word=${value}`,
@@ -202,11 +206,14 @@ export default function SearchInput({
           setData([{ name: '', description: '' }]);
           // console.error('사용자 정보 요청 실패:', error);
         });
+    } else if (value == '') {
+      console.log(value);
+      setData([{ name: '', description: '' }]);
     }
   }, [value]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} onBlur={handleFocusOut}>
       <input
         placeholder={placeholder}
         className={`${styles.base} ${variantClass} ${
