@@ -16,13 +16,9 @@ export default function Header() {
   };
 
   useEffect(() => {
-    // 컴포넌트가 마운트되면 화면 크기를 가져옴
     getWindowWidth();
-
-    // 브라우저 창 크기가 변경될 때마다 화면 크기를 업데이트
     window.addEventListener('resize', getWindowWidth);
 
-    // 컴포넌트가 언마운트될 때 리스너 제거
     return () => {
       window.removeEventListener('resize', getWindowWidth);
     };
