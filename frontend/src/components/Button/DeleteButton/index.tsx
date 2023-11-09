@@ -46,6 +46,7 @@ export default function DeleteButton({
     DeleteData(`${url}/api/word/${id}`)
       .then((data) => {
         console.log(data);
+        window.location.href = url;
       })
       .catch((err) => {
         console.log(err);
