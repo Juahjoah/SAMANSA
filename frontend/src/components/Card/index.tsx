@@ -60,7 +60,9 @@ export default function Card({ variant = 'large', item }: CardProps) {
       <div className={styles.title}>{wordName}</div>
       <p className={styles.description}>{formattedDescription}</p>
       <i className={styles.example}>{formattedExample}</i>
-      <DeleteButton requestData={requestData} />
+      <div className={styles.alert}>
+        <DeleteButton requestData={requestData} />
+      </div>
       <div className={styles.wrapper}>
         <VoteButton wordId={id} {...{ likeCount, dislikeCount }} />
         {/* <VoteButton wordId={id} likeCount={55} dislikeCount={66} /> */}
