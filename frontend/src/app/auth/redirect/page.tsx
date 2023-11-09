@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import styles from './RedirectPage.module.css';
+import { parseSetCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 export default function RedirectPage() {
   const accessToken =
@@ -23,6 +24,7 @@ export default function RedirectPage() {
       //   `accessToken=${accessToken}; path=/; domain=${process.env.NEXT_PUBLIC_DOMAIN}; max-age=3600; samesite=none; secure=true`,
       // );
       // document.cookie = `accessToken=${accessToken}; path=/; domain=${process.env.NEXT_PUBLIC_DOMAIN}; max-age=3600; samesite=none; secure=true`;
+      // console.log('토큰:', accessToken);
 
       sessionStorage.setItem('accessToken', accessToken);
 
