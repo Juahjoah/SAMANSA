@@ -19,4 +19,6 @@ public interface WordESRepositoryCustom {
                                             String name, String clientIP, Pageable pageable);
 
     public WordESSearchResponse searchWordIndex(String name, Pageable pageable);
+
+    public WordESSearchResponse searchWordById(String wordId, String clientIP);
 }

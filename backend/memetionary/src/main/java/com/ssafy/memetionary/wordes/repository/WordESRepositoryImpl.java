@@ -267,7 +267,6 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
 
                     assert result != null;
 
-
                     return WordESSearchItem.builder()
                         .id(hits.id())
                         .wordName((String) result.get("name"))
@@ -277,7 +276,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                         .memberNickname((String) result.get("memberNickname"))
                         .hashtagList((List<String>) result.get("hashtags"))
                         .likeCount(((Number) result.get("likeCount")).longValue())
-                        .dislikeCount(((Number) result.get("likeCount")).longValue())
+                        .dislikeCount(((Number) result.get("dislikeCount")).longValue())
                         .build();
                 }).toList();
 
@@ -290,6 +289,95 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
 
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public WordESSearchResponse searchWordById(String wordId, String clientIP) {
+        log.debug("wordId = " + wordId);
+        try {
+            assert client != null;
+
+            SearchResponse<Object> response = client.search(s -> s
+                    .index(INDEX)
+                    .source(SourceConfig.of(sc -> sc
+                        .filter(f -> f
+                            .includes(List.of("name", "description", "example", "memberNickname",
+                                "createDate", "hashtags", "likeCount", "dislikeCount"))
+                        )
+                    ))
+                    .query(q -> q
+                        .match(m -> m
+                            .field("_id")
+                            .query(wordId)
+                        )
+                    )
+                    .scriptFields("has_like", sf -> sf
+                        .script(sc -> sc
+                            .inline(i -> i
+                                .source("doc['likes'].contains(params.ip)")
+                                .params("ip", JsonData.of(clientIP))
+                            )
+                        )
+                    )
+                    .scriptFields("has_dislike", sf -> sf
+                        .script(sc -> sc
+                            .inline(i -> i
+                                .source("doc['dislikes'].contains(params.ip)")
+                                .params("ip", JsonData.of(clientIP))
+                            )
+                        )
+                    )
+                    .scriptFields("is_writer", sf -> sf
+                        .script(sc -> sc
+                            .inline(i -> i
+                                .source("doc['memberId'].value == params.ip")
+                                .params("ip", JsonData.of(clientIP))
+                            )
+                        )
+                    )
+                , Object.class
+            );
+
+            long total = response.hits().total().value();
+
+            List<WordESSearchItem> wordESSearchItems = response.hits().hits().stream()
+                .map(hits -> {
+                    Map<String, Object> sourceMap = (Map<String, Object>) hits.source();
+                    Map<?, ?> fieldMap = hits.fields();
+
+                    assert sourceMap != null && fieldMap != null;
+
+                    JsonElement likeElement = JsonParser.parseString(fieldMap.get("has_like").toString());
+                    JsonElement dislikeElement = JsonParser.parseString(fieldMap.get("has_dislike").toString());
+                    JsonElement isWriterElement = JsonParser.parseString(fieldMap.get("is_writer").toString());
+
+                    boolean hasLike = likeElement.getAsJsonArray().get(0).getAsBoolean();
+                    boolean hasDislike = dislikeElement.getAsJsonArray().get(0).getAsBoolean();
+                    boolean isWriter = isWriterElement.getAsJsonArray().get(0).getAsBoolean();
+
+                    return WordESSearchItem.builder()
+                        .id(hits.id())
+                        .wordName((String) sourceMap.get("name"))
+                        .wordDescription((String) sourceMap.get("description"))
+                        .wordExample((String) sourceMap.get("example"))
+                        .createDate(LocalDateTime.parse((String) sourceMap.get("createDate")))
+                        .memberNickname((String) sourceMap.get("memberNickname"))
+                        .hashtagList((List<String>) sourceMap.get("hashtags"))
+                        .likeCount(((Number) sourceMap.get("likeCount")).longValue())
+                        .dislikeCount(((Number) sourceMap.get("dislikeCount")).longValue())
+                        .hasLike(hasLike)
+                        .hasDislike(hasDislike)
+                        .isWriter(isWriter)
+                        .build();
+                }).toList();
+
+            return WordESSearchResponse.builder()
+                .total(total)
+                .words(wordESSearchItems)
+                .build();
+        } catch (Exception e) {
+            throw new RuntimeException();
         }
     }
 
