@@ -136,9 +136,9 @@ export default async function Home({ searchParams }: getParams) {
           <div className={styles.searchResult}>
             {resultData.words.length == 0 ? (
               resultData.error ? (
-                <div>잘못된 요청입니다.</div>
+                <div className={styles.error}>잘못된 요청입니다.</div>
               ) : (
-                <div>검색결과가 없습니다.</div>
+                <div className={styles.error}>검색결과가 없습니다.</div>
               )
             ) : (
               resultData.words.map((item: CardItem) => (
