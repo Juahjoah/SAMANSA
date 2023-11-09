@@ -1,6 +1,7 @@
 package com.ssafy.memetionary.wordes.repository;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -169,6 +170,12 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                                 .source("doc['memberId'].value == params.ip")
                                 .params("ip", JsonData.of(clientIP))
                             )
+                        )
+                    )
+                    .sort(sort -> sort
+                        .field(f -> f
+                            .field(WordESType.CREATE_DATE.getFieldName())
+                            .order(SortOrder.Desc)
                         )
                     )
                 , Object.class
