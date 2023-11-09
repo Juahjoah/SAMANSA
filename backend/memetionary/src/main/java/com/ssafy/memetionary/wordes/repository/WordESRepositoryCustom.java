@@ -1,5 +1,6 @@
 package com.ssafy.memetionary.wordes.repository;
 
+import com.ssafy.memetionary.wordes.document.QueryType;
 import com.ssafy.memetionary.wordes.document.SearchFieldType;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.document.WordESRequestType;
@@ -15,10 +16,9 @@ public interface WordESRepositoryCustom {
 
     public WordESAutoCompleteResponse getAutoCompleteWords(String word);
 
-    public WordESSearchResponse searchWords(String queryType, SearchFieldType fieldType,
-                                            String name, String clientIP, Pageable pageable);
+    public WordESSearchResponse searchWords(QueryType queryType, SearchFieldType fieldType, String name, String clientIP, Pageable pageable);
 
-    public WordESSearchResponse searchWordIndex(String name, Pageable pageable);
+    public WordESSearchResponse searchWordIndex(String name, Pageable pageable, String clientIP);
 
     public WordESSearchResponse searchWordById(String wordId, String clientIP);
 }
