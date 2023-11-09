@@ -37,31 +37,26 @@
 }
 
 .mobile_logo {
-  display: flex;
+  display: none;
   font-size: 70px;
   font-weight: 800;
   align-items: flex-end;
   border: 2px solid rgb(202, 199, 199);
   border-radius: 50%;
 }
-/* 
-.mobile_logo div {
-  display: flex;
-  align-items: flex-end;
-  margin: 0;
-}
-
-.mobile_logo div:nth-child(1) {
-  font-size: 36px;
-}
-
-.mobile_logo div:nth-child(2) {
-  font-size: 22px;
-} */
 
 @media (max-width: 1400px) {
   .base {
     width: 98%;
     padding: 0 5vw 0 5vw;
+  }
+}
+
+@media (max-width: 750px) {
+  .mobile_logo {
+    display: flex;
+  }
+  .headerLogo {
+    display: none;
   }
 }
