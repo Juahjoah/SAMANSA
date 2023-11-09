@@ -1,6 +1,7 @@
 'use client';
 
 import styles from './DeleteButton.module.css';
+import { useState, useEffect } from 'react';
 
 type ButtonProps = {
   id?: string;
@@ -31,6 +32,12 @@ export default function DeleteButton({
   const { id, memberNickname } = requestData; // 카드의 id, 유저닉네임
   const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}`;
 
+  const [mounted, setMounted] = useState<boolean>(false);
+  useEffect(() => {
+    if (nickname === memberNickname) {
+      setMounted(true);
+    }
+  }, []);
   // 로그인 유저의 닉네임 정보
   const nickname: string | null =
     typeof window !== 'undefined' ? sessionStorage.getItem('nickname') : null;
@@ -47,12 +54,7 @@ export default function DeleteButton({
 
   return (
     <div className={styles.base}>
-      {/* {memberNickname === 'joung' ? (
-        <div onClick={DeleteWord}>삭제</div>
-      ) : (
-        <div />
-      )} */}
-      {nickname === memberNickname && <div onClick={DeleteWord}>삭제</div>}
+      {mounted && <div onClick={DeleteWord}>삭제</div>}
     </div>
   );
 }
