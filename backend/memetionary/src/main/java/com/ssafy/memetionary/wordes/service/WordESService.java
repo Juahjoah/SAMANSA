@@ -2,24 +2,19 @@ package com.ssafy.memetionary.wordes.service;
 
 import com.ssafy.memetionary.common.CustomErrorType;
 import com.ssafy.memetionary.common.exception.WordNotFoundException;
+import com.ssafy.memetionary.wordes.document.QueryType;
 import com.ssafy.memetionary.wordes.document.SearchFieldType;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.document.WordESRequestType;
 import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteResponse;
 import com.ssafy.memetionary.wordes.dto.WordESRegisterRequest;
-import com.ssafy.memetionary.wordes.dto.WordESSearchItem;
 import com.ssafy.memetionary.wordes.dto.WordESSearchResponse;
 import com.ssafy.memetionary.wordes.repository.WordESRepository;
-
-import java.util.ArrayList;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -115,43 +110,35 @@ public class WordESService {
     }
 
     //엘라스틱 서치 단어 검색 - 단어 1
-    public WordESSearchResponse searchByName(String name, Pageable pageable,
-                                             String clientIP) {
-        String queryType = "match";
-        SearchFieldType fieldType = SearchFieldType.NAME;
-        WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(queryType,
-            fieldType, name, clientIP, pageable);
+    public WordESSearchResponse searchByName(String name, Pageable pageable, String clientIP) {
+        WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(QueryType.MATCH, SearchFieldType.NAME, name, clientIP, pageable);
 
         return wordESSearchResponse;
     }
 
-    public WordESSearchResponse searchExact(String name, String nickName, String hashtag, Pageable pageable,
-                                            String clientIP) {
-        String queryType = "term";
-        if (!name.equals("")) {
+    public WordESSearchResponse searchExact(String name, String nickName, String hashtag, Pageable pageable, String clientIP) {
+        if (!name.isEmpty()) {
             SearchFieldType fieldType = SearchFieldType.NAME_KEYWORD;
-            return wordESRepository.searchWords(queryType, fieldType, name,
+            return wordESRepository.searchWords(QueryType.TERM, fieldType, name,
                 clientIP, pageable);
         }
-        if (!nickName.equals("")) {
+        if (!nickName.isEmpty()) {
             SearchFieldType fieldType = SearchFieldType.MEMBER_NICKNAME;
-            return wordESRepository.searchWords(queryType, fieldType, nickName,
+            return wordESRepository.searchWords(QueryType.TERM, fieldType, nickName,
                 clientIP, pageable);
         }
-        if (!hashtag.equals("")) {
+        if (!hashtag.isEmpty()) {
             SearchFieldType fieldType = SearchFieldType.HASHTAG;
-            return wordESRepository.searchWords(queryType, fieldType, hashtag,
+            return wordESRepository.searchWords(QueryType.TERM, fieldType, hashtag,
                 clientIP, pageable);
         }
         throw new WordNotFoundException("찾는 단어 또는 사람이 없습니다.");
     }
 
     public WordESSearchResponse mainPage(Pageable pageable, String clientIP) {
-        String queryType = "matchAll";
         SearchFieldType fieldType = SearchFieldType.NAME;
         String name = "";
-        return wordESRepository.searchWords(queryType, fieldType, name,
-            clientIP, pageable);
+        return wordESRepository.searchWords(QueryType.MATCH_ALL, fieldType, name, clientIP, pageable);
     }
 
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
@@ -159,8 +146,8 @@ public class WordESService {
     }
 
     //단어 초성 색인 - 단어 10
-    public WordESSearchResponse searchWordIndex(String name, Pageable pageable) {
-        return wordESRepository.searchWordIndex(name, pageable);
+    public WordESSearchResponse searchWordIndex(String name, Pageable pageable, String clientIP) {
+        return wordESRepository.searchWordIndex(name, pageable, clientIP);
     }
 
     //ID로  단어 조회 - 단어 11
