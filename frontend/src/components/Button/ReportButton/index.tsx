@@ -5,6 +5,29 @@ import { useState, useEffect } from 'react';
 
 import Modal from '@/components/Modal';
 
+type ButtonProps = {
+  id?: string;
+  memberNickname?: string;
+};
+
+// api) 신고 요청
+export async function ReportData(url = '', data = {}) {
+  const accessToken: string | null =
+    typeof window !== 'undefined'
+      ? sessionStorage.getItem('accessToken')
+      : null;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+}
+
 export default function ReportButton({
   requestData,
 }: {
@@ -47,11 +70,12 @@ export default function ReportButton({
     if (nickname) {
       setMounted(true);
     }
+    console.log(memberNickname);
   }, []);
 
   return (
     <div className={styles.base}>
-      {!mounted && <div onClick={ModalOpen}>신고</div>}
+      {mounted && <div onClick={ModalOpen}>신고</div>}
       {isModalOpen && (
         <Modal
           visible={isModalOpen}
@@ -63,27 +87,4 @@ export default function ReportButton({
       )}
     </div>
   );
-}
-
-type ButtonProps = {
-  id?: string;
-  memberNickname?: string;
-};
-
-// api) 신고 요청
-export async function ReportData(url = '', data = {}) {
-  const accessToken: string | null =
-    typeof window !== 'undefined'
-      ? sessionStorage.getItem('accessToken')
-      : null;
-
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify(data),
-  });
-  return response.json();
 }

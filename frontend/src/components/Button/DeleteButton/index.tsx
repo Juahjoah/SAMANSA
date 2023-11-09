@@ -5,6 +5,27 @@ import { useState, useEffect } from 'react';
 
 import Modal from '@/components/Modal';
 
+type ButtonProps = {
+  id?: string;
+  memberNickname?: string;
+};
+
+// api) 삭제 요청
+export async function DeleteData(url = '') {
+  const accessToken: string | null =
+    typeof window !== 'undefined'
+      ? sessionStorage.getItem('accessToken')
+      : null;
+
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  return response.json();
+}
+
 export default function DeleteButton({
   requestData,
 }: {
@@ -47,7 +68,7 @@ export default function DeleteButton({
 
   return (
     <div className={styles.base}>
-      {!mounted && <div onClick={ModalOpen}>삭제</div>}
+      {mounted && <div onClick={ModalOpen}>삭제</div>}
       {isModalOpen && (
         <Modal
           visible={isModalOpen}
@@ -59,25 +80,4 @@ export default function DeleteButton({
       )}
     </div>
   );
-}
-
-type ButtonProps = {
-  id?: string;
-  memberNickname?: string;
-};
-
-// api) 삭제 요청
-export async function DeleteData(url = '') {
-  const accessToken: string | null =
-    typeof window !== 'undefined'
-      ? sessionStorage.getItem('accessToken')
-      : null;
-
-  const response = await fetch(url, {
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-  return response.json();
 }
