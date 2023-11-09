@@ -17,7 +17,7 @@
 }
 
 .searchInput {
-  width: calc(100% - 5rem);
+  width: calc(100% - 12.2rem);
 }
 
 .content {
@@ -36,8 +36,21 @@
   display: sticky;
 }
 
+.searchResult {
+  width: 100%;
+}
+
 .searchResult > div {
   margin: 0 0 2rem 0;
+}
+
+.error {
+  width: 100%;
+  text-align: center;
+
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffffff;
 }
 
 @media (max-width: 1400px) {
