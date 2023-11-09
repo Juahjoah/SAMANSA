@@ -1,6 +1,7 @@
 'use client';
 
 import styles from './ReportButton.module.css';
+import { useState, useEffect } from 'react';
 
 type ButtonProps = {
   id?: string;
@@ -36,9 +37,16 @@ export default function ReportButton({
   const url = `${process.env.NEXT_PUBLIC_API_URL}`;
   const data = { wordId: id };
 
-  // 로그인 유저의 정보
-  const nickname: string | null =
-    typeof window !== 'undefined' ? sessionStorage.getItem('nickname') : null;
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    // 로그인 유저의 정보
+    const nickname: string | null =
+      typeof window !== 'undefined' ? sessionStorage.getItem('nickname') : null;
+    if (nickname) {
+      setMounted(true);
+    }
+  }, []);
 
   const ReportWord = async () => {
     ReportData(`${url}/declaration`, data)
@@ -58,7 +66,7 @@ export default function ReportButton({
 
   return (
     <div className={styles.base}>
-      {nickname ? <div onClick={ReportWord}>신고</div> : null}
+      {mounted ? <div onClick={ReportWord}>신고</div> : null}
     </div>
   );
 }

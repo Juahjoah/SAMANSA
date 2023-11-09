@@ -67,7 +67,7 @@ export default function DeleteButton({
   };
   return (
     <div className={styles.base}>
-      {!mounted && <div onClick={ModalOpen}>삭제</div>}
+      {mounted && <div onClick={ModalOpen}>삭제</div>}
       {isModalOpen && (
         <Modal
           visible={isModalOpen}
