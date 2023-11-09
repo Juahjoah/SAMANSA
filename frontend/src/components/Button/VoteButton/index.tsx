@@ -39,8 +39,8 @@ export default function VoteButton({
 
   const handleLike = () => {
     if (voteState === VoteState.UP) {
-      setVoteState(VoteState.NONE);
       likeCount -= 1;
+      setVoteState(VoteState.NONE);
       updateVoteCountMutation.mutate({ id: wordId, like: false });
       return;
     }
@@ -49,8 +49,8 @@ export default function VoteButton({
   };
   const handleDislike = () => {
     if (voteState === VoteState.DOWN) {
-      setVoteState(VoteState.NONE);
       dislikeCount -= 1;
+      setVoteState(VoteState.NONE);
       updateVoteCountMutation.mutate({ id: wordId, like: true });
       return;
     }

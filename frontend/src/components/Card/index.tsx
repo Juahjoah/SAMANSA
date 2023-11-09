@@ -1,7 +1,9 @@
 import styles from './Card.module.css';
 import VoteButton from '../Button/VoteButton';
 import { CardItem } from '@/app/(main)/page';
-import DeleteButton from '@/components/Button/DeleteButton';
+import ShareButton from '../Button/ShareButton';
+import DeleteButton from '../Button/DeleteButton';
+import ReportButton from '../Button/ReportButton';
 
 export default function Card({ variant = 'large', item }: CardProps) {
   const {
@@ -59,24 +61,31 @@ export default function Card({ variant = 'large', item }: CardProps) {
   }
   return (
     <div className={`${styles.base} ${variantClass}`}>
-      <div className={styles.title}>
-        <a
-          href={`${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=word&value=${wordName}`}
-        >
-          {wordName}
-        </a>
+      <div className={styles.titleWrapper}>
+        <div className={styles.title}>
+          <a
+            href={`${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=word&value=${wordName}`}
+          >
+            {wordName}
+          </a>
+        </div>
+        <ShareButton />
       </div>
       <p className={styles.description}>{formattedDescription}</p>
       <i className={styles.example}>{formattedExample}</i>
-      <div className={styles.alert}>
-        <DeleteButton requestData={requestData} />
-      </div>
+      <div className={styles.alert}></div>
       <div className={styles.wrapper}>
-        <VoteButton
-          wordId={id}
-          {...{ likeCount, dislikeCount, hasLike, hasDislike }}
-        />
-        {/* <VoteButton wordId={id} likeCount={55} dislikeCount={66} /> */}
+        <div className={styles.wrapperChildren}>
+          <VoteButton
+            wordId={id}
+            {...{ likeCount, dislikeCount, hasLike, hasDislike }}
+          />
+          <div className={styles.optionGroup}>
+            <DeleteButton requestData={requestData} />
+            <ReportButton requestData={requestData} />
+          </div>
+        </div>
+
         <p className={styles.date}>
           {formattedDate}&nbsp;by&nbsp;
           <span className={styles.nickname}>

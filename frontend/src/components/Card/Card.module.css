@@ -41,6 +41,10 @@
   font-weight: 500;
 }
 
+.wrapperChildren {
+  display: flex;
+}
+
 .nickname {
   color: rgb(var(--card-title-rgb));
   cursor: pointer;
@@ -56,6 +60,15 @@
   justify-content: flex-end;
 }
 
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.optionGroup {
+  display: flex;
+  margin: 0 0 0 0.9em;
+}
 /* 모바일 */
 /* @media only screen and (max-width: 480px) {
 } */

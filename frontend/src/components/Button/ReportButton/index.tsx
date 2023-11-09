@@ -58,7 +58,7 @@ export default function ReportButton({
 
   return (
     <div className={styles.base}>
-      {nickname ? <div onClick={ReportWord}>신고하기</div> : null}
+      {nickname ? <div onClick={ReportWord}>신고</div> : null}
     </div>
   );
 }

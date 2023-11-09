@@ -2,7 +2,7 @@
   display: flex;
   padding: 0 5px 0;
   cursor: pointer;
-  color: rgb(221, 218, 218);
+  color: #cac9e1;
 }
 
 .base :hover {
