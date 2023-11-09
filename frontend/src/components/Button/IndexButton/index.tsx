@@ -39,7 +39,7 @@ export default function IndexButton() {
   return (
     <div className={styles.container}>
       <div className={styles.browseButton} onClick={CheckingModal}>
-        <p>A-Z</p>
+        <p>ㄱ~ㅎ</p>
         <div className={styles.arrow}>▼</div>
       </div>
       {modalCheck ? (
