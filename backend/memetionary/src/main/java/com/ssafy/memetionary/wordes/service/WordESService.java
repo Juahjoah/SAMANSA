@@ -162,4 +162,9 @@ public class WordESService {
     public WordESSearchResponse searchWordIndex(String name, Pageable pageable) {
         return wordESRepository.searchWordIndex(name, pageable);
     }
+
+    //ID로  단어 조회 - 단어 11
+    public WordESSearchResponse searchWordById(String name, String clientIP) {
+        return wordESRepository.searchWordById(name, clientIP);
+    }
 }

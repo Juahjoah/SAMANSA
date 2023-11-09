@@ -14,9 +14,6 @@ import com.ssafy.memetionary.wordes.repository.WordESRepository;
 import com.ssafy.memetionary.wordes.service.WordESService;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -150,6 +147,13 @@ public class WordESController {
         WordESSearchResponse words = wordESService.searchWordIndex(name, pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(words);
+    }
+
+    @GetMapping("/{wordId}")
+    public ResponseEntity<WordESSearchResponse> searchWordById(@PathVariable String wordId, HttpServletRequest httpServletRequest) {
+        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        WordESSearchResponse response = wordESService.searchWordById(wordId, clientIP);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }
