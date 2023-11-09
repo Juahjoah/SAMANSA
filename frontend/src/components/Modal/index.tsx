@@ -1,20 +1,41 @@
+'use client';
+
 import styles from './Modal.module.css';
 import Image from 'next/image';
 import alert from '@/public/assets/alert_icon.png';
 
+import { useState, useEffect } from 'react';
+
 type ModalProps = {
   maskClosable: boolean;
   visible: boolean;
+  variant?: string;
   onClose: () => void;
   action: () => void;
 };
 
 export default function Modal({
-  onClose,
   maskClosable,
-  action,
   visible,
+  variant,
+  onClose,
+  action,
 }: ModalProps) {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [secondcontent, setSecondContent] = useState('');
+
+  useEffect(() => {
+    if (variant === 'report') {
+      setTitle('신고를 하시겠습니까?');
+      setContent('누적된 신고가 많은 단어는');
+      setSecondContent('삭제될 수 있으니 주의해주세요.');
+    } else if (variant === 'delete') {
+      setTitle('단어를 삭제하시겠습니까?');
+      setContent('삭제된 단어는 다시 복구할 수 없으니');
+      setSecondContent('신중히 결정해주세요.');
+    }
+  }, []);
   const onMaskClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -27,7 +48,7 @@ export default function Modal({
     }
   };
 
-  const Delete = () => {
+  const active = () => {
     onClose();
     action();
   };
@@ -43,15 +64,15 @@ export default function Modal({
       >
         <div className={styles.modalInner}>
           <Image src={alert} alt="alert" width={45} height={45} />
-          <p>단어를 삭제하시겠습니까?</p>
+          <p>{title}</p>
           <p>
-            삭제된 단어는 다시 복구할 수 없으니 <br /> 신중히 결정해주세요.
+            {content} <br /> {secondcontent}
           </p>
           <div className={styles.container}>
             <div className={styles.closebutton} onClick={close}>
               취소
             </div>
-            <div className={styles.deletebutton} onClick={Delete}>
+            <div className={styles.deletebutton} onClick={active}>
               확인
             </div>
           </div>
