@@ -13,6 +13,8 @@ export default function Card({ variant = 'large', item }: CardProps) {
     createDate,
     likeCount,
     dislikeCount,
+    hasLike,
+    hasDislike,
   } = item;
 
   let formattedDate = '';
@@ -57,18 +59,33 @@ export default function Card({ variant = 'large', item }: CardProps) {
   }
   return (
     <div className={`${styles.base} ${variantClass}`}>
-      <div className={styles.title}>{wordName}</div>
+      <div className={styles.title}>
+        <a
+          href={`${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=word&value=${wordName}`}
+        >
+          {wordName}
+        </a>
+      </div>
       <p className={styles.description}>{formattedDescription}</p>
       <i className={styles.example}>{formattedExample}</i>
       <div className={styles.alert}>
         <DeleteButton requestData={requestData} />
       </div>
       <div className={styles.wrapper}>
-        <VoteButton wordId={id} {...{ likeCount, dislikeCount }} />
+        <VoteButton
+          wordId={id}
+          {...{ likeCount, dislikeCount, hasLike, hasDislike }}
+        />
         {/* <VoteButton wordId={id} likeCount={55} dislikeCount={66} /> */}
         <p className={styles.date}>
           {formattedDate}&nbsp;by&nbsp;
-          <span className={styles.nickname}>{memberNickname}</span>
+          <span className={styles.nickname}>
+            <a
+              href={`${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=nickname&value=${memberNickname}`}
+            >
+              {memberNickname}
+            </a>
+          </span>
         </p>
       </div>
     </div>

@@ -15,7 +15,15 @@ export default function VoteButtonBase({
   onVoteDown,
   downVotes,
   voteState,
+  isLiked,
+  isDisliked,
 }: VoteButtonBaseProps) {
+  if (isLiked) {
+    voteState = VoteState.UP;
+  }
+  if (isDisliked) {
+    voteState = VoteState.DOWN;
+  }
   return (
     <div className={styles.buttonRoot}>
       <button
@@ -46,4 +54,6 @@ type VoteButtonBaseProps = {
   upVotes: number;
   downVotes: number;
   voteState: VoteState;
+  isLiked: boolean;
+  isDisliked: boolean;
 };
