@@ -142,9 +142,10 @@ public class WordESController {
     //단어 초성 색인 - 단어 10
     @GetMapping("/index")
     public ResponseEntity<WordESSearchResponse> searchWordIndex(
-        @RequestParam("startWith") String name, @PageableDefault(size = 10) Pageable pageable
+        @RequestParam("startWith") String name, @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest
     ) {
-        WordESSearchResponse words = wordESService.searchWordIndex(name, pageable);
+        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        WordESSearchResponse words = wordESService.searchWordIndex(name, pageable, clientIP);
 
         return ResponseEntity.status(HttpStatus.OK).body(words);
     }

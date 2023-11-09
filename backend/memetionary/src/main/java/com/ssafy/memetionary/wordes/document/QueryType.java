@@ -5,11 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum SearchFieldType {
-    NAME("name"),
-    NAME_KEYWORD("name.keyword"),
-    MEMBER_NICKNAME("memberNickname"),
-    HASHTAG("hashtags"),
-    ID("_id");
+public enum QueryType {
+    MATCH("match"),
+    TERM("term"),
+    MATCH_ALL("matchAll");
     private final String fieldName;
 }
