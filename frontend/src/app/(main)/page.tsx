@@ -90,7 +90,7 @@ async function fetchData({ type, value, page }: fetchDataInput) {
       url = url + 'main';
       break;
   }
-  console.log(url);
+  // console.log(url);
   const res = await fetch(url, {
     cache: 'no-store',
   });

@@ -1,23 +1,31 @@
 import { MetadataRoute } from 'next';
-// import { fetchData, resultData } from '@/app/(main)/page';
+import { resultData } from '@/app/(main)/page';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // const data: resultData | null = await fetchData({
-  //   type: 'main',
-  //   value: '',
-  //   page: 0,
-  // });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/word/main`, {
+    cache: 'no-store',
+  });
 
-  const total = 60; //data == null ? 0 : data.total;
-
-  const page = [];
-
-  for (let i = 1; i <= total; i++) {
-    page.push(i);
+  let data: resultData;
+  if (res.ok) {
+    data = await res.json();
+  } else {
+    console.error(`HTTP Error: ${res.status}`);
+    data = { total: 0, words: [], error: true };
   }
+
+  const page = Array.from(
+    { length: Math.ceil(data.total / 10) },
+    (_, index) => index + 1,
+  );
+
   return [
     {
       url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/page=${data}`,
       lastModified: new Date(),
     },
     ...page.map((pgNum) => {
