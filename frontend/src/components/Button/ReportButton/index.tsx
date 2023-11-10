@@ -74,7 +74,7 @@ export default function ReportButton({
 
   return (
     <div className={styles.base}>
-      {!mounted && <div onClick={ModalOpen}>신고</div>}
+      {mounted && <div onClick={ModalOpen}>신고</div>}
       {isModalOpen && (
         <Modal
           visible={isModalOpen}
