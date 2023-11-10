@@ -3,6 +3,7 @@ package com.ssafy.memetionary.common.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ssafy.memetionary.util.HeaderUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 @RequestMapping("/test")
 public class TestController {
+
+    private final HeaderUtils headerUtils;
+
     @GetMapping("/get-ip")
     public ResponseEntity<?> testIP(HttpServletRequest request) {
         String remoteAddr1 = request.getRemoteAddr();
@@ -26,6 +30,7 @@ public class TestController {
         response.put("remoteAddr1", remoteAddr1);
         response.put("remoteAddr2", remoteAddr2);
         response.put("remoteAddr3", remoteAddr3);
+        response.put("clientIP", headerUtils.getClientIP(request));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
