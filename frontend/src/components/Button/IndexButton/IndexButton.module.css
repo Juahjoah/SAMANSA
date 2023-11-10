@@ -32,7 +32,7 @@
 }
 
 .browseButton p {
-  margin-left: 1.2rem;
+  margin-left: 0.9rem;
 }
 
 .arrow {
@@ -42,8 +42,8 @@
 
 .modal {
   position: absolute;
-  top: 18px;
-  left: -20px;
+  top: 26px;
+  left: -18px;
   background-color: #676687;
   border: 0.2px solid black;
   display: flex;

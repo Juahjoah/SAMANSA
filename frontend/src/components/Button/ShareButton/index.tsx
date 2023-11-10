@@ -24,9 +24,13 @@ export default function ShareButton({ wordName }: ButtonProps) {
   };
   const ShareFacebook = () => {
     // 페이스북 공유하기 페이지 이동
-    router.push(
-      `https://www.facebook.com/sharer/sharer.php?u=${sendUrl}/?type=search&value=${wordName}`,
+    console.log(wordName);
+    window.open(
+      `http://www.facebook.com/sharer.php?u=${sendUrl}/?type=search/?value=${wordName}`,
     );
+    // router.push(
+    //   `https://www.facebook.com/sharer/sharer.php?u=${sendUrl}/?type=search&value=${wordName}`,
+    // );
   };
 
   return (
