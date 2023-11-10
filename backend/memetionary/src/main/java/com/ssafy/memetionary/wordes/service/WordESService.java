@@ -116,6 +116,7 @@ public class WordESService {
         return wordESSearchResponse;
     }
 
+
     public WordESSearchResponse searchExact(String name, String nickName, String hashtag, Pageable pageable, String clientIP) {
         if (!name.isEmpty()) {
             SearchFieldType fieldType = SearchFieldType.NAME_KEYWORD;
@@ -135,12 +136,14 @@ public class WordESService {
         throw new WordNotFoundException("찾는 단어 또는 사람이 없습니다.");
     }
 
+    //최신순으로 정렬(메인페이지) - 단어 2
     public WordESSearchResponse mainPage(Pageable pageable, String clientIP) {
         SearchFieldType fieldType = SearchFieldType.NAME;
         String name = "";
         return wordESRepository.searchWords(QueryType.MATCH_ALL, fieldType, name, clientIP, pageable);
     }
 
+    //단어 자동완성 - 단어 8
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
         return wordESRepository.getAutoCompleteWords(word);
     }
