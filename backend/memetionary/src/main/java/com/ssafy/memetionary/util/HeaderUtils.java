@@ -3,12 +3,15 @@ package com.ssafy.memetionary.util;
 import com.ssafy.memetionary.oauth2.token.JwtTokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
 public class HeaderUtils {
     private final JwtTokenService jwtTokenService;
+    @Value("${spring.data.redis.host}")
+    private String host;
 
     public HeaderUtils(JwtTokenService jwtTokenService) {
         this.jwtTokenService = jwtTokenService;
@@ -20,9 +23,12 @@ public class HeaderUtils {
     }
 
     public String getClientIP(HttpServletRequest request) {
-        String clientIP1 = request.getRemoteAddr();
-        String clientIP2 = request.getHeader("X-Forwarded-For");
-        String clientIP3 = request.getHeader("X-Real-IP");
-        return clientIP3 != null ? clientIP3 : clientIP2;
+        //ex) "1.1.1.1, 2.2.2.2"로 입력 받음
+        String clientIP = request.getHeader("X-Forwarded-For").replaceAll(" ", "");
+        String[] ips = clientIP.split(",");
+        if (ips[0].equals(host)) {
+            return ips[1];
+        }
+        return ips[0];
     }
 }
