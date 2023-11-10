@@ -21,9 +21,11 @@ public class TestController {
     public ResponseEntity<?> testIP(HttpServletRequest request) {
         String remoteAddr1 = request.getRemoteAddr();
         String remoteAddr2 = request.getHeader("X-Forwarded-For");
+        String remoteAddr3 = request.getHeader("X-Real-IP");
         Map<String, String> response = new HashMap<>();
         response.put("remoteAddr1", remoteAddr1);
         response.put("remoteAddr2", remoteAddr2);
+        response.put("remoteAddr3", remoteAddr3);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
