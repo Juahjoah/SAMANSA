@@ -22,8 +22,7 @@ public class HeaderUtils {
     public String getClientIP(HttpServletRequest request) {
         String clientIP1 = request.getRemoteAddr();
         String clientIP2 = request.getHeader("X-Forwarded-For");
-        log.debug("clientIP1 = " + clientIP1);
-        log.debug("clientIP2 = " + clientIP2);
-        return clientIP2 != null ? clientIP2 : clientIP1;
+        String clientIP3 = request.getHeader("X-Real-IP");
+        return clientIP3 != null ? clientIP3 : clientIP2;
     }
 }
