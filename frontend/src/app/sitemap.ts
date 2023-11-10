@@ -1,18 +1,18 @@
 import { MetadataRoute } from 'next';
-import { fetchData, resultData } from '@/app/(main)/page';
+// import { fetchData, resultData } from '@/app/(main)/page';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const data: resultData | null = await fetchData({
-    type: 'main',
-    value: '',
-    page: 0,
-  });
+  // const data: resultData | null = await fetchData({
+  //   type: 'main',
+  //   value: '',
+  //   page: 0,
+  // });
 
-  const total = data == null ? 0 : data.total;
+  const total = 60; //data == null ? 0 : data.total;
 
-  var page = [];
+  const page = [];
 
-  for (var i = 1; i <= total; i++) {
+  for (let i = 1; i <= total; i++) {
     page.push(i);
   }
   return [

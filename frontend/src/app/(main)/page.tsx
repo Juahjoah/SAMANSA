@@ -50,7 +50,7 @@ type fetchDataInput = {
   page: number;
 };
 
-export async function fetchData({ type, value, page }: fetchDataInput) {
+async function fetchData({ type, value, page }: fetchDataInput) {
   let url = `${process.env.NEXT_PUBLIC_API_URL}/word/`;
 
   const encodedValue = encodeURIComponent(value)
