@@ -23,6 +23,7 @@ export default function KakaoLoginButton() {
     <div>
       {/* <p>카카오 로그인</p> */}
       {/* <KakaoLoginLogo /> */}
+
       <Image
         className={styles.loginLogo}
         onClick={() => {
@@ -30,6 +31,10 @@ export default function KakaoLoginButton() {
         }}
         src={KakaoLogin}
         alt="kakao"
+        width={0}
+        height={0}
+        sizes="100vw"
+        style={{ width: '100%', height: 'auto' }}
       />
     </div>
   );

@@ -53,9 +53,15 @@
 }
 
 .autocomplete {
+  /* width: 100%; */
   /* text-align: center; */
   font-size: 1.05rem;
   border-radius: 0;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  overflow: hidden;
 }
 
 .end {
@@ -74,4 +80,10 @@
 
 .nickname {
   font-size: 1rem;
+}
+
+.description {
+  padding-left: 0.5rem;
+  font-size: 1rem;
+  color: lightgray;
 }

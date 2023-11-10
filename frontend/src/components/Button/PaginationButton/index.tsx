@@ -4,17 +4,26 @@ import { useEffect, useState } from 'react';
 import styles from './Pagination.module.css';
 // import { useRouter } from 'next/router';
 
-type paginationProps = {
+type PaginationProps = {
+  type: string;
+  value: string;
+  pagination: Pagination;
+};
+
+type Pagination = {
   total: number;
   page: number;
-  word: string;
 };
 
 // 페이지 네이션 버튼
-export default function Pagination({ total, page, word }: paginationProps) {
-  const length = Math.ceil(total / 10); // 총 페이지 갯수 - api 연동 필요
-  const [selectedButton, setSelectedButton] = useState(page); // 선택된 페이지 넘버 - 리덕스or리코일에 저장
-  // const router = useRouter();
+export default function Pagination({
+  type,
+  value,
+  pagination,
+}: PaginationProps) {
+  const length = Math.ceil(pagination.total / 10); // 총 페이지 갯수 - api 연동 필요
+  const [selectedButton, setSelectedButton] = useState(pagination.page - 1); // 선택된 페이지 넘버 - 리덕스or리코일에 저장
+
   const CheckButton = (index: number) => {
     setSelectedButton(index);
   };
@@ -60,10 +69,11 @@ export default function Pagination({ total, page, word }: paginationProps) {
       : PageElements.slice(selectedButton - 2, selectedButton + 3);
 
   useEffect(() => {
-    if (page != selectedButton) {
-      const url = `${
-        process.env.NEXT_PUBLIC_REDIRECT_URI
-      }${`?word=${word}&page=${selectedButton + 1}`}`;
+    if (pagination.page - 1 != selectedButton) {
+      const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
+        value == '' ? `?` : `?type=${type}&value=${value}&`
+      }page=${selectedButton + 1}`;
+      // console.log(url);
       window.location.href = url;
     }
   }, [selectedButton]);

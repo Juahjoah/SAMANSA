@@ -4,7 +4,8 @@
   display: flex;
   flex-direction: column;
   background: rgb(var(--card-background-rgb));
-  width: 52rem;
+  width: 90%;
+  min-width: 200px;
   height: auto;
   border-radius: 1rem;
   padding: 2rem;
@@ -35,9 +36,13 @@
 
 .wrapper {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin: 2rem 0 0 0;
   font-weight: 500;
+}
+
+.wrapperChildren {
+  display: flex;
 }
 
 .nickname {
@@ -47,3 +52,27 @@
 .nickname:hover {
   color: rgb(var(--card-title-hover-rgb));
 }
+.info {
+  display: flex;
+}
+.alert {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.optionGroup {
+  display: flex;
+  margin: 0 0 0 0.9em;
+}
+/* 모바일 */
+/* @media only screen and (max-width: 480px) {
+} */
+
+/* 태블릿 */
+/* @media screen and (min-width: 768px) and (max-width: 1023px) {
+} */

@@ -84,10 +84,12 @@ export default function NicknamePages() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.nickname}>
-        <h2>사만사에서 사용할 닉네임을 입력해주세요.</h2>
-        {/* <p>
-          닉네임은 한 번 설정하면 변경할 수 없습니다. 신중하게 결정해주세요.
-        </p> */}
+        <p className={styles.nicknameTitle}>
+          사만사에서 사용할 닉네임을 입력해주세요.
+        </p>
+        <p className={styles.nicknameContent}>
+          닉네임을 설정하지 않는 경우, 이름이 닉네임으로 설정됩니다.
+        </p>
         <div className={styles.namecheck}>
           <div className={styles.inputarea}>
             <div className={styles.inputcomponent}>

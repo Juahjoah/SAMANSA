@@ -1,0 +1,7 @@
+.buttonRoot {
+  display: flex;
+}
+
+.buttonRoot button {
+  all: unset;
+}

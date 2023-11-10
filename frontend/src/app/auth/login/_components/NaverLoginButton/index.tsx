@@ -21,8 +21,6 @@ export default function NaverLoginButton() {
 
   return (
     <div>
-      {/* <p>네이버 로그인</p> */}
-      {/* <NaverLogin src={NaverLogin} alt="naver" /> */}
       <Image
         className={styles.loginLogo}
         onClick={() => {
@@ -30,6 +28,10 @@ export default function NaverLoginButton() {
         }}
         src={NaverLogin}
         alt="naver"
+        width={0}
+        height={0}
+        sizes="100vw"
+        style={{ width: '100%', height: 'auto' }}
       />
     </div>
   );
