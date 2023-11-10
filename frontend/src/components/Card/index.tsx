@@ -69,7 +69,7 @@ export default function Card({ variant = 'large', item }: CardProps) {
             {wordName}
           </a>
         </div>
-        <ShareButton />
+        <ShareButton wordName={wordName} />
       </div>
       <p className={styles.description}>{formattedDescription}</p>
       <i className={styles.example}>{formattedExample}</i>

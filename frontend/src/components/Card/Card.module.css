@@ -43,6 +43,7 @@
 
 .wrapperChildren {
   display: flex;
+  max-width: 165px;
 }
 
 .nickname {
