@@ -53,8 +53,6 @@ export default function ReportButton({
         console.log(data.message);
         if (data.message == '이미 신고하였습니다.') {
           alert('이미 신고하신 단어입니다.');
-        } else {
-          alert('신고가 정상적으로 접수되었습니다.');
         }
       })
       .catch(() => {
