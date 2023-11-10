@@ -52,7 +52,7 @@ export default function Modal({
     onClose();
     action();
   };
-  //   if (!open) return null;
+
   return (
     <>
       <div

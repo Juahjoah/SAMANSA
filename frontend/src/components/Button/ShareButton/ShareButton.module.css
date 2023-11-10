@@ -9,6 +9,7 @@
 .buttonWrapper {
   display: flex;
   cursor: pointer;
+  max-width: 70px;
 }
 
 .button {
