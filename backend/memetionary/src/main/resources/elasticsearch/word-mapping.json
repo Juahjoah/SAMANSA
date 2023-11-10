@@ -5,10 +5,19 @@
     },
     "name": {
       "type": "text",
+      "store": true,
       "analyzer": "nori",
       "fields": {
         "keyword": {
           "type": "keyword"
+        },
+        "jaso": {
+          "type": "text",
+          "analyzer": "suggest_index_analyzer"
+        },
+        "chosung":{
+          "type": "text",
+          "analyzer": "chosung_index_analyzer"
         }
       }
     },

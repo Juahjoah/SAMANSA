@@ -9,6 +9,6 @@ import java.util.List;
 @Builder
 public class WordESAutoCompleteResponse {
 
-    private List<String> words;
+    private List<WordESAutoCompleteItem> words;
 
 }

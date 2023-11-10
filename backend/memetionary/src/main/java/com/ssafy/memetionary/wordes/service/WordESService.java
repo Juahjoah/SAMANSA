@@ -2,23 +2,19 @@ package com.ssafy.memetionary.wordes.service;
 
 import com.ssafy.memetionary.common.CustomErrorType;
 import com.ssafy.memetionary.common.exception.WordNotFoundException;
+import com.ssafy.memetionary.wordes.document.QueryType;
+import com.ssafy.memetionary.wordes.document.SearchFieldType;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.document.WordESRequestType;
 import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteResponse;
 import com.ssafy.memetionary.wordes.dto.WordESRegisterRequest;
-import com.ssafy.memetionary.wordes.dto.WordESSearchItem;
 import com.ssafy.memetionary.wordes.dto.WordESSearchResponse;
 import com.ssafy.memetionary.wordes.repository.WordESRepository;
-
-import java.util.ArrayList;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -33,12 +29,13 @@ public class WordESService {
 
     private final WordESRepository wordESRepository;
 
-    public void registerWordES(WordESRegisterRequest request, String memberId, String memberNickname) {
+    public void registerWordES(WordESRegisterRequest request, String memberId,
+                               String memberNickname) {
         log.debug("request = " + request);
         WordES wordES = WordES.builder()
             .memberId(memberId)
             .memberNickname(memberNickname)
-            .name(request.getWordName())
+            .name(request.getWordName().trim())
             .description(request.getWordDescription())
             .example(request.getWordExample())
             .hashtags(getHashtags(request.getWordHashtag()))
@@ -56,6 +53,12 @@ public class WordESService {
     //단어 삭제
     public void delete(WordES wordES) {
         wordESRepository.delete(wordES);
+    }
+
+    public void delete(String wordId) {
+        WordES wordES = wordESRepository.findById(wordId)
+            .orElseThrow(() -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
+        delete(wordES);
     }
 
     //엘라스틱 서치 단어 좋아요/싫어요 - 단어 5
@@ -107,71 +110,48 @@ public class WordESService {
     }
 
     //엘라스틱 서치 단어 검색 - 단어 1
-    public WordESSearchResponse searchByName(String name, Pageable pageable) {
-        List<WordES> wordESList = wordESRepository.findByName(name, pageable).getContent();
-        List<WordESSearchItem> wordESSearchItems = new ArrayList<>();
-        for (WordES wordES : wordESList) {
-            WordESSearchItem wordESSearchItem = WordESSearchItem.builder()
-                .id(wordES.getId())
-                .wordName(wordES.getName())
-                .wordDescription(wordES.getDescription())
-                .wordExample(wordES.getExample())
-                .hashtagList(wordES.getHashtags())
-                .memberNickname(wordES.getMemberNickname())
-                .createDate(wordES.getCreateDate())
-                .build();
-            wordESSearchItems.add(wordESSearchItem);
-        }
+    public WordESSearchResponse searchByName(String name, Pageable pageable, String clientIP) {
+        WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(QueryType.MATCH, SearchFieldType.NAME, name, clientIP, pageable);
 
-        long total = wordESRepository.findByName(name, pageable).getTotalElements();
-        log.debug("total = " + total);
-
-        return WordESSearchResponse.builder()
-            .total(total)
-            .words(wordESSearchItems)
-            .build();
+        return wordESSearchResponse;
     }
 
-    public WordESSearchResponse mainPage(Pageable pageable) {
-        Sort sort = Sort.by(Direction.DESC, "createDate");
-        Pageable newpageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-        List<WordES> wordESList = wordESRepository.findAll(newpageable).getContent();
-        List<WordESSearchItem> wordESSearchItems = new ArrayList<>();
-        for (WordES wordES : wordESList) {
-            WordESSearchItem wordESSearchItem = WordESSearchItem.builder()
-                .id(wordES.getId())
-                .wordName(wordES.getName())
-                .wordDescription(wordES.getDescription())
-                .wordExample(wordES.getExample())
-                .hashtagList(wordES.getHashtags())
-                .memberNickname(wordES.getMemberNickname())
-                .createDate(wordES.getCreateDate())
-                .build();
-            wordESSearchItems.add(wordESSearchItem);
+    public WordESSearchResponse searchExact(String name, String nickName, String hashtag, Pageable pageable, String clientIP) {
+        if (!name.isEmpty()) {
+            SearchFieldType fieldType = SearchFieldType.NAME_KEYWORD;
+            return wordESRepository.searchWords(QueryType.TERM, fieldType, name,
+                clientIP, pageable);
         }
+        if (!nickName.isEmpty()) {
+            SearchFieldType fieldType = SearchFieldType.MEMBER_NICKNAME;
+            return wordESRepository.searchWords(QueryType.TERM, fieldType, nickName,
+                clientIP, pageable);
+        }
+        if (!hashtag.isEmpty()) {
+            SearchFieldType fieldType = SearchFieldType.HASHTAG;
+            return wordESRepository.searchWords(QueryType.TERM, fieldType, hashtag,
+                clientIP, pageable);
+        }
+        throw new WordNotFoundException("찾는 단어 또는 사람이 없습니다.");
+    }
 
-        long total = wordESRepository.findAll(newpageable).getTotalElements();
-        log.debug("total = " + total);
-
-        return WordESSearchResponse.builder()
-            .total(total)
-            .words(wordESSearchItems)
-            .build();
+    public WordESSearchResponse mainPage(Pageable pageable, String clientIP) {
+        SearchFieldType fieldType = SearchFieldType.NAME;
+        String name = "";
+        return wordESRepository.searchWords(QueryType.MATCH_ALL, fieldType, name, clientIP, pageable);
     }
 
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
-        List<String> words = wordESRepository.getAutoCompleteWords(word);
-        List<String> response = new ArrayList<>();
-        Set<String> duplicateWords = new HashSet<>();
-        for (String w : words) {
-            if (!duplicateWords.contains(w)) {
-                duplicateWords.add(w);
-                response.add(w);
-            }
-            if (response.size() >= 10)
-                break;
-        }
+        return wordESRepository.getAutoCompleteWords(word);
+    }
 
-        return WordESAutoCompleteResponse.builder().words(response).build();
+    //단어 초성 색인 - 단어 10
+    public WordESSearchResponse searchWordIndex(String name, Pageable pageable, String clientIP) {
+        return wordESRepository.searchWordIndex(name, pageable, clientIP);
+    }
+
+    //ID로  단어 조회 - 단어 11
+    public WordESSearchResponse searchWordById(String name, String clientIP) {
+        return wordESRepository.searchWordById(name, clientIP);
     }
 }
