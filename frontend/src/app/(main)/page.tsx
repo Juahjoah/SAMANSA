@@ -38,7 +38,7 @@ export type CardItem = {
   writer: boolean;
 };
 
-type resultData = {
+export type resultData = {
   total: number;
   words: CardItem[];
   error: boolean;
@@ -50,7 +50,7 @@ type fetchDataInput = {
   page: number;
 };
 
-async function fetchData({ type, value, page }: fetchDataInput) {
+export async function fetchData({ type, value, page }: fetchDataInput) {
   let url = `${process.env.NEXT_PUBLIC_API_URL}/word/`;
 
   const encodedValue = encodeURIComponent(value)

@@ -43,6 +43,8 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
   },
+  description:
+    'This is a dictionary where users create their own definitions of words.',
 };
 
 export default function RootLayout({
