@@ -22,7 +22,7 @@ export default function IndexButton() {
     'ㅌ',
     'ㅍ',
     'ㅎ',
-    'new',
+    // 'new',
   ];
 
   //모달
