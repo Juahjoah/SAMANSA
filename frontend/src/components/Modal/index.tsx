@@ -27,7 +27,7 @@ export default function Modal({
 
   useEffect(() => {
     if (variant === 'report') {
-      setTitle('신고를 하시겠습니까?');
+      setTitle('신고 하시겠습니까?');
       setContent('누적된 신고가 많은 단어는');
       setSecondContent('삭제될 수 있으니 주의해주세요.');
     } else if (variant === 'delete') {
