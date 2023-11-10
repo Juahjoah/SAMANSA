@@ -33,7 +33,7 @@ export default function ReportButton({
 }: {
   requestData: ButtonProps;
 }) {
-  const { id, memberNickname } = requestData; // 카드의 id, 유저닉네임
+  const id = requestData.id; // 카드의 id, 유저닉네임
   const url = `${process.env.NEXT_PUBLIC_API_URL}`;
   const data = { wordId: id };
   const [mounted, setMounted] = useState<boolean>(false);
@@ -67,7 +67,7 @@ export default function ReportButton({
     if (nickname) {
       setMounted(true);
     }
-    console.log(memberNickname);
+    // console.log(memberNickname);
   }, []);
 
   return (

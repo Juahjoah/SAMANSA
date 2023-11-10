@@ -207,7 +207,7 @@ export default function SearchInput({
           // console.error('사용자 정보 요청 실패:', error);
         });
     } else if (value == '') {
-      console.log(value);
+      // console.log(value);
       setData([{ name: '', description: '' }]);
     }
   }, [value]);
