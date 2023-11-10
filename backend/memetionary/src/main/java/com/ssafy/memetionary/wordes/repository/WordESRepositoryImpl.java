@@ -131,8 +131,8 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
 
             SearchResponse<Object> response = client.search(s -> s
                     .index(INDEX)
-                    .from(pageable.getPageNumber())
-                    .size(10)
+                    .from(pageable.getPageNumber() * pageable.getPageSize())
+                    .size(pageable.getPageSize())
                     .source(SourceConfig.of(sc -> sc
                         .filter(f -> f
                             .includes(
@@ -193,7 +193,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         try {
             SearchResponse<Object> response = client.search(s -> s
                     .index(INDEX)
-                    .from(pageable.getPageNumber())
+                    .from(pageable.getPageNumber() * pageable.getPageSize())
                     .size(pageable.getPageSize())
                     .source(SourceConfig.of(sc -> sc
                         .filter(f -> f
