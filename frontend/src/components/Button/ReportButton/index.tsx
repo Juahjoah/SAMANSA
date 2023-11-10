@@ -36,7 +36,6 @@ export default function ReportButton({
   const { id, memberNickname } = requestData; // 카드의 id, 유저닉네임
   const url = `${process.env.NEXT_PUBLIC_API_URL}`;
   const data = { wordId: id };
-
   const [mounted, setMounted] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
