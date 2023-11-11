@@ -35,7 +35,11 @@ export default function VoteButton({
     },
   });
 
-  const [voteState, setVoteState] = useState(VoteState.NONE);
+  let initialVoteState = VoteState.NONE;
+  if (hasLike) initialVoteState = VoteState.UP;
+  if (hasDislike) initialVoteState = VoteState.DOWN;
+
+  const [voteState, setVoteState] = useState(initialVoteState);
   const [likeCountState, setLikeCountState] = useState(likeCount);
   const [dislikeCountState, setDislikeCountState] = useState(dislikeCount);
 
