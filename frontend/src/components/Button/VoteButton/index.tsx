@@ -27,6 +27,7 @@ export default function VoteButton({
   hasLike,
   hasDislike,
 }: VoteButtonProps) {
+  console.log('ㅋㅋㅋㅋㅋㅋㅋㅋ');
   const queryClient = useQueryClient();
   const updateVoteCountMutation = useMutation({
     mutationFn: updateVoteCount,
@@ -40,12 +41,12 @@ export default function VoteButton({
   if (hasDislike) initialVoteState = VoteState.DOWN;
 
   const [voteState, setVoteState] = useState(initialVoteState);
-  const [likeCountState, setLikeCountState] = useState(likeCount);
-  const [dislikeCountState, setDislikeCountState] = useState(dislikeCount);
+  // const [likeCountState, setLikeCountState] = useState(likeCount);
+  // const [dislikeCountState, setDislikeCountState] = useState(dislikeCount);
 
   const handleLike = () => {
     if (voteState === VoteState.UP) {
-      setLikeCountState(likeCountState - 1);
+      // setLikeCountState(likeCountState - 1);
       setVoteState(VoteState.NONE);
       updateVoteCountMutation.mutate({ id: wordId, like: true });
       return;
@@ -55,7 +56,7 @@ export default function VoteButton({
   };
   const handleDislike = () => {
     if (voteState === VoteState.DOWN) {
-      setDislikeCountState(dislikeCountState - 1);
+      // setDislikeCountState(dislikeCountState - 1);
       setVoteState(VoteState.NONE);
       updateVoteCountMutation.mutate({ id: wordId, like: false });
       return;
@@ -71,8 +72,6 @@ export default function VoteButton({
       upVotes={voteState === VoteState.UP ? likeCount + 1 : likeCount}
       downVotes={voteState === VoteState.DOWN ? dislikeCount + 1 : dislikeCount}
       voteState={voteState}
-      isLiked={hasLike}
-      isDisliked={hasDislike}
     />
   );
 }
