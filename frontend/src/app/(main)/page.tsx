@@ -118,6 +118,8 @@ export default async function Home({ searchParams }: getParams) {
     value,
     page,
   });
+  console.log('HomePage', type);
+  console.log('HomePage', resultData);
 
   return (
     <>
@@ -145,11 +147,14 @@ export default async function Home({ searchParams }: getParams) {
                 <div className={styles.error}>검색결과가 없습니다.</div>
               )
             ) : (
-              resultData.words.map((item: CardItem) => (
-                <div key={item.id}>
-                  <Card item={item} />
-                </div>
-              ))
+              resultData.words.map((item: CardItem) => {
+                console.log('CardItem', item);
+                return (
+                  <div key={item.id}>
+                    <Card item={item} />
+                  </div>
+                );
+              })
             )}
           </div>
           <div className={styles.survey}>
