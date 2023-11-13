@@ -1,6 +1,5 @@
 'use client';
 import VoteButtonBase from './VoteButtonBase';
-// import { headers } from 'next/headers';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -8,13 +7,9 @@ import { VoteState } from './VoteButtonBase';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
-  // const headersList = headers();
-  // const ip = headersList.get('x-forwarded-for');
-
   const response = await fetch(`${BASE_URL}/word/like`, {
     headers: {
       'Content-Type': 'application/json',
-      // 'client-ip': ip != null ? ip : '',
     },
     method: 'PUT',
     body: JSON.stringify({ wordId: id, wordLike: like }),
@@ -69,8 +64,8 @@ export default function VoteButton({
     <VoteButtonBase
       onVoteDown={handleDislike}
       onVoteUp={handleLike}
-      upVotes={likeCount} //voteState === VoteState.UP ? likeCount + 1 :
-      downVotes={dislikeCount} //voteState === VoteState.DOWN ? dislikeCount + 1 :
+      upVotes={voteState === VoteState.UP ? likeCount + 1 : likeCount}
+      downVotes={voteState === VoteState.DOWN ? dislikeCount + 1 : dislikeCount}
       voteState={voteState}
     />
   );
