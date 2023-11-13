@@ -158,19 +158,9 @@ export default function SearchInput({
 
         //지금 input 창의 값 가져옴
         const search = index == 0 ? value : InputValue;
-        const stripSearch = search.startsWith('#')
-          ? search.substring(1)
-          : search;
-        // const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-        //   search == '' ? `` : `?type=search&value=${search}`
-        // }`;
 
         const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-          search === ''
-            ? ''
-            : search.startsWith('#')
-            ? `?type=hashtag&value=${stripSearch}`
-            : `?type=search&value=${search}`
+          search == '' ? `` : `?type=search&value=${search}`
         }`;
 
         setIndex(0);
