@@ -48,7 +48,7 @@ export function Autocomplete({
     <div className={styles.wrapper}>
       <div
         className={`${styles.base} ${styles.autocomplete} ${variantClass}`}
-        onClick={clicked}
+        onMouseDown={clicked}
       >
         {word.name}
         <span className={`${styles.description}`}>{word.description}</span>
