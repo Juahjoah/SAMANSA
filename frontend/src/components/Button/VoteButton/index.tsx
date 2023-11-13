@@ -44,11 +44,6 @@ export default function VoteButton({
   const [likeCountState, setLikeCountState] = useState(likeCount);
   const [dislikeCountState, setDislikeCountState] = useState(dislikeCount);
 
-  useEffect(() => {
-    if (hasLike) setLikeCountState((prev) => prev - 1);
-    if (hasDislike) setDislikeCountState((prev) => prev - 1);
-  }, [hasLike, hasDislike]);
-
   // const handleLike = () => {
   //   if (voteState === VoteState.UP) {
   //     setVoteState(VoteState.NONE);
