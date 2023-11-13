@@ -20,6 +20,12 @@
   width: calc(100% - 12.2rem);
 }
 
+.searchTag {
+  font-size: 20px;
+  color: white;
+  margin: -2rem 0 1rem 0;
+}
+
 .content {
   display: flex;
   justify-content: space-between;
