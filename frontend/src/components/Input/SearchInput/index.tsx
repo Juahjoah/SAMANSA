@@ -212,7 +212,6 @@ export default function SearchInput({
       setData([{ name: '', description: '' }]);
     }
   }, [value]);
-
   return (
     <div className={styles.wrapper} onBlur={handleFocusOut}>
       <input
