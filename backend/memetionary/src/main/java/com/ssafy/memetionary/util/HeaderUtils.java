@@ -23,6 +23,9 @@ public class HeaderUtils {
     }
 
     public String getClientIP(HttpServletRequest request) {
+        String userIP = request.getHeader("client-ip");
+        log.debug(userIP);
+
         //ex) "1.1.1.1, 2.2.2.2"로 입력 받음
         String clientIP = request.getHeader("X-Forwarded-For").replaceAll(" ", "");
         String[] ips = clientIP.split(",");
