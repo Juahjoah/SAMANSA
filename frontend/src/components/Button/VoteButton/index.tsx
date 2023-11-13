@@ -46,9 +46,11 @@ export default function VoteButton({
 
   if (hasLike) {
     setLikeCountState(likeCountState - 1);
+    return;
   }
   if (hasDislike) {
     setDislikeCountState(dislikeCountState - 1);
+    return;
   }
 
   const handleLike = () => {
