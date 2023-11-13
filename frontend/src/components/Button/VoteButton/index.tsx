@@ -49,22 +49,65 @@ export default function VoteButton({
     if (hasDislike) setDislikeCountState((prev) => prev - 1);
   }, [hasLike, hasDislike]);
 
+  // const handleLike = () => {
+  //   if (voteState === VoteState.UP) {
+  //     setVoteState(VoteState.NONE);
+  //     updateVoteCountMutation.mutate({ id: wordId, like: true });
+  //     return;
+  //   }
+  //   setVoteState(VoteState.UP);
+  //   updateVoteCountMutation.mutate({ id: wordId, like: true });
+  // };
+  // const handleDislike = () => {
+  //   if (voteState === VoteState.DOWN) {
+  //     setVoteState(VoteState.NONE);
+  //     updateVoteCountMutation.mutate({ id: wordId, like: false });
+  //     return;
+  //   }
+  //   setVoteState(VoteState.DOWN);
+  //   updateVoteCountMutation.mutate({ id: wordId, like: false });
+  // };
   const handleLike = () => {
+    let newLikeCount = likeCount;
+    let newDislikeCount = dislikeCount;
+
     if (voteState === VoteState.UP) {
+      // 이미 좋아요가 눌린 상태
       setVoteState(VoteState.NONE);
-      updateVoteCountMutation.mutate({ id: wordId, like: true });
-      return;
+      newLikeCount -= 1;
+    } else {
+      if (voteState === VoteState.DOWN) {
+        // 싫어요가 눌린 상태면 취소
+        newDislikeCount -= 1;
+      }
+      setVoteState(VoteState.UP);
+      newLikeCount += 1;
     }
-    setVoteState(VoteState.UP);
+
+    setLikeCountState(newLikeCount);
+    setDislikeCountState(newDislikeCount);
     updateVoteCountMutation.mutate({ id: wordId, like: true });
   };
+
   const handleDislike = () => {
+    let newLikeCount = likeCount;
+    let newDislikeCount = dislikeCount;
+
     if (voteState === VoteState.DOWN) {
+      // 이미 싫어요가 눌린 상태
       setVoteState(VoteState.NONE);
-      updateVoteCountMutation.mutate({ id: wordId, like: false });
-      return;
+      newDislikeCount -= 1;
+    } else {
+      if (voteState === VoteState.UP) {
+        // 좋아요가 눌린 상태면 취소
+        newLikeCount -= 1;
+      }
+      setVoteState(VoteState.DOWN);
+      newDislikeCount += 1;
     }
-    setVoteState(VoteState.DOWN);
+
+    setLikeCountState(newLikeCount);
+    setDislikeCountState(newDislikeCount);
     updateVoteCountMutation.mutate({ id: wordId, like: false });
   };
 
@@ -72,10 +115,8 @@ export default function VoteButton({
     <VoteButtonBase
       onVoteDown={handleDislike}
       onVoteUp={handleLike}
-      upVotes={voteState === VoteState.UP ? likeCountState + 1 : likeCount}
-      downVotes={
-        voteState === VoteState.DOWN ? dislikeCountState + 1 : dislikeCount
-      }
+      upVotes={likeCountState}
+      downVotes={dislikeCountState}
       voteState={voteState}
     />
   );
