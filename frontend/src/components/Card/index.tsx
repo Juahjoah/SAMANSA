@@ -106,11 +106,6 @@ export default function Card({ variant = 'large', item }: CardProps) {
             >
               {memberNickname}
             </a>
-            <a
-              href={`${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=hashtag&value=SNS`}
-            >
-              해시태그
-            </a>
           </span>
         </p>
       </div>
