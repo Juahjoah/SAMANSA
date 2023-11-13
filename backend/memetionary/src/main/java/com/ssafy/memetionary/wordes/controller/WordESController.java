@@ -83,7 +83,7 @@ public class WordESController {
     @PutMapping("/like")
     public ResponseEntity<?> likeWord(@RequestBody WordESLikeRequest wordESLikeRequest,
                                       HttpServletRequest httpServletRequest) {
-        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromNginx(httpServletRequest);
         log.debug("clientIP = " + clientIP);
         String wordId = wordESLikeRequest.getWordId();
         boolean wordLike = wordESLikeRequest.isWordLike();
@@ -98,7 +98,7 @@ public class WordESController {
                                         @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
         System.out.println("name = " + name);
 
-        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromHeader(httpServletRequest);
 
         WordESSearchResponse words = wordESService.searchByName(name, pageable, clientIP);
 
@@ -109,7 +109,7 @@ public class WordESController {
     @GetMapping("/main")
     public ResponseEntity<?> mainPage(@PageableDefault(size = 10) Pageable pageable,
                                       HttpServletRequest httpServletRequest) {
-        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromHeader(httpServletRequest);
         WordESSearchResponse response = wordESService.mainPage(pageable, clientIP);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -131,7 +131,7 @@ public class WordESController {
                                              @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
         System.out.println("name = " + name);
 
-        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromHeader(httpServletRequest);
 
         WordESSearchResponse words = wordESService.searchExact(name, nickname, hashtag, pageable,
             clientIP);
@@ -144,7 +144,7 @@ public class WordESController {
     public ResponseEntity<WordESSearchResponse> searchWordIndex(
         @RequestParam("startWith") String name, @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest
     ) {
-        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromHeader(httpServletRequest);
         WordESSearchResponse words = wordESService.searchWordIndex(name, pageable, clientIP);
 
         return ResponseEntity.status(HttpStatus.OK).body(words);
@@ -152,7 +152,7 @@ public class WordESController {
 
     @GetMapping("/{wordId}")
     public ResponseEntity<WordESSearchResponse> searchWordById(@PathVariable String wordId, HttpServletRequest httpServletRequest) {
-        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromHeader(httpServletRequest);
         WordESSearchResponse response = wordESService.searchWordById(wordId, clientIP);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

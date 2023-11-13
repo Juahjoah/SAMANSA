@@ -30,7 +30,8 @@ public class TestController {
         response.put("remoteAddr1", remoteAddr1);
         response.put("remoteAddr2", remoteAddr2);
         response.put("remoteAddr3", remoteAddr3);
-        response.put("clientIP", headerUtils.getClientIP(request));
+        response.put("clientIP", headerUtils.getClientIPFromNginx(request));
+        response.put("header('client-ip')", headerUtils.getClientIPFromHeader(request));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
