@@ -1,9 +1,6 @@
 //react
 // import { Suspense } from 'react';
 
-//next
-import { headers } from 'next/headers';
-
 //style
 import styles from './Home.module.css';
 
@@ -53,9 +50,18 @@ type fetchDataInput = {
   page: number;
 };
 
-async function fetchData({ type, value, page }: fetchDataInput) {
-  let url = `${process.env.NEXT_PUBLIC_API_URL}/word/`;
+type FetchDataResult = {
+  data: resultData;
+  searchTag: string;
+};
 
+async function fetchData({
+  type,
+  value,
+  page,
+}: fetchDataInput): Promise<FetchDataResult> {
+  let url = `${process.env.NEXT_PUBLIC_API_URL}/word/`;
+  let searchTag = '';
   const encodedValue = encodeURIComponent(value)
     .replace(/\(/g, '%28')
     .replace(/\)/g, '%29');
@@ -65,23 +71,28 @@ async function fetchData({ type, value, page }: fetchDataInput) {
     case 'main':
     case 'search':
       url = `${url}${type}?word=${encodedValue}&page=${page - 1}`;
+      searchTag = `${encodedValue}에 대한 검색 결과 입니다.`;
       break;
     //단어 완전 일치 조회
     case 'word':
       url = `${url}exact?word=${encodedValue}&memberNickname=&hashtag=&page=${
         page - 1
       }`;
+      searchTag = `${encodedValue}에 대한 검색 결과 입니다.`;
+
       break;
     case 'nickname':
       url = `${url}exact?word=&memberNickname=${encodedValue}&hashtag=&page=${
         page - 1
       }`;
+      searchTag = `${encodedValue}에 대한 닉네임 검색 결과 입니다.`;
       break;
     case 'hashtag':
       url = `${url}exact?word=&memberNickname=&hashtag=${encodedValue}&page=${
         page - 1
       }`;
       break;
+      searchTag = `${encodedValue}에 대한 해시태그 검색 결과 입니다.`;
     //단어 초성 색인
     case 'index':
       url = `${url}index?startWith=${encodedValue}&page=${page - 1}`;
@@ -94,23 +105,17 @@ async function fetchData({ type, value, page }: fetchDataInput) {
       break;
   }
   // console.log(url);
-  const headersList = headers();
-  const ip = headersList.get('x-forwarded-for');
-
   const res = await fetch(url, {
     cache: 'no-store',
-    headers: {
-      'client-ip': ip != null ? ip : '',
-    },
   });
 
   if (res.ok) {
     const data: resultData = await res.json();
-    return data;
+    return { data, searchTag };
   } else {
     console.error(`HTTP Error: ${res.status}`);
     const data: resultData = { total: 0, words: [], error: true };
-    return data;
+    return { data, searchTag };
   }
 }
 
@@ -122,7 +127,7 @@ export default async function Home({ searchParams }: getParams) {
   const value = valueParam == null ? '' : valueParam;
   const page = pageParam == null ? 1 : pageParam;
 
-  const resultData: resultData = await fetchData({
+  const { data: resultData, searchTag } = await fetchData({
     type,
     value,
     page,
@@ -147,6 +152,7 @@ export default async function Home({ searchParams }: getParams) {
             <EnterCreate />
           </div>
         </div>
+        <div className={styles.searchTag}>{searchTag}</div>
         <div className={styles.content}>
           <div className={styles.searchResult}>
             {resultData.words.length == 0 ? (
