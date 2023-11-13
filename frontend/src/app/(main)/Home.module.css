@@ -79,8 +79,8 @@
     width: calc(100% - 4rem);
   }
 }
-/* @media (max-width: 420px) {
-  .searchResult div {
-    width: 80vw;
+@media (max-width: 460px) {
+  .main {
+    padding: 0;
   }
-} */
+}
