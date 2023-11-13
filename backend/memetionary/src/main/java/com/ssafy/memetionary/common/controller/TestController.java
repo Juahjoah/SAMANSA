@@ -31,6 +31,7 @@ public class TestController {
         response.put("remoteAddr2", remoteAddr2);
         response.put("remoteAddr3", remoteAddr3);
         response.put("clientIP", headerUtils.getClientIP(request));
+        response.put("header('client-ip')", request.getHeader("client-ip"));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
