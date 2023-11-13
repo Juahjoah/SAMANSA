@@ -2,7 +2,7 @@
 import VoteButtonBase from './VoteButtonBase';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { VoteState } from './VoteButtonBase';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -44,14 +44,10 @@ export default function VoteButton({
   const [likeCountState, setLikeCountState] = useState(likeCount);
   const [dislikeCountState, setDislikeCountState] = useState(dislikeCount);
 
-  if (hasLike) {
-    setLikeCountState(likeCountState - 1);
-    return;
-  }
-  if (hasDislike) {
-    setDislikeCountState(dislikeCountState - 1);
-    return;
-  }
+  useEffect(() => {
+    if (hasLike) setLikeCountState((prev) => prev - 1);
+    if (hasDislike) setDislikeCountState((prev) => prev - 1);
+  }, [hasLike, hasDislike]);
 
   const handleLike = () => {
     if (voteState === VoteState.UP) {
