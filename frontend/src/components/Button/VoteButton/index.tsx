@@ -47,20 +47,20 @@ export default function VoteButton({
     // if it's already liked, initialLikeCount - 1
     if (voteState === VoteState.UP) {
       setVoteState(VoteState.NONE);
-      setUpVotes((current) => current - 1);
+      setUpVotes(upVotes - 1);
       updateVoteCountMutation.mutate({ id: wordId, like: true });
       return;
     }
     // if already disliked, remove the dislike and add the like
     if (voteState === VoteState.DOWN) {
-      setDownVotes((current) => current - 1);
+      setDownVotes(downVotes - 1);
       setUpVotes(likeCount + 1);
       updateVoteCountMutation.mutate({ id: wordId, like: true });
       return;
     }
     // newly like, set Dislike with original dislikeCount
     setVoteState(VoteState.UP);
-    setUpVotes((current) => current + 1);
+    setUpVotes(upVotes + 1);
     setDownVotes(dislikeCount);
     updateVoteCountMutation.mutate({ id: wordId, like: true });
   };
@@ -68,20 +68,20 @@ export default function VoteButton({
     // if it's already disliked, remove the dislike
     if (voteState === VoteState.DOWN) {
       setVoteState(VoteState.NONE);
-      setDownVotes((current) => current - 1);
+      setDownVotes(downVotes - 1);
       updateVoteCountMutation.mutate({ id: wordId, like: false });
       return;
     }
     // if already liked, remove the like and add the dislike
     if (voteState === VoteState.UP) {
-      setUpVotes((current) => current - 1);
+      setUpVotes(upVotes - 1);
       setDownVotes(dislikeCount + 1);
       updateVoteCountMutation.mutate({ id: wordId, like: false });
       return;
     }
     // newly dislike, set Like with original likeCount
     setVoteState(VoteState.DOWN);
-    setDownVotes((current) => current + 1);
+    setDownVotes(downVotes + 1);
     setUpVotes(likeCount);
     updateVoteCountMutation.mutate({ id: wordId, like: false });
   };
