@@ -4,7 +4,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 import { VoteState } from './VoteButtonBase';
-import { useToggle } from '@uidotdev/usehooks';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
