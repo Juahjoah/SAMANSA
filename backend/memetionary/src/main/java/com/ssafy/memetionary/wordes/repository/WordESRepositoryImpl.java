@@ -181,7 +181,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                 , Object.class
             );
 
-            return getWordESSearchResponse(response);
+            return getWordESSearchResponse(response, clientIP);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -240,7 +240,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                 , Object.class
             );
 
-            return getWordESSearchResponse(response);
+            return getWordESSearchResponse(response, clientIP);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -297,13 +297,13 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                 , Object.class
             );
 
-            return getWordESSearchResponse(response);
+            return getWordESSearchResponse(response, clientIP);
         } catch (Exception e) {
             throw new RuntimeException();
         }
     }
 
-    private WordESSearchResponse getWordESSearchResponse(SearchResponse<Object> response) {
+    private WordESSearchResponse getWordESSearchResponse(SearchResponse<Object> response, String clientIP) {
         long total = response.hits().total().value();
         log.debug(total + "");
 
@@ -335,6 +335,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .hasLike(hasLike)
                     .hasDislike(hasDislike)
                     .isWriter(isWriter)
+                    .clientIP(clientIP)
                     .build();
             }).toList();
 
