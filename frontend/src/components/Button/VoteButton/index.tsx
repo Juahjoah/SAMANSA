@@ -10,6 +10,7 @@ async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
   const response = await fetch(`${BASE_URL}/word/like`, {
     headers: {
       'Content-Type': 'application/json',
+      // 'x-forwarded-for': '192.168.31.210',
     },
     method: 'PUT',
     body: JSON.stringify({ wordId: id, wordLike: like }),
@@ -43,36 +44,29 @@ export default function VoteButton({
   const [likeCountState, setLikeCountState] = useState(likeCount);
   const [dislikeCountState, setDislikeCountState] = useState(dislikeCount);
 
+  if (hasLike) {
+    setLikeCountState(likeCountState - 1);
+  }
+  if (hasDislike) {
+    setDislikeCountState(dislikeCountState - 1);
+  }
+
   const handleLike = () => {
     if (voteState === VoteState.UP) {
       setVoteState(VoteState.NONE);
-      setLikeCountState((prev) => prev - 1);
       updateVoteCountMutation.mutate({ id: wordId, like: true });
       return;
     }
-    if (voteState === VoteState.DOWN) {
-      setVoteState(VoteState.UP);
-      setLikeCountState((prev) => prev + 1);
-      setDislikeCountState((prev) => prev - 1);
-      updateVoteCountMutation.mutate({ id: wordId, like: true });
-    }
-    setLikeCountState((prev) => prev + 1);
+    setVoteState(VoteState.UP);
     updateVoteCountMutation.mutate({ id: wordId, like: true });
   };
   const handleDislike = () => {
     if (voteState === VoteState.DOWN) {
       setVoteState(VoteState.NONE);
-      setDislikeCountState((prev) => prev - 1);
       updateVoteCountMutation.mutate({ id: wordId, like: false });
       return;
     }
-    if (voteState === VoteState.UP) {
-      setVoteState(VoteState.DOWN);
-      setDislikeCountState((prev) => prev + 1);
-      setLikeCountState((prev) => prev - 1);
-      updateVoteCountMutation.mutate({ id: wordId, like: false });
-    }
-    setDislikeCountState((prev) => prev + 1);
+    setVoteState(VoteState.DOWN);
     updateVoteCountMutation.mutate({ id: wordId, like: false });
   };
 
@@ -80,10 +74,10 @@ export default function VoteButton({
     <VoteButtonBase
       onVoteDown={handleDislike}
       onVoteUp={handleLike}
-      // upVotes={voteState === VoteState.UP ? likeCount + 1 : likeCount}
-      upVotes={likeCountState}
-      // downVotes={voteState === VoteState.DOWN ? dislikeCount + 1 : dislikeCount}
-      downVotes={dislikeCountState}
+      upVotes={voteState === VoteState.UP ? likeCountState + 1 : likeCountState}
+      downVotes={
+        voteState === VoteState.DOWN ? dislikeCountState + 1 : dislikeCountState
+      }
       voteState={voteState}
     />
   );
