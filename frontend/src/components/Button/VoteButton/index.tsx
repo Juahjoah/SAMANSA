@@ -2,7 +2,7 @@
 import VoteButtonBase from './VoteButtonBase';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { VoteState } from './VoteButtonBase';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -10,7 +10,7 @@ async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
   const response = await fetch(`${BASE_URL}/word/like`, {
     headers: {
       'Content-Type': 'application/json',
-      // 'x-forwarded-for': '192.168.31.210',
+      'x-forwarded-for': '192.168.31.210',
     },
     method: 'PUT',
     body: JSON.stringify({ wordId: id, wordLike: like }),
