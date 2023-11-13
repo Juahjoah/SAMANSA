@@ -24,10 +24,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}`,
       lastModified: new Date(),
     },
-    {
-      url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/page=${data}`,
-      lastModified: new Date(),
-    },
     ...page.map((pgNum) => {
       return {
         url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/page=${pgNum}`,

@@ -69,8 +69,8 @@ export default function VoteButton({
     <VoteButtonBase
       onVoteDown={handleDislike}
       onVoteUp={handleLike}
-      upVotes={voteState === VoteState.UP ? likeCount + 1 : likeCount}
-      downVotes={voteState === VoteState.DOWN ? dislikeCount + 1 : dislikeCount}
+      upVotes={likeCount} //voteState === VoteState.UP ? likeCount + 1 :
+      downVotes={dislikeCount} //voteState === VoteState.DOWN ? dislikeCount + 1 :
       voteState={voteState}
     />
   );
