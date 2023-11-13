@@ -60,3 +60,9 @@
     display: none;
   }
 }
+@media (max-width: 460px) {
+  .base {
+    padding: 0;
+    height: 9rem;
+  }
+}
