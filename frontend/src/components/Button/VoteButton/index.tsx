@@ -68,46 +68,36 @@ export default function VoteButton({
   //   updateVoteCountMutation.mutate({ id: wordId, like: false });
   // };
   const handleLike = () => {
-    let newLikeCount = likeCount;
-    let newDislikeCount = dislikeCount;
-
     if (voteState === VoteState.UP) {
-      // 이미 좋아요가 눌린 상태
+      // 이미 좋아요가 눌린 상태, 좋아요 취소
       setVoteState(VoteState.NONE);
-      newLikeCount -= 1;
+      setLikeCountState(likeCount - 1);
     } else {
-      if (voteState === VoteState.DOWN) {
-        // 싫어요가 눌린 상태면 취소
-        newDislikeCount -= 1;
-      }
+      // 좋아요가 눌리지 않은 상태, 좋아요 적용
       setVoteState(VoteState.UP);
-      newLikeCount += 1;
+      setLikeCountState(likeCount + 1);
+      if (voteState === VoteState.DOWN) {
+        // 싫어요가 눌린 상태였다면, 싫어요 취소
+        setDislikeCountState(dislikeCount - 1);
+      }
     }
-
-    setLikeCountState(newLikeCount);
-    setDislikeCountState(newDislikeCount);
     updateVoteCountMutation.mutate({ id: wordId, like: true });
   };
 
   const handleDislike = () => {
-    let newLikeCount = likeCount;
-    let newDislikeCount = dislikeCount;
-
     if (voteState === VoteState.DOWN) {
-      // 이미 싫어요가 눌린 상태
+      // 이미 싫어요가 눌린 상태, 싫어요 취소
       setVoteState(VoteState.NONE);
-      newDislikeCount -= 1;
+      setDislikeCountState(dislikeCount - 1);
     } else {
-      if (voteState === VoteState.UP) {
-        // 좋아요가 눌린 상태면 취소
-        newLikeCount -= 1;
-      }
+      // 싫어요가 눌리지 않은 상태, 싫어요 적용
       setVoteState(VoteState.DOWN);
-      newDislikeCount += 1;
+      setDislikeCountState(dislikeCount + 1);
+      if (voteState === VoteState.UP) {
+        // 좋아요가 눌린 상태였다면, 좋아요 취소
+        setLikeCountState(likeCount - 1);
+      }
     }
-
-    setLikeCountState(newLikeCount);
-    setDislikeCountState(newDislikeCount);
     updateVoteCountMutation.mutate({ id: wordId, like: false });
   };
 
