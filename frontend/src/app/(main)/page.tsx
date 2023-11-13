@@ -1,6 +1,9 @@
 //react
 // import { Suspense } from 'react';
 
+//next
+import { headers } from 'next/headers';
+
 //style
 import styles from './Home.module.css';
 
@@ -90,8 +93,15 @@ async function fetchData({ type, value, page }: fetchDataInput) {
       break;
   }
 
+  console.log(url);
+  const headersList = headers();
+  const ip = headersList.get('x-forwarded-for');
+
   const res = await fetch(url, {
     cache: 'no-store',
+    headers: {
+      'client-ip': ip != null ? ip : '',
+    },
   });
 
   if (res.ok) {
