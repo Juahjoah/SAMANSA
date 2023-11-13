@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@RequestMapping({"/member", "/token"})
 public class MemberController {
 
     private final MemberService memberService;
@@ -80,6 +80,16 @@ public class MemberController {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(MessageResponse.builder().message("정상적으로 로그아웃되었습니다.").build());
+    }
+
+    //토큰 갱신 - 토큰 1
+    @PostMapping("/new")
+    public ResponseEntity<ModifyNicknameResponse> renewToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        String accessToken = authorizationHeader.substring(7);
+        String memberId = headerUtils.getMemberId(authorizationHeader);
+        JwtToken jwtToken = memberService.renewToken(accessToken, memberId);
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(ModifyNicknameResponse.builder().token(jwtToken.getAccessToken()).build());
     }
 
 }

@@ -78,4 +78,16 @@ public class MemberService {
     public void logout(String accessToken) {
         jwtTokenService.deleteJwtToken(accessToken);
     }
+
+    //토큰 갱신 - 토큰 1
+    public JwtToken renewToken(String accessToken, String memberId) {
+        logout(accessToken);
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
+        User userDetails = new User(memberId, "", Collections.singleton(authority));
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        JwtToken jwtToken = tokenProvider.generateNewToken(authentication);
+        jwtTokenService.saveJwtToken(jwtToken);
+        return jwtToken;
+    }
+
 }
