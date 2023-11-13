@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import styles from './SearchInput.module.css';
+import Image from 'next/image';
 
 type InputProps = {
   setValue?: (e: any) => void | any;
@@ -225,7 +226,15 @@ export default function SearchInput({
         value={index == 0 ? value : InputValue}
         autoFocus
       />
-
+      {variant === 'search' && (
+        <Image
+          className={styles.icon}
+          src={'/assets/search_icon.png'}
+          height={23}
+          width={23}
+          alt="검색아이콘"
+        />
+      )}
       {autocomplete && (
         <div>
           {data.map((word, i) => (
