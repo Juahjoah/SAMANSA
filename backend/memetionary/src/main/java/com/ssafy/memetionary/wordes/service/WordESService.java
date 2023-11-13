@@ -29,6 +29,7 @@ public class WordESService {
 
     private final WordESRepository wordESRepository;
 
+    //단어 생성
     public void registerWordES(WordESRegisterRequest request, String memberId,
                                String memberNickname) {
         log.debug("request = " + request);
@@ -117,6 +118,8 @@ public class WordESService {
     }
 
 
+    //단어 완전 일치 검색
+    //우선 순위 : 단어, 닉네임, 해시태그 순
     public WordESSearchResponse searchExact(String name, String nickName, String hashtag, Pageable pageable, String clientIP) {
         if (!name.isEmpty()) {
             SearchFieldType fieldType = SearchFieldType.NAME_KEYWORD;
