@@ -4,8 +4,12 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import styles from './RedirectPage.module.css';
-import { parseSetCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
+const SAMANSA_ACCESS_EXPIRY_TIME = 'samansaAccessExpiryTime';
+
+function checkExpireTime(expireTime: number): boolean {
+  return expireTime - new Date().getTime() < 30000;
+}
 export default function RedirectPage() {
   const accessToken =
     typeof window !== 'undefined'
@@ -20,11 +24,6 @@ export default function RedirectPage() {
     // 토큰이 있는지 확인
     if (accessToken) {
       // 토큰을 쿠키에 저장
-      // parseSetCookie(
-      //   `accessToken=${accessToken}; path=/; domain=${process.env.NEXT_PUBLIC_DOMAIN}; max-age=3600; samesite=none; secure=true`,
-      // );
-      // document.cookie = `accessToken=${accessToken}; path=/; domain=${process.env.NEXT_PUBLIC_DOMAIN}; max-age=3600; samesite=none; secure=true`;
-      // console.log('토큰:', accessToken);
 
       sessionStorage.setItem('accessToken', accessToken);
 
@@ -47,7 +46,15 @@ export default function RedirectPage() {
             // console.log('기존 로그인');
             const { nickname } = userData;
             sessionStorage.setItem('nickname', nickname);
-            router.push('/'); // 기존 로그인 사용자
+
+            const expiryTime = Number(
+              sessionStorage.getItem(SAMANSA_ACCESS_EXPIRY_TIME),
+            );
+            if (checkExpireTime(expiryTime)) {
+              router.push('/');
+            } else {
+              router.push('/'); // 기존 로그인 사용자
+            }
           }
         })
         .catch(() => {
