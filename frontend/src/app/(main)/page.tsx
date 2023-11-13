@@ -50,18 +50,8 @@ type fetchDataInput = {
   page: number;
 };
 
-type FetchDataResult = {
-  data: resultData;
-  searchTag: string;
-};
-
-async function fetchData({
-  type,
-  value,
-  page,
-}: fetchDataInput): Promise<FetchDataResult> {
+async function fetchData({ type, value, page }: fetchDataInput) {
   let url = `${process.env.NEXT_PUBLIC_API_URL}/word/`;
-  let searchTag = '';
   const encodedValue = encodeURIComponent(value)
     .replace(/\(/g, '%28')
     .replace(/\)/g, '%29');
@@ -71,28 +61,23 @@ async function fetchData({
     case 'main':
     case 'search':
       url = `${url}${type}?word=${encodedValue}&page=${page - 1}`;
-      searchTag = `${encodedValue}에 대한 검색 결과 입니다.`;
       break;
     //단어 완전 일치 조회
     case 'word':
       url = `${url}exact?word=${encodedValue}&memberNickname=&hashtag=&page=${
         page - 1
       }`;
-      searchTag = `${encodedValue}에 대한 검색 결과 입니다.`;
-
       break;
     case 'nickname':
       url = `${url}exact?word=&memberNickname=${encodedValue}&hashtag=&page=${
         page - 1
       }`;
-      searchTag = `${encodedValue}에 대한 닉네임 검색 결과 입니다.`;
       break;
     case 'hashtag':
       url = `${url}exact?word=&memberNickname=&hashtag=${encodedValue}&page=${
         page - 1
       }`;
       break;
-      searchTag = `${encodedValue}에 대한 해시태그 검색 결과 입니다.`;
     //단어 초성 색인
     case 'index':
       url = `${url}index?startWith=${encodedValue}&page=${page - 1}`;
@@ -104,18 +89,18 @@ async function fetchData({
       url = url + 'main';
       break;
   }
-  // console.log(url);
+
   const res = await fetch(url, {
     cache: 'no-store',
   });
 
   if (res.ok) {
     const data: resultData = await res.json();
-    return { data, searchTag };
+    return data;
   } else {
     console.error(`HTTP Error: ${res.status}`);
     const data: resultData = { total: 0, words: [], error: true };
-    return { data, searchTag };
+    return data;
   }
 }
 
@@ -127,13 +112,13 @@ export default async function Home({ searchParams }: getParams) {
   const value = valueParam == null ? '' : valueParam;
   const page = pageParam == null ? 1 : pageParam;
 
-  const { data: resultData, searchTag } = await fetchData({
+  const resultData: resultData = await fetchData({
     type,
     value,
     page,
   });
-  console.log('HomePage', type);
-  console.log('HomePage', resultData);
+
+  const typeInfo = '';
 
   return (
     <>
@@ -152,7 +137,11 @@ export default async function Home({ searchParams }: getParams) {
             <EnterCreate />
           </div>
         </div>
-        <div className={styles.searchTag}>{searchTag}</div>
+        <div className={styles.searchTag}>
+          {type == 'main' || type == 'search'
+            ? ''
+            : `${value}에 대한 ${typeInfo} 검색 결과 입니다.`}
+        </div>
         <div className={styles.content}>
           <div className={styles.searchResult}>
             {resultData.words.length == 0 ? (
