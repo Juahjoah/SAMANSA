@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { VoteState } from './VoteButtonBase';
+import { useToggle } from '@uidotdev/usehooks';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
@@ -50,9 +51,13 @@ export default function VoteButton({
       updateVoteCountMutation.mutate({ id: wordId, like: true });
       return;
     }
-    setVoteState(VoteState.UP);
+    if (voteState === VoteState.DOWN) {
+      setVoteState(VoteState.UP);
+      setLikeCountState((prev) => prev + 1);
+      setDislikeCountState((prev) => prev - 1);
+      updateVoteCountMutation.mutate({ id: wordId, like: true });
+    }
     setLikeCountState((prev) => prev + 1);
-    setDislikeCountState((prev) => prev - 1);
     updateVoteCountMutation.mutate({ id: wordId, like: true });
   };
   const handleDislike = () => {
@@ -62,9 +67,13 @@ export default function VoteButton({
       updateVoteCountMutation.mutate({ id: wordId, like: false });
       return;
     }
-    setVoteState(VoteState.DOWN);
+    if (voteState === VoteState.UP) {
+      setVoteState(VoteState.DOWN);
+      setDislikeCountState((prev) => prev + 1);
+      setLikeCountState((prev) => prev - 1);
+      updateVoteCountMutation.mutate({ id: wordId, like: false });
+    }
     setDislikeCountState((prev) => prev + 1);
-    setLikeCountState((prev) => prev - 1);
     updateVoteCountMutation.mutate({ id: wordId, like: false });
   };
 
