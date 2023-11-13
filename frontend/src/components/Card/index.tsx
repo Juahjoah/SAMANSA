@@ -17,6 +17,7 @@ export default function Card({ variant = 'large', item }: CardProps) {
     dislikeCount,
     hasLike,
     hasDislike,
+    hashtagList,
   } = item;
 
   let formattedDate = '';
@@ -60,6 +61,7 @@ export default function Card({ variant = 'large', item }: CardProps) {
       variantClass = styles.small;
       break;
   }
+
   return (
     <div className={`${styles.base} ${variantClass}`}>
       <div className={styles.titleWrapper}>
@@ -74,7 +76,16 @@ export default function Card({ variant = 'large', item }: CardProps) {
       </div>
       <p className={styles.description}>{formattedDescription}</p>
       <i className={styles.example}>{formattedExample}</i>
-      <div className={styles.alert}></div>
+      <div className={styles.hashtag}>
+        {hashtagList.map((hashtag, index) => (
+          <a
+            key={index}
+            href={`${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=hashtag&value=${hashtag}`}
+          >
+            <span key={index}>#{hashtag}</span>
+          </a>
+        ))}
+      </div>
       <div className={styles.wrapper}>
         <div className={styles.wrapperChildren}>
           <VoteButton
@@ -94,6 +105,11 @@ export default function Card({ variant = 'large', item }: CardProps) {
               href={`${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=nickname&value=${memberNickname}`}
             >
               {memberNickname}
+            </a>
+            <a
+              href={`${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=hashtag&value=SNS`}
+            >
+              해시태그
             </a>
           </span>
         </p>

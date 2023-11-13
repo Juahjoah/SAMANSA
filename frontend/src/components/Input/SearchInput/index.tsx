@@ -158,9 +158,19 @@ export default function SearchInput({
 
         //지금 input 창의 값 가져옴
         const search = index == 0 ? value : InputValue;
+        const stripSearch = search.startsWith('#')
+          ? search.substring(1)
+          : search;
+        // const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
+        //   search == '' ? `` : `?type=search&value=${search}`
+        // }`;
 
         const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-          search == '' ? `` : `?type=search&value=${search}`
+          search === ''
+            ? ''
+            : search.startsWith('#')
+            ? `?type=hashtag&value=${stripSearch}`
+            : `?type=search&value=${search}`
         }`;
 
         setIndex(0);
@@ -179,7 +189,7 @@ export default function SearchInput({
   }
 
   useEffect(() => {
-    if (index == 0) {
+    if (index == 0 || value.startsWith('#')) {
       setInputValue(value);
     } else {
       setInputValue(data[index - 1].name);
@@ -187,7 +197,7 @@ export default function SearchInput({
   }, [index]);
 
   useEffect(() => {
-    if (value != '' && variant == 'search') {
+    if (value != '' && variant == 'search' && !value.startsWith('#')) {
       fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/word/auto-complete?word=${value}`,
         {

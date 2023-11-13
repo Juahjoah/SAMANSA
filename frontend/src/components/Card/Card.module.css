@@ -70,6 +70,20 @@
   display: flex;
   margin: 0 0 0 0.9em;
 }
+
+.hashtag {
+  margin-top: 1.4rem;
+  font-weight: 150;
+  color: rgb(var(--card-title-rgb));
+}
+
+.hashtag a {
+  margin-right: 0.5rem;
+}
+
+.hashtag a:hover {
+  color: rgb(var(--card-title-hover-rgb));
+}
 /* 모바일 */
 /* @media only screen and (max-width: 480px) {
 } */
