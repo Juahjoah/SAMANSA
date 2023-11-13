@@ -51,6 +51,7 @@ export default function VoteButton({
       return;
     }
     setVoteState(VoteState.UP);
+    setLikeCountState((prev) => prev + 1);
     updateVoteCountMutation.mutate({ id: wordId, like: true });
   };
   const handleDislike = () => {
@@ -61,6 +62,7 @@ export default function VoteButton({
       return;
     }
     setVoteState(VoteState.DOWN);
+    setDislikeCountState((prev) => prev + 1);
     updateVoteCountMutation.mutate({ id: wordId, like: false });
   };
 
