@@ -88,6 +88,7 @@ public class WordESController {
         log.debug("clientIP = " + clientIP);
         String wordId = wordESLikeRequest.getWordId();
         LikeType likeType = wordESLikeRequest.getWordLike();
+        wordESService.likeWord(clientIP, wordId, likeType);
         return ResponseEntity.status(HttpStatus.OK)
             .body(MessageResponse.builder().message("좋아요 반영 성공").build());
     }
