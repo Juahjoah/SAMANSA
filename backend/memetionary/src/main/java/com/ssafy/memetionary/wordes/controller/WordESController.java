@@ -153,7 +153,7 @@ public class WordESController {
 
     @GetMapping("/{wordId}")
     public ResponseEntity<WordESSearchResponse> searchWordById(@PathVariable String wordId, HttpServletRequest httpServletRequest) {
-        String clientIP = headerUtils.getClientIPFromHeader(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromNginx(httpServletRequest);
         WordESSearchResponse response = wordESService.searchWordById(wordId, clientIP);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
