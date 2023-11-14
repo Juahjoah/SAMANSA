@@ -62,7 +62,7 @@ public class WordESService {
     }
 
     //엘라스틱 서치 단어 좋아요/싫어요 - 단어 5
-    public WordESSearchResponse likeWord(String clientIP, String wordId, LikeType wordLike) {
+    public void likeWord(String clientIP, String wordId, LikeType wordLike) {
         //단어 찾기
         WordES wordES = wordESRepository.findById(wordId)
             .orElseThrow(
@@ -83,15 +83,6 @@ public class WordESService {
         else if (wordLike.getFieldName().equals("down")) {
             wordESRepository.updateLike(WordESRequestType.ADD_DISLIKE, wordES, clientIP);
         }
-        try {
-            // 1초 동안 일시 정지
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            // InterruptedException 처리
-            e.printStackTrace();
-        }
-        WordESSearchResponse response = wordESRepository.searchWordById(wordId,clientIP);
-        return response;
     }
 
     //엘라스틱 서치 단어 검색 - 단어 1
