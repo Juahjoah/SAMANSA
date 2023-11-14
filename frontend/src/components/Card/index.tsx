@@ -22,7 +22,7 @@ export default function Card({ variant = 'large', item }: CardProps) {
 
   let formattedDate = '';
 
-  console.log('In CardComponent', item);
+  // console.log('In CardComponent', item);
   const requestData = { id, memberNickname };
   const formattedDescription = wordDescription.split('\n').map((item, key) => {
     return (

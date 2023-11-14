@@ -3,7 +3,7 @@
 import { IoThumbsUpSharp, IoThumbsDownSharp } from 'react-icons/io5';
 import styles from './VoteButton.module.css';
 import { useEffect, useState } from 'react';
-import { resultData } from '@/app/(main)/page';
+// import { resultData } from '@/app/(main)/page';
 
 /// Vote button specific to words.
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -16,10 +16,10 @@ async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
     method: 'PUT',
     body: JSON.stringify({ wordId: id, wordLike: like }),
   });
-  console.log(response);
+  // console.log(response);
   if (response.ok) {
-    const data: resultData = await response.json();
-    console.log('like data : ', data);
+    // const data: resultData = await response.json();
+    // console.log('like data : ', data);
     return true;
   } else {
     console.error(`HTTP Error: ${response.status}`);
@@ -41,7 +41,7 @@ export default function VoteButton({
   const [state, setState] = useState('');
 
   useEffect(() => {
-    console.log('useEffect');
+    // console.log('useEffect');
     if (hasLike) {
       setState('UP');
       setLikeD(likeD - 1);
@@ -51,11 +51,11 @@ export default function VoteButton({
     } else {
       setState('NONE');
     }
-    console.log(state);
+    // console.log(state);
   }, []);
 
   async function Click(action: string) {
-    console.log('click');
+    // console.log('click');
     let like = '';
     if (action == state) {
       like = 'NONE';
