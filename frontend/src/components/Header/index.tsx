@@ -2,6 +2,7 @@ import styles from './Header.module.css';
 import Image from 'next/image';
 import logo from '@/public/assets/logo_w_samansa.png';
 import LogoutButton from '../Button/LogoutButton';
+import mobilelogo from '@/public/assets/mobileLogo.png';
 
 export default function Header() {
   return (
@@ -17,7 +18,14 @@ export default function Header() {
             style={{ width: '440px', height: 'auto' }}
             alt="logo"
           />
-          <p className={styles.mobile_logo}>S</p>
+          <Image
+            className={styles.mobile_logo}
+            src={mobilelogo}
+            priority={true}
+            width={120}
+            height={110}
+            alt="logo"
+          />
         </a>
         <span className={styles.button}>
           <LogoutButton />
