@@ -31,7 +31,8 @@ export default function DeleteButton({
 }: {
   requestData: ButtonProps;
 }) {
-  const { id, memberNickname } = requestData; // 카드의 id, 유저닉네임
+  // 카드의 id, 유저닉네임
+  const { id, memberNickname } = requestData;
   const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}`;
 
   const [mounted, setMounted] = useState<boolean>(false);

@@ -1,26 +1,16 @@
 'use client';
+
 import CreateButton from '@/components/Button/CreateButton/index';
 import ValueInput from '@/components/Input/ValueInput/index';
 import Textarea from '@/components/Textarea/index';
 import styles from './CreatePage.module.css';
 import { useState } from 'react';
 
-// type ImageLoaderParams = {
-//   src: string;
-//   width: number;
-//   quality?: number;
-// };
-
 export default function CreatePage() {
   const [word, setWord] = useState(''); // 등록할 단어
   const [meaning, setMeaning] = useState(''); // 단어의 뜻
   const [example, setExample] = useState(''); // 예시 문장
   const [hashTag, setHashTag] = useState(''); // 해시 태그
-  // const imageLoader = ({ src, width, quality }: ImageLoaderParams) => {
-  //   return `${process.env.NEXT_PUBLIC_REDIRECT_URI}/${src}?w=${width}&q=${
-  //     quality || 75
-  //   }`;
-  // };
 
   return (
     <div className={styles.components}>
