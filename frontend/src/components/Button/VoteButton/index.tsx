@@ -1,107 +1,119 @@
 'use client';
-import VoteButtonBase from './VoteButtonBase';
-import { useQueryClient } from '@tanstack/react-query';
-import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
-import { VoteState } from './VoteButtonBase';
+import { useEffect, useReducer } from 'react';
+import { IoThumbsUpSharp, IoThumbsDownSharp } from 'react-icons/io5';
+import styles from './VoteButton.module.css';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
-  const response = await fetch(`${BASE_URL}/word/like`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'PUT',
-    body: JSON.stringify({ wordId: id, wordLike: like }),
-  });
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
-}
-
+// A general vote button that can be used for any voteable entity which
+// is not dependent on any specific API.
 export default function VoteButton({
-  wordId,
-  likeCount,
-  dislikeCount,
-  hasLike,
-  hasDislike,
+  upVotes,
+  downVotes,
+  userVote,
+  onVoteChange,
 }: VoteButtonProps) {
-  const queryClient = useQueryClient();
-  const updateVoteCountMutation = useMutation({
-    mutationFn: updateVoteCount,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['votes'] });
-    },
-  });
-  let initialVoteState = VoteState.NONE;
-  if (hasLike) initialVoteState = VoteState.UP;
-  if (hasDislike) initialVoteState = VoteState.DOWN;
+  const initialState: VoteState = { upVotes, downVotes, userVote };
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [voteState, setVoteState] = useState<VoteState>(initialVoteState);
-  const [upVotes, setUpVotes] = useState(likeCount);
-  const [downVotes, setDownVotes] = useState(dislikeCount);
-
-  const handleLike = () => {
-    // if it's already liked, initialLikeCount - 1
-    if (voteState === VoteState.UP) {
-      setVoteState(VoteState.NONE);
-      setUpVotes(upVotes - 1);
-      updateVoteCountMutation.mutate({ id: wordId, like: true });
-      return;
-    }
-    // newly like, set Dislike with original dislikeCount
-    setVoteState(VoteState.UP);
-    setUpVotes(upVotes + 1);
-    setDownVotes(dislikeCount);
-    updateVoteCountMutation.mutate({ id: wordId, like: true });
-    // if already disliked, remove the dislike and add the like
-    if (voteState === VoteState.DOWN) {
-      setDownVotes(downVotes - 1);
-      setUpVotes(likeCount + 1);
-      updateVoteCountMutation.mutate({ id: wordId, like: true });
-    }
-  };
-  const handleDislike = () => {
-    // if it's already disliked, remove the dislike
-    if (voteState === VoteState.DOWN) {
-      setVoteState(VoteState.NONE);
-      setDownVotes(downVotes - 1);
-      updateVoteCountMutation.mutate({ id: wordId, like: false });
-      return;
-    }
-    // newly dislike, set Like with original likeCount
-    setVoteState(VoteState.DOWN);
-    setDownVotes(downVotes + 1);
-    setUpVotes(likeCount);
-    updateVoteCountMutation.mutate({ id: wordId, like: false });
-    // if already liked, remove the like and add the dislike
-    if (voteState === VoteState.UP) {
-      setUpVotes(upVotes - 1);
-      setDownVotes(dislikeCount + 1);
-    }
-  };
+  useEffect(() => {
+    onVoteChange(state.userVote);
+  }, [onVoteChange, state.userVote]);
 
   return (
-    <VoteButtonBase
-      onVoteDown={handleDislike}
-      onVoteUp={handleLike}
-      upVotes={upVotes}
-      downVotes={downVotes}
-      voteState={voteState}
-    />
+    <div className={styles.buttonRoot}>
+      <button
+        onClick={() => dispatch({ type: 'like' })}
+        className={
+          state.userVote === 'like' ? styles.buttonSelected : styles.button
+        }
+      >
+        <IoThumbsUpSharp />
+        <span>{state.upVotes}</span>
+      </button>
+      <button
+        onClick={() => dispatch({ type: 'dislike' })}
+        className={
+          state.userVote === 'dislike' ? styles.buttonSelected : styles.button
+        }
+      >
+        <IoThumbsDownSharp />
+        <span>{state.downVotes}</span>
+      </button>
+    </div>
   );
 }
 
-type VoteButtonProps = {
-  wordId: string;
-  likeCount: number;
-  dislikeCount: number;
-  hasLike: boolean;
-  hasDislike: boolean;
+// Given the current state and an action ("like" or "dislike"), return the updated state
+const reducer = (state: VoteState, action: VoteAction): VoteState => {
+  switch (action.type) {
+    // User clicked like button
+    case 'like':
+      switch (state.userVote) {
+        // No vote → like as requested
+        case 'none':
+          return {
+            ...state,
+            userVote: 'like',
+            upVotes: state.upVotes + 1,
+          };
+        // Already liked → remove like
+        case 'like':
+          return {
+            ...state,
+            userVote: 'none',
+            upVotes: Math.max(state.upVotes - 1, 0),
+          };
+        // Currently disliked → change to like
+        case 'dislike':
+          return {
+            ...state,
+            userVote: 'like',
+            upVotes: state.upVotes + 1,
+            downVotes: Math.max(state.downVotes - 1, 0),
+          };
+      }
+      break;
+    // User clicked dislike button
+    case 'dislike':
+      switch (state.userVote) {
+        // No vote → dislike as requested
+        case 'none':
+          return {
+            ...state,
+            userVote: 'dislike',
+            downVotes: state.downVotes + 1,
+          };
+        // Already disliked → remove dislike
+        case 'dislike':
+          return {
+            ...state,
+            userVote: 'none',
+            downVotes: Math.max(state.downVotes - 1, 0),
+          };
+        // Currently liked → change to dislike
+        case 'like':
+          return {
+            ...state,
+            userVote: 'dislike',
+            upVotes: Math.max(state.upVotes - 1, 0),
+            downVotes: state.downVotes + 1,
+          };
+      }
+      break;
+    default:
+      return state;
+  }
 };
 
-type UpdateVoteCountRequest = {
-  id: string;
-  like: boolean;
+export type Vote = 'like' | 'dislike' | 'none';
+
+type VoteAction = { type: 'like' } | { type: 'dislike' };
+
+type VoteState = {
+  upVotes: number;
+  downVotes: number;
+  userVote: Vote;
 };
+
+type VoteButtonProps = {
+  onVoteChange: (vote: Vote) => void;
+} & VoteState;
