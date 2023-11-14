@@ -113,7 +113,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
             log.debug(maxScore + "");
 
             List<WordESAutoCompleteItem> wordESAutoCompleteItems = response.hits().hits().stream()
-                .filter(hit -> hit.score() >= 20)
+//                .filter(hit -> hit.score() >= 20)
                 .map(hit -> {
                     Map<String, String> result = (Map<String, String>) hit.source();
                     return WordESAutoCompleteItem.builder()
