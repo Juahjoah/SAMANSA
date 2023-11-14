@@ -2,6 +2,7 @@ package com.ssafy.memetionary.wordes.service;
 
 import com.ssafy.memetionary.common.CustomErrorType;
 import com.ssafy.memetionary.common.exception.WordNotFoundException;
+import com.ssafy.memetionary.wordes.document.LikeType;
 import com.ssafy.memetionary.wordes.document.QueryType;
 import com.ssafy.memetionary.wordes.document.SearchFieldType;
 import com.ssafy.memetionary.wordes.document.WordES;
@@ -30,7 +31,7 @@ public class WordESService {
     private final WordESRepository wordESRepository;
 
     public void registerWordES(WordESRegisterRequest request, String memberId,
-                               String memberNickname) {
+        String memberNickname) {
         log.debug("request = " + request);
         WordES wordES = WordES.builder()
             .memberId(memberId)
@@ -57,66 +58,45 @@ public class WordESService {
 
     public void delete(String wordId) {
         WordES wordES = wordESRepository.findById(wordId)
-            .orElseThrow(() -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
+            .orElseThrow(
+                () -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
         delete(wordES);
     }
 
     //엘라스틱 서치 단어 좋아요/싫어요 - 단어 5
-    public void likeWord(String clientIP, String wordId, boolean wordLike) {
+    public void likeWord(String clientIP, String wordId, LikeType wordLike) {
+        //단어 찾기
         WordES wordES = wordESRepository.findById(wordId)
             .orElseThrow(
                 () -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
         log.debug(wordES.getLikes().toString());
-        Set<String> likes = new HashSet<>(wordES.getLikes());
-        Set<String> dislikes = new HashSet<>(wordES.getDislikes());
+        //좋아요 취소
+        wordESRepository.updateLike(WordESRequestType.DELETE_LIKE, wordES, clientIP);
+        //싫어요 취소
+        wordESRepository.updateLike(WordESRequestType.DELETE_DISLIKE, wordES, clientIP);
 
-        boolean isLike = likes.contains(clientIP);
-        boolean isDislike = dislikes.contains(clientIP);
+        // ==== 그럼 지금은 NONE 상태 ====
 
-        log.debug("isLike = " + isLike);
-        log.debug("isDislike = " + isDislike);
-
-        likeProcess(isLike, isDislike, wordLike, wordES, clientIP);
-    }
-
-    private void likeProcess(boolean isLike, boolean isDislike, boolean wordLike, WordES wordES,
-                             String clientIP) {
-        //좋아요, 싫어요 한적 없는 경우
-        if (!isLike && !isDislike) {
-            if (wordLike) {
-                wordESRepository.updateLike(WordESRequestType.ADD_LIKE, wordES, clientIP);
-            } else {
-                wordESRepository.updateLike(WordESRequestType.ADD_DISLIKE, wordES, clientIP);
-            }
+        //좋아요버튼
+        if (wordLike.getFieldName().equals("up")) {
+            wordESRepository.updateLike(WordESRequestType.ADD_LIKE, wordES, clientIP);
         }
-        //현재 좋아요 상태
-        else if (isLike) {
-            //좋아요 취소
-            wordESRepository.updateLike(WordESRequestType.DELETE_LIKE, wordES, clientIP);
-            //좋아요 -> 싫어요
-            if (!wordLike) {
-                wordESRepository.updateLike(WordESRequestType.ADD_DISLIKE, wordES, clientIP);
-            }
-        }
-        //싫어요
-        else {
-            //싫어요 취소
-            wordESRepository.updateLike(WordESRequestType.DELETE_DISLIKE, wordES, clientIP);
-            //싫어요 -> 좋아요
-            if (wordLike) {
-                wordESRepository.updateLike(WordESRequestType.ADD_LIKE, wordES, clientIP);
-            }
+        //싫어요 버튼
+        else if (wordLike.getFieldName().equals("down")) {
+            wordESRepository.updateLike(WordESRequestType.ADD_DISLIKE, wordES, clientIP);
         }
     }
 
     //엘라스틱 서치 단어 검색 - 단어 1
     public WordESSearchResponse searchByName(String name, Pageable pageable, String clientIP) {
-        WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(QueryType.MATCH, SearchFieldType.NAME, name, clientIP, pageable);
+        WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(QueryType.MATCH,
+            SearchFieldType.NAME, name, clientIP, pageable);
 
         return wordESSearchResponse;
     }
 
-    public WordESSearchResponse searchExact(String name, String nickName, String hashtag, Pageable pageable, String clientIP) {
+    public WordESSearchResponse searchExact(String name, String nickName, String hashtag,
+        Pageable pageable, String clientIP) {
         if (!name.isEmpty()) {
             SearchFieldType fieldType = SearchFieldType.NAME_KEYWORD;
             return wordESRepository.searchWords(QueryType.TERM, fieldType, name,
@@ -138,7 +118,8 @@ public class WordESService {
     public WordESSearchResponse mainPage(Pageable pageable, String clientIP) {
         SearchFieldType fieldType = SearchFieldType.NAME;
         String name = "";
-        return wordESRepository.searchWords(QueryType.MATCH_ALL, fieldType, name, clientIP, pageable);
+        return wordESRepository.searchWords(QueryType.MATCH_ALL, fieldType, name, clientIP,
+            pageable);
     }
 
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
