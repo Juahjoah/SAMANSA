@@ -1,30 +1,8 @@
-import { getCookie, setCookie, deleteCookie } from '@/hooks/UserCookies';
+import { getCookie, setCookie } from '@/hooks/UserCookies';
 
 const ACCESS_EXPIRY_TIME = 3 * 60 * 60 * 1000;
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const accessToken = getCookie('accessToken');
-
-function handleExpiration() {
-  fetch(`${BASE_URL}/member`, {
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
-    .then((response) => {
-      if (response.ok) {
-        deleteCookie('accessToken');
-        if (typeof window !== 'undefined') {
-          window.location.reload();
-        }
-        return response.json();
-      }
-    })
-    .catch((error) => {
-      console.error('실패:', error);
-      // 갱신 실패 시 처리 로직 추가
-    });
-}
 
 export async function handleToken() {
   const response = await fetch(`${BASE_URL}/token/new`, {
@@ -52,7 +30,5 @@ export async function handleToken() {
       response.status,
       response.statusText,
     );
-    // 갱신 실패 시 처리 로직 추가
-    handleExpiration();
   }
 }
