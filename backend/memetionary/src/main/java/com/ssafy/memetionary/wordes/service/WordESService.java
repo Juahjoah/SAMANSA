@@ -19,9 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -87,7 +85,7 @@ public class WordESService {
         }
         try {
             // 1초 동안 일시 정지
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             // InterruptedException 처리
             e.printStackTrace();
