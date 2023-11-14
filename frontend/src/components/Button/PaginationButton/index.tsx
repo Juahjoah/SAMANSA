@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import styles from './Pagination.module.css';
-// import { useRouter } from 'next/router';
 
 type PaginationProps = {
   type: string;
@@ -21,34 +20,41 @@ export default function Pagination({
   value,
   pagination,
 }: PaginationProps) {
-  const length = Math.ceil(pagination.total / 10); // 총 페이지 갯수 - api 연동 필요
-  const [selectedButton, setSelectedButton] = useState(pagination.page - 1); // 선택된 페이지 넘버 - 리덕스or리코일에 저장
+  // 총 페이지 갯수 - api 연동 필요
+  const length = Math.ceil(pagination.total / 10);
+  // 선택된 페이지 넘버 - 리덕스or리코일에 저장
+  const [selectedButton, setSelectedButton] = useState(pagination.page - 1);
 
+  // 현재 페이지 위치를 선택한 index값으로 변경
   const CheckButton = (index: number) => {
     setSelectedButton(index);
   };
+
+  // 페이지넘버 왼쪽 이동
   const MoveLeft = () => {
-    // 페이지넘버 왼쪽 이동
     if (selectedButton > 0) {
       setSelectedButton(selectedButton - 1);
     }
   };
+
+  // 페이지넘버 오른쪽 이동
   const MoveRight = () => {
-    // 페이지넘버 오른쪽 이동
     if (selectedButton < length - 1) {
       setSelectedButton(selectedButton + 1);
     }
   };
 
+  // 제일 왼쪽으로 페이지 이동
   const DefaultLeft = () => {
-    // 제일 왼쪽으로 페이지 이동
     setSelectedButton(0);
   };
+
+  // 제일 오른쪽으로 페이지 이동
   const DefaultRight = () => {
-    // 제일 오른쪽으로 페이지 이동
     setSelectedButton(length - 1);
   };
 
+  // 슬라이드 버튼 생성
   const PageElements = Array.from({ length }, (_, index) => (
     <div
       key={index}
@@ -73,9 +79,9 @@ export default function Pagination({
       const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
         value == '' ? `?` : `?type=${type}&value=${value}&`
       }page=${selectedButton + 1}`;
-      // console.log(url);
       window.location.href = url;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedButton]);
 
   return (
