@@ -1,119 +1,90 @@
 'use client';
-import { useEffect, useReducer } from 'react';
+
 import { IoThumbsUpSharp, IoThumbsDownSharp } from 'react-icons/io5';
 import styles from './VoteButton.module.css';
+import { useState } from 'react';
+import { resultData } from '@/app/(main)/page';
 
-// A general vote button that can be used for any voteable entity which
-// is not dependent on any specific API.
+/// Vote button specific to words.
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
+  const response = await fetch(`${BASE_URL}/word/like`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    body: JSON.stringify({ wordId: id, wordLike: like }),
+  });
+  console.log(response);
+  if (response.ok) {
+    const data: resultData = await response.json();
+    return data.words[0];
+  } else {
+    console.error(`HTTP Error: ${response.status}`);
+    return null;
+  }
+}
+
 export default function VoteButton({
-  upVotes,
-  downVotes,
-  userVote,
-  onVoteChange,
-}: VoteButtonProps) {
-  const initialState: VoteState = { upVotes, downVotes, userVote };
-  const [state, dispatch] = useReducer(reducer, initialState);
+  id,
+  likeCount,
+  dislikeCount,
+  hasLike,
+  hasDislike,
+}: WordVoteButton) {
+  // 상태관리
+  const [state, setState] = useState({
+    id,
+    likeCount,
+    dislikeCount,
+    hasLike,
+    hasDislike,
+  });
 
-  useEffect(() => {
-    onVoteChange(state.userVote);
-  }, [onVoteChange]);
+  async function Click(likeState: string) {
+    console.log('click');
+    const result: WordVoteButton | null = await updateVoteCount({
+      id: id,
+      like: likeState,
+    });
+    console.log('set result', result);
+    if (result != null) {
+      setState(result);
+    }
+    console.log(state);
+  }
 
   return (
     <div className={styles.buttonRoot}>
+      {/* 좋아요 */}
       <button
-        onClick={() => dispatch({ type: 'like' })}
-        className={
-          state.userVote === 'like' ? styles.buttonSelected : styles.button
-        }
+        onClick={() => Click('UP')}
+        className={state.hasLike ? styles.buttonSelected : styles.button}
       >
         <IoThumbsUpSharp />
-        <span>{state.upVotes}</span>
+        <span>{state.likeCount}</span>
       </button>
+      {/* 싫어요 */}
       <button
-        onClick={() => dispatch({ type: 'dislike' })}
-        className={
-          state.userVote === 'dislike' ? styles.buttonSelected : styles.button
-        }
+        onClick={() => Click('DOWN')}
+        className={state.hasDislike ? styles.buttonSelected : styles.button}
       >
         <IoThumbsDownSharp />
-        <span>{state.downVotes}</span>
+        <span>{state.dislikeCount}</span>
       </button>
     </div>
   );
 }
 
-// Given the current state and an action ("like" or "dislike"), return the updated state
-const reducer = (state: VoteState, action: VoteAction): VoteState => {
-  switch (action.type) {
-    // User clicked like button
-    case 'like':
-      switch (state.userVote) {
-        // No vote → like as requested
-        case 'none':
-          return {
-            ...state,
-            userVote: 'like',
-            upVotes: state.upVotes + 1,
-          };
-        // Already liked → remove like
-        case 'like':
-          return {
-            ...state,
-            userVote: 'none',
-            upVotes: Math.max(state.upVotes - 1, 0),
-          };
-        // Currently disliked → change to like
-        case 'dislike':
-          return {
-            ...state,
-            userVote: 'like',
-            upVotes: state.upVotes + 1,
-            downVotes: Math.max(state.downVotes - 1, 0),
-          };
-      }
-      break;
-    // User clicked dislike button
-    case 'dislike':
-      switch (state.userVote) {
-        // No vote → dislike as requested
-        case 'none':
-          return {
-            ...state,
-            userVote: 'dislike',
-            downVotes: state.downVotes + 1,
-          };
-        // Already disliked → remove dislike
-        case 'dislike':
-          return {
-            ...state,
-            userVote: 'none',
-            downVotes: Math.max(state.downVotes - 1, 0),
-          };
-        // Currently liked → change to dislike
-        case 'like':
-          return {
-            ...state,
-            userVote: 'dislike',
-            upVotes: Math.max(state.upVotes - 1, 0),
-            downVotes: state.downVotes + 1,
-          };
-      }
-      break;
-    default:
-      return state;
-  }
+type UpdateVoteCountRequest = {
+  id: string;
+  like: string;
 };
 
-export type Vote = 'like' | 'dislike' | 'none';
-
-type VoteAction = { type: 'like' } | { type: 'dislike' };
-
-type VoteState = {
-  upVotes: number;
-  downVotes: number;
-  userVote: Vote;
+type WordVoteButton = {
+  id: string;
+  likeCount: number;
+  dislikeCount: number;
+  hasLike: boolean;
+  hasDislike: boolean;
 };
-
-type VoteButtonProps = {
-  onVoteChange: (vote: Vote) => void;
-} & VoteState;

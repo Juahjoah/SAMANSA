@@ -1,7 +1,8 @@
 'use client';
-import VoteButton, { Vote } from '../VoteButton';
-import { useQueryClient } from '@tanstack/react-query';
-import { useMutation } from '@tanstack/react-query';
+
+import { IoThumbsUpSharp, IoThumbsDownSharp } from 'react-icons/io5';
+import { useState } from 'react';
+import { resultData } from '@/app/(main)/page';
 
 /// Vote button specific to words.
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -13,57 +14,73 @@ async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
     method: 'PUT',
     body: JSON.stringify({ wordId: id, wordLike: like }),
   });
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
+  if (response.ok) {
+    const data: resultData = await response.json();
+    return data.words[0];
+  } else {
+    console.error(`HTTP Error: ${response.status}`);
+    return null;
   }
-  return response.json();
 }
 
 export default function WordVoteButton({
-  wordId,
+  id,
+  likeCount,
+  dislikeCount,
   hasLike,
   hasDislike,
-  upVotes,
-  downVotes,
-}: WordVoteButtonProps) {
-  let initialVote: Vote = 'none';
-  if (hasLike) initialVote = 'like';
-  if (hasDislike) initialVote = 'dislike';
-
-  const queryClient = useQueryClient();
-  const updateVoteCountMutation = useMutation({
-    mutationFn: updateVoteCount,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['votes'] });
-    },
+}: WordVoteButton) {
+  // 상태관리
+  const [state, setState] = useState({
+    id,
+    likeCount,
+    dislikeCount,
+    hasLike,
+    hasDislike,
   });
 
-  const handleVoteChange = (newVote: Vote) => {
-    if (newVote === 'like') {
-      updateVoteCountMutation.mutate({ id: wordId, like: true });
+  async function Click(likeState: string) {
+    console.log('click');
+    const result: WordVoteButton | null = await updateVoteCount({
+      id: id,
+      like: likeState,
+    });
+    if (result != null) {
+      setState(result);
     }
-    if (newVote === 'dislike') {
-      updateVoteCountMutation.mutate({ id: wordId, like: false });
-    }
-    console.debug(`Vote changed to ${newVote}`);
-  };
+  }
+
   return (
-    <VoteButton
-      onVoteChange={handleVoteChange}
-      userVote={initialVote}
-      {...{ upVotes, downVotes }}
-    />
+    <div className={styles.buttonRoot}>
+      {/* 좋아요 */}
+      <button
+        onClick={() => Click('UP')}
+        className={state.hasLike ? styles.buttonSelected : styles.button}
+      >
+        <IoThumbsUpSharp />
+        <span>{state.likeCount}</span>
+      </button>
+      {/* 싫어요 */}
+      <button
+        onClick={() => Click('DOWN')}
+        className={state.hasDislike ? styles.buttonSelected : styles.button}
+      >
+        <IoThumbsDownSharp />
+        <span>{state.dislikeCount}</span>
+      </button>
+    </div>
   );
 }
 
-type WordVoteButtonProps = {
-  wordId: string;
-  hasLike: boolean;
-  hasDislike: boolean;
-  upVotes: number;
-  downVotes: number;
-};
 type UpdateVoteCountRequest = {
   id: string;
-  like: boolean;
+  like: string;
+};
+
+type WordVoteButton = {
+  id: string;
+  likeCount: number;
+  dislikeCount: number;
+  hasLike: boolean;
+  hasDislike: boolean;
 };

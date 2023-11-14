@@ -93,7 +93,7 @@ async function fetchData({ type, value, page }: fetchDataInput) {
       break;
   }
 
-  console.log(url);
+  // console.log(url);
   const headersList = headers();
   const ip = headersList.get('x-forwarded-for');
 
@@ -162,7 +162,7 @@ export default async function Home({ searchParams }: getParams) {
               )
             ) : (
               resultData.words.map((item: CardItem) => {
-                console.log('CardItem', item);
+                // console.log('CardItem', item);
                 return (
                   <div key={item.id}>
                     <Card item={item} />

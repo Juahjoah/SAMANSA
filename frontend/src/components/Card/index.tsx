@@ -3,7 +3,7 @@ import { CardItem } from '@/app/(main)/page';
 import ShareButton from '../Button/ShareButton';
 import DeleteButton from '../Button/DeleteButton';
 import ReportButton from '../Button/ReportButton';
-import WordVoteButton from '../Button/WordVoteButton';
+import VoteButton from '../Button/VoteButton';
 
 export default function Card({ variant = 'large', item }: CardProps) {
   const {
@@ -88,10 +88,10 @@ export default function Card({ variant = 'large', item }: CardProps) {
       </div>
       <div className={styles.wrapper}>
         <div className={styles.wrapperChildren}>
-          <WordVoteButton
-            wordId={id}
-            upVotes={likeCount}
-            downVotes={dislikeCount}
+          <VoteButton
+            id={id}
+            likeCount={likeCount}
+            dislikeCount={dislikeCount}
             hasLike={hasLike}
             hasDislike={hasDislike}
           />
