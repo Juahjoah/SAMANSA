@@ -57,7 +57,7 @@ export default function VoteButton({
   async function Click(action: string) {
     console.log('click');
     let like = '';
-    if (like == state) {
+    if (action == state) {
       like = 'NONE';
     } else {
       like = action;
