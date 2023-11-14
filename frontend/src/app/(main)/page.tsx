@@ -1,6 +1,9 @@
 //react
 // import { Suspense } from 'react';
 
+//next
+import { headers } from 'next/headers';
+
 //style
 import styles from './Home.module.css';
 
@@ -38,7 +41,7 @@ export type CardItem = {
   writer: boolean;
 };
 
-type resultData = {
+export type resultData = {
   total: number;
   words: CardItem[];
   error: boolean;
@@ -52,32 +55,35 @@ type fetchDataInput = {
 
 async function fetchData({ type, value, page }: fetchDataInput) {
   let url = `${process.env.NEXT_PUBLIC_API_URL}/word/`;
+  const encodedValue = encodeURIComponent(value)
+    .replace(/\(/g, '%28')
+    .replace(/\)/g, '%29');
 
   switch (type) {
     //메인, 단어 검색
     case 'main':
     case 'search':
-      url = `${url}${type}?word=${value}&page=${page - 1}`;
+      url = `${url}${type}?word=${encodedValue}&page=${page - 1}`;
       break;
     //단어 완전 일치 조회
     case 'word':
-      url = `${url}exact?word=${value}&memberNickname=&hashtag=&page=${
+      url = `${url}exact?word=${encodedValue}&memberNickname=&hashtag=&page=${
         page - 1
       }`;
       break;
     case 'nickname':
-      url = `${url}exact?word=&memberNickname=${value}&hashtag=&page=${
+      url = `${url}exact?word=&memberNickname=${encodedValue}&hashtag=&page=${
         page - 1
       }`;
       break;
     case 'hashtag':
-      url = `${url}exact?word=&memberNickname=&hashtag=${value}&page=${
+      url = `${url}exact?word=&memberNickname=&hashtag=${encodedValue}&page=${
         page - 1
       }`;
       break;
     //단어 초성 색인
     case 'index':
-      url = `${url}index?startWith=${value}&page=${page - 1}`;
+      url = `${url}index?startWith=${encodedValue}&page=${page - 1}`;
       break;
     case 'test':
       //test
@@ -86,9 +92,16 @@ async function fetchData({ type, value, page }: fetchDataInput) {
       url = url + 'main';
       break;
   }
-  console.log(url);
+
+  // console.log(url);
+  const headersList = headers();
+  const ip = headersList.get('x-forwarded-for');
+
   const res = await fetch(url, {
     cache: 'no-store',
+    headers: {
+      'client-ip': ip != null ? ip : '',
+    },
   });
 
   if (res.ok) {
@@ -115,6 +128,8 @@ export default async function Home({ searchParams }: getParams) {
     page,
   });
 
+  const typeInfo = '';
+
   return (
     <>
       <Header />
@@ -132,6 +147,11 @@ export default async function Home({ searchParams }: getParams) {
             <EnterCreate />
           </div>
         </div>
+        <div className={styles.searchTag}>
+          {type == 'main' || type == 'search'
+            ? ''
+            : `${value}에 대한 ${typeInfo} 검색 결과 입니다.`}
+        </div>
         <div className={styles.content}>
           <div className={styles.searchResult}>
             {resultData.words.length == 0 ? (
@@ -141,11 +161,14 @@ export default async function Home({ searchParams }: getParams) {
                 <div className={styles.error}>검색결과가 없습니다.</div>
               )
             ) : (
-              resultData.words.map((item: CardItem) => (
-                <div key={item.id}>
-                  <Card item={item} />
-                </div>
-              ))
+              resultData.words.map((item: CardItem) => {
+                // console.log('CardItem', item);
+                return (
+                  <div key={item.id}>
+                    <Card item={item} />
+                  </div>
+                );
+              })
             )}
           </div>
           <div className={styles.survey}>

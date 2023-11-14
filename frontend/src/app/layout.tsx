@@ -39,7 +39,12 @@ const myFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: `Samansa`,
+  title: `Samansa, 사전을 만드는 사람들`,
+  icons: {
+    icon: '/favicon.ico',
+  },
+  description:
+    'This is a dictionary where users create their own definitions of words.',
 };
 
 export default function RootLayout({

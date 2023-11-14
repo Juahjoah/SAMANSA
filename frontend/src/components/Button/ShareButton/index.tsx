@@ -1,49 +1,34 @@
 'use client';
 
 import styles from './ShareButton.module.css';
-
 import { useRouter } from 'next/navigation';
-
 import { RiTwitterXFill } from 'react-icons/ri';
 import { RiFacebookFill } from 'react-icons/ri';
 
-export default function ShareButton() {
+type ButtonProps = {
+  wordName?: string;
+};
+
+export default function ShareButton({ wordName }: ButtonProps) {
   const router = useRouter();
-  const sendText = '밈셔너리'; // 전달할 텍스트
-  const sendUrl = 'devpad.tistory.com/'; // 전달할 URL (임시)
+  const sendText = ''; // 전달할 텍스트
+  const sendUrl = `${process.env.NEXT_PUBLIC_REDIRECT_URI}`; // 전달할 URL
 
-  // const sendUrl = window.location.href;
-
+  // 트위터 공유하기 페이지 이동
   const ShareTwitter = () => {
-    // 트위터 공유하기 페이지 이동
     router.push(
-      `https://twitter.com/intent/tweet?text=${sendText}&url=${sendUrl}`,
+      `https://twitter.com/intent/tweet?text=${sendText}&url=${sendUrl}/?type=search&value=${wordName}`,
     );
   };
+
+  // 페이스북 공유하기 페이지 이동
   const ShareFacebook = () => {
-    // 페이스북 공유하기 페이지 이동
-    router.push(`https://www.facebook.com/sharer/sharer.php?u=${sendUrl}`);
+    window.open(
+      `http://www.facebook.com/sharer.php?u=${sendUrl}/?type=search/?value=${wordName}`,
+    );
   };
 
   return (
-    // <div>
-    //   <Image
-    //     className={styles.twitter}
-    //     src={'/assets/twitterIcon.svg'}
-    //     width={25}
-    //     height={25}
-    //     alt="트위터"
-    //     onClick={ShareTwitter}
-    //   />
-    //   <Image
-    //     className={styles.facebook}
-    //     src={'/assets/facebookIcon.svg'}
-    //     height={25}
-    //     width={25}
-    //     alt="페이스북"
-    //     onClick={ShareFacebook}
-    //   />
-    // </div>
     <div className={styles.buttonWrapper}>
       <RiTwitterXFill onClick={ShareTwitter} className={styles.button} />
       <RiFacebookFill onClick={ShareFacebook} className={styles.button} />

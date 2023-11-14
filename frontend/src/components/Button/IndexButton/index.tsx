@@ -1,8 +1,6 @@
 'use client';
-//react
-import { useState } from 'react';
 
-//style
+import { useState } from 'react';
 import styles from './IndexButton.module.css';
 
 export default function IndexButton() {
@@ -22,10 +20,9 @@ export default function IndexButton() {
     'ㅌ',
     'ㅍ',
     'ㅎ',
-    'new',
   ];
 
-  //모달
+  //모달 생성
   function CheckingModal() {
     setModalCheck(!modalCheck);
   }
@@ -39,7 +36,7 @@ export default function IndexButton() {
   return (
     <div className={styles.container}>
       <div className={styles.browseButton} onClick={CheckingModal}>
-        <p>A-Z</p>
+        <p>ㄱ~ㅎ</p>
         <div className={styles.arrow}>▼</div>
       </div>
       {modalCheck ? (
