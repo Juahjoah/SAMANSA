@@ -1,9 +1,9 @@
 import styles from './Card.module.css';
-import VoteButton from '../Button/VoteButton';
 import { CardItem } from '@/app/(main)/page';
 import ShareButton from '../Button/ShareButton';
 import DeleteButton from '../Button/DeleteButton';
 import ReportButton from '../Button/ReportButton';
+import WordVoteButton from '../Button/WordVoteButton';
 
 export default function Card({ variant = 'large', item }: CardProps) {
   const {
@@ -88,9 +88,12 @@ export default function Card({ variant = 'large', item }: CardProps) {
       </div>
       <div className={styles.wrapper}>
         <div className={styles.wrapperChildren}>
-          <VoteButton
+          <WordVoteButton
             wordId={id}
-            {...{ likeCount, dislikeCount, hasLike, hasDislike }}
+            upVotes={likeCount}
+            downVotes={dislikeCount}
+            hasLike={hasLike}
+            hasDislike={hasDislike}
           />
           <div className={styles.optionGroup}>
             <DeleteButton requestData={requestData} />

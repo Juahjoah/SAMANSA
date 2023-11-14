@@ -1,7 +1,16 @@
 .buttonRoot {
   display: flex;
+  gap: 0.75em;
 }
 
-.buttonRoot button {
+.button {
   all: unset;
+  display: flex;
+  gap: 0.25em;
+  cursor: pointer;
+}
+
+.buttonSelected {
+  composes: button;
+  color: #ed4eaf;
 }
