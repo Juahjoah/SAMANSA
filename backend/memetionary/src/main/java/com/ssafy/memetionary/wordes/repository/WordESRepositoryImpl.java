@@ -2,7 +2,6 @@ package com.ssafy.memetionary.wordes.repository;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.SortOrder;
-import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.SourceConfig;
@@ -12,6 +11,7 @@ import com.nimbusds.jose.shaded.gson.JsonParser;
 import com.ssafy.memetionary.common.CustomErrorType;
 import com.ssafy.memetionary.common.exception.QueryNotFoundException;
 import com.ssafy.memetionary.common.exception.WordAutoCompleteException;
+import com.ssafy.memetionary.util.WordUtils;
 import com.ssafy.memetionary.wordes.document.QueryType;
 import com.ssafy.memetionary.wordes.document.SearchFieldType;
 import com.ssafy.memetionary.wordes.document.WordES;
@@ -40,9 +40,11 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
     @Value("#{@esConfig.getWordIndexName()}")
     private String INDEX;
     private final ElasticsearchClient client;
+    private final WordUtils wordUtils;
 
-    public WordESRepositoryImpl(ElasticsearchClient client) {
+    public WordESRepositoryImpl(ElasticsearchClient client, WordUtils wordUtils) {
         this.client = client;
+        this.wordUtils = wordUtils;
     }
 
     @Override
@@ -84,11 +86,22 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                         )
                     ))
                     .query(q -> q
-                        .multiMatch(mm -> mm
-                            .query(word)
-                            .fields(List.of("name^10", "name.ngram^3", "name.jaso"))
-                            .operator(Operator.And)
-                            .prefixLength(3)
+                        .bool(b -> b
+                            .should(sh -> sh
+                                .match(m -> m
+                                    .field("name.jaso")
+                                    .query(word)
+                                    .analyzer("suggest_index_analyzer")
+                                    .fuzziness("1")
+                                )
+                            )
+                            .should(sh -> sh
+                                .match(m -> m
+                                    .field("noriName.jaso")
+                                    .query(wordUtils.getNoriResult(word))
+                                    .analyzer("suggest_index_analyzer")
+                                )
+                            )
                         )
                     )
                 , Object.class
@@ -100,7 +113,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
             log.debug(maxScore + "");
 
             List<WordESAutoCompleteItem> wordESAutoCompleteItems = response.hits().hits().stream()
-                .filter(hit -> hit.score() >= maxScore / 5)
+                .filter(hit -> hit.score() >= 20)
                 .map(hit -> {
                     Map<String, String> result = (Map<String, String>) hit.source();
                     return WordESAutoCompleteItem.builder()
