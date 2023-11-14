@@ -41,11 +41,9 @@ export default function WordVoteButton({
   const handleVoteChange = (newVote: Vote) => {
     if (newVote === 'like') {
       updateVoteCountMutation.mutate({ id: wordId, like: true });
-      return;
     }
     if (newVote === 'dislike') {
       updateVoteCountMutation.mutate({ id: wordId, like: false });
-      return;
     }
     console.debug(`Vote changed to ${newVote}`);
   };

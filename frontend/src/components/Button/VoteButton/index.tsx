@@ -16,7 +16,7 @@ export default function VoteButton({
 
   useEffect(() => {
     onVoteChange(state.userVote);
-  }, [onVoteChange, state.userVote]);
+  }, [onVoteChange]);
 
   return (
     <div className={styles.buttonRoot}>
