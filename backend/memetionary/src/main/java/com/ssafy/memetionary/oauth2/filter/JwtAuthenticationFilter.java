@@ -25,27 +25,23 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = resolveToken((HttpServletRequest) request);
-        System.out.println("request.URI = " + ((HttpServletRequest) request).getRequestURI());
-        if (((HttpServletRequest) request).getRequestURI().equals("/api/ai/save")) {
-            chain.doFilter(request, response);
-            return;
-        }
+        logger.debug("request.URI = " + ((HttpServletRequest) request).getRequestURI());
 
         try {
             // 토큰 유효성 검사
-            if (token != null && jwtTokenProvider.validateToken(token)) {
+            if (token != null && jwtTokenProvider.validateToken(token, (HttpServletRequest) request)) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
 
             //토큰 에러 확인 나중에 풀기
-            /*HttpServletResponse httpResponse = (HttpServletResponse) response;
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             httpResponse.setContentType("application/json");
             String jsonErrorResponse = String.format("{\"message\": \"%s\"}", e.getMessage());
             httpResponse.getWriter().write(jsonErrorResponse);
-            return; // 필터 체인을 종료합니다.*/
+            return; // 필터 체인을 종료합니다.
         }
 
         chain.doFilter(request, response);

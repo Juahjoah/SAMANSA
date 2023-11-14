@@ -1,5 +1,8 @@
 package com.ssafy.memetionary.oauth2.token;
 
+import com.ssafy.memetionary.common.CustomErrorType;
+import com.ssafy.memetionary.common.exception.MemberNotFoundException;
+import com.ssafy.memetionary.member.entity.Member;
 import com.ssafy.memetionary.member.repository.MemberRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -8,6 +11,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -75,7 +79,9 @@ public class JwtTokenProvider {
 
         User userDetails = (User) authentication.getPrincipal();
         String memberId = userDetails.getUsername();
-        String nickname = memberRepository.findById(memberId).get().getNickname();
+        Member findMember = memberRepository.findById(memberId)
+            .orElseThrow(() -> new MemberNotFoundException(CustomErrorType.MEMBER_NOT_FOUND.getMessage()));
+        String nickname = findMember.getNickname();
 
         String accessToken = getAccessToken(nickname, authorities);
         String refreshToken = getRefreshToken();
@@ -126,7 +132,7 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
-    public boolean validateToken(String token) throws Exception {
+    public boolean validateToken(String token, HttpServletRequest request) throws Exception {
         String message = "";
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
@@ -136,6 +142,9 @@ public class JwtTokenProvider {
             message = "Invalid JWT Token";
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
+            if (request.getRequestURI().equals("/api/token/new")) {
+                return true;
+            }
             message = "Expired JWT Token";
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);

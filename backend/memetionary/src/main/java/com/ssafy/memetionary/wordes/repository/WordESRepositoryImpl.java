@@ -132,8 +132,8 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
 
             SearchResponse<Object> response = client.search(s -> s
                     .index(INDEX)
-                    .from(pageable.getPageNumber())
-                    .size(10)
+                    .from(pageable.getPageNumber() * pageable.getPageSize())
+                    .size(pageable.getPageSize())
                     .source(SourceConfig.of(sc -> sc
                         .filter(f -> f
                             .includes(
@@ -164,11 +164,16 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                             .order(SortOrder.Desc)
                         )
                     )
+                    .sort(sort -> sort
+                        .field(f -> f
+                            .field(WordESType.CREATE_DATE.getFieldName())
+                            .order(SortOrder.Desc)
+                        )
+                    )
                 , Object.class
             );
 
-            return getWordESSearchResponse(response);
-
+            return getWordESSearchResponse(response, clientIP);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -179,7 +184,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         try {
             SearchResponse<Object> response = client.search(s -> s
                     .index(INDEX)
-                    .from(pageable.getPageNumber())
+                    .from(pageable.getPageNumber() * pageable.getPageSize())
                     .size(pageable.getPageSize())
                     .source(SourceConfig.of(sc -> sc
                         .filter(f -> f
@@ -207,11 +212,11 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     )
                     .scriptFields(
                         "is_writer", isWriterScriptField(clientIP)
-                    )
+
                 , Object.class
             );
 
-            return getWordESSearchResponse(response);
+            return getWordESSearchResponse(response, clientIP);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -253,13 +258,14 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                 , Object.class
             );
 
-            return getWordESSearchResponse(response);
+            return getWordESSearchResponse(response, clientIP);
+
         } catch (Exception e) {
             throw new RuntimeException();
         }
     }
 
-    private WordESSearchResponse getWordESSearchResponse(SearchResponse<Object> response) {
+    private WordESSearchResponse getWordESSearchResponse(SearchResponse<Object> response, String clientIP) {
         long total = response.hits().total().value();
         log.debug(total + "");
 
@@ -291,6 +297,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .hasLike(hasLike)
                     .hasDislike(hasDislike)
                     .isWriter(isWriter)
+                    .clientIP(clientIP)
                     .build();
             }).toList();
 

@@ -5,6 +5,7 @@ import com.ssafy.memetionary.common.dto.MessageResponse;
 import com.ssafy.memetionary.common.exception.WordNotFoundException;
 import com.ssafy.memetionary.member.service.MemberService;
 import com.ssafy.memetionary.util.HeaderUtils;
+import com.ssafy.memetionary.wordes.document.LikeType;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteResponse;
 import com.ssafy.memetionary.wordes.dto.WordESLikeRequest;
@@ -83,13 +84,13 @@ public class WordESController {
     @PutMapping("/like")
     public ResponseEntity<?> likeWord(@RequestBody WordESLikeRequest wordESLikeRequest,
                                       HttpServletRequest httpServletRequest) {
-        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromNginx(httpServletRequest);
         log.debug("clientIP = " + clientIP);
         String wordId = wordESLikeRequest.getWordId();
-        boolean wordLike = wordESLikeRequest.isWordLike();
-        wordESService.likeWord(clientIP, wordId, wordLike);
+        LikeType likeType = wordESLikeRequest.getWordLike();
+        wordESService.likeWord(clientIP, wordId, likeType);
         return ResponseEntity.status(HttpStatus.OK)
-            .body(MessageResponse.builder().message("반영되었습니다.").build());
+            .body(MessageResponse.builder().message("좋아요 반영 성공").build());
     }
 
     //엘라스틱 서치 단어 검색 - 단어 1
@@ -98,7 +99,7 @@ public class WordESController {
                                         @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
         System.out.println("name = " + name);
 
-        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromHeader(httpServletRequest);
 
         WordESSearchResponse words = wordESService.searchByName(name, pageable, clientIP);
 
@@ -109,7 +110,7 @@ public class WordESController {
     @GetMapping("/main")
     public ResponseEntity<?> mainPage(@PageableDefault(size = 10) Pageable pageable,
                                       HttpServletRequest httpServletRequest) {
-        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromHeader(httpServletRequest);
         WordESSearchResponse response = wordESService.mainPage(pageable, clientIP);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -131,7 +132,7 @@ public class WordESController {
                                              @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
         System.out.println("name = " + name);
 
-        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromHeader(httpServletRequest);
 
         WordESSearchResponse words = wordESService.searchExact(name, nickname, hashtag, pageable,
             clientIP);
@@ -144,7 +145,7 @@ public class WordESController {
     public ResponseEntity<WordESSearchResponse> searchWordIndex(
         @RequestParam("startWith") String name, @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest
     ) {
-        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromHeader(httpServletRequest);
         WordESSearchResponse words = wordESService.searchWordIndex(name, pageable, clientIP);
 
         return ResponseEntity.status(HttpStatus.OK).body(words);
@@ -152,7 +153,7 @@ public class WordESController {
 
     @GetMapping("/{wordId}")
     public ResponseEntity<WordESSearchResponse> searchWordById(@PathVariable String wordId, HttpServletRequest httpServletRequest) {
-        String clientIP = headerUtils.getClientIP(httpServletRequest);
+        String clientIP = headerUtils.getClientIPFromNginx(httpServletRequest);
         WordESSearchResponse response = wordESService.searchWordById(wordId, clientIP);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
