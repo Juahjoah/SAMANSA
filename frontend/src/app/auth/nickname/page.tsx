@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import Input from '@/components/Input/ValueInput';
 import Button from '@/components/Button';
+import Modal from '@/components/Modal';
 import styles from './NicknamePages.module.css';
 
 export default function NicknamePages() {
@@ -18,11 +19,21 @@ export default function NicknamePages() {
   const [nickname, setNickname] = useState<string>('');
   const [isDuplicateMessage, setIsDuplicateMessage] = useState<string>('');
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const ModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   // 닉네임 중복확인
   const checkNickname = () => {
     const trimmedNickname = nickname.trim();
     if (!trimmedNickname) {
-      alert('닉네임을 입력해주세요.');
+      ModalOpen();
       return;
     }
     fetch(`${BASE_URL}/member/duplicate`, {
@@ -52,7 +63,7 @@ export default function NicknamePages() {
   const saveNickname = () => {
     const trimmedNickname = nickname.trim();
     if (!trimmedNickname) {
-      alert('닉네임을 입력해주세요.');
+      ModalOpen();
       return;
     }
     fetch(`${BASE_URL}/member`, {
@@ -84,6 +95,15 @@ export default function NicknamePages() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.nickname}>
+        {isModalOpen && (
+          <Modal
+            visible={isModalOpen}
+            maskClosable={true}
+            variant={'login'}
+            onClose={closeModal}
+            // action={goLogin}
+          />
+        )}
         <p className={styles.nicknameTitle}>
           사만사에서 사용할 닉네임을 입력해주세요.
         </p>

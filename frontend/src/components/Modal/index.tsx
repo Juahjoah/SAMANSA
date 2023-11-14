@@ -11,7 +11,7 @@ type ModalProps = {
   visible: boolean;
   variant?: string;
   onClose: () => void;
-  action: () => void;
+  action?: () => void;
 };
 
 export default function Modal({
