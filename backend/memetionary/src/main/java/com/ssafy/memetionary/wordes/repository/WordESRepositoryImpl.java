@@ -1,6 +1,7 @@
 package com.ssafy.memetionary.wordes.repository;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.ScriptField;
 import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
@@ -148,29 +149,14 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .query(
                         makeQuery(queryType, fieldType, word)
                     )
-                    .scriptFields("has_like", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['likes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "has_like", hasLikeScriptField(clientIP)
                     )
-                    .scriptFields("has_dislike", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['dislikes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "has_dislike", hasDislikeScriptField(clientIP)
                     )
-                    .scriptFields("is_writer", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['memberId'].value == params.ip")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "is_writer", isWriterScriptField(clientIP)
                     )
                     .sort(sort -> sort
                         .field(f -> f
@@ -213,29 +199,14 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                             .value(name)
                         )
                     ))
-                    .scriptFields("has_like", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['likes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "has_like", hasLikeScriptField(clientIP)
                     )
-                    .scriptFields("has_dislike", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['dislikes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "has_dislike", hasDislikeScriptField(clientIP)
                     )
-                    .scriptFields("is_writer", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['memberId'].value == params.ip")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "is_writer", isWriterScriptField(clientIP)
                     )
                 , Object.class
             );
@@ -270,29 +241,14 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .query(
                         makeQuery(QueryType.MATCH, SearchFieldType.ID, wordId)
                     )
-                    .scriptFields("has_like", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['likes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "has_like", hasLikeScriptField(clientIP)
                     )
-                    .scriptFields("has_dislike", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['dislikes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "has_dislike", hasDislikeScriptField(clientIP)
                     )
-                    .scriptFields("is_writer", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['memberId'].value == params.ip")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "is_writer", isWriterScriptField(clientIP)
                     )
                 , Object.class
             );
@@ -372,5 +328,38 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                 .field(fieldType.getFieldName())
                 .value(name)
             ));
+    }
+
+    private ScriptField hasLikeScriptField(String clientIP) {
+        return ScriptField.of(sf -> sf
+            .script(sc -> sc
+                .inline(i -> i
+                    .source("doc['likes'].contains(params.ip)")
+                    .params("ip", JsonData.of(clientIP))
+                )
+            )
+        );
+    }
+
+    private ScriptField hasDislikeScriptField(String clientIP) {
+        return ScriptField.of(sf -> sf
+            .script(sc -> sc
+                .inline(i -> i
+                    .source("doc['dislikes'].contains(params.ip)")
+                    .params("ip", JsonData.of(clientIP))
+                )
+            )
+        );
+    }
+
+    private ScriptField isWriterScriptField(String clientIP) {
+        return ScriptField.of(sf -> sf
+            .script(sc -> sc
+                .inline(i -> i
+                    .source("doc['memberId'].value == params.ip")
+                    .params("ip", JsonData.of(clientIP))
+                )
+            )
+        );
     }
 }
