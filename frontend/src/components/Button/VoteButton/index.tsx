@@ -2,7 +2,7 @@
 
 import { IoThumbsUpSharp, IoThumbsDownSharp } from 'react-icons/io5';
 import styles from './VoteButton.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { resultData } from '@/app/(main)/page';
 
 /// Vote button specific to words.
@@ -41,15 +41,18 @@ export default function VoteButton({
   const [state, setState] = useState('');
   let like = likeCount;
   let dislike = dislikeCount;
-  if (hasLike) {
-    setState('UP');
-    like = like - 1;
-  } else if (hasDislike) {
-    setState('DOWN');
-    dislike = dislike - 1;
-  } else {
-    setState('NONE');
-  }
+
+  useEffect(() => {
+    if (hasLike) {
+      setState('UP');
+      like = like - 1;
+    } else if (hasDislike) {
+      setState('DOWN');
+      dislike = dislike - 1;
+    } else {
+      setState('NONE');
+    }
+  }, []);
 
   async function Click(action: string) {
     console.log('click');
