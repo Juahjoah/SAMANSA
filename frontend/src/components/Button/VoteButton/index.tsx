@@ -18,6 +18,8 @@ async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
   });
   console.log(response);
   if (response.ok) {
+    const data: resultData = await response.json();
+    console.log('like data : ', data);
     return true;
   } else {
     console.error(`HTTP Error: ${response.status}`);
@@ -33,15 +35,15 @@ async function getUpdatedInfo(id: string) {
     },
   });
 
-  console.log('res', response);
+  // console.log('res', response);
   if (response.ok) {
     const data: resultData = await response.json();
+    console.log('word data : ', data);
     return data.words[0];
   } else {
     console.error(`HTTP Error: ${response.status}`);
     return null;
   }
-  return null;
 }
 
 export default function VoteButton({
