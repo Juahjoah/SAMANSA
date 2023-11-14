@@ -88,9 +88,8 @@ public class WordESController {
         log.debug("clientIP = " + clientIP);
         String wordId = wordESLikeRequest.getWordId();
         LikeType likeType = wordESLikeRequest.getWordLike();
-        wordESService.likeWord(clientIP, wordId, likeType);
-        return ResponseEntity.status(HttpStatus.OK)
-            .body(MessageResponse.builder().message("반영되었습니다.").build());
+        WordESSearchResponse response = wordESService.likeWord(clientIP, wordId, likeType);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     //엘라스틱 서치 단어 검색 - 단어 1
