@@ -85,6 +85,13 @@ public class WordESService {
         else if (wordLike.getFieldName().equals("down")) {
             wordESRepository.updateLike(WordESRequestType.ADD_DISLIKE, wordES, clientIP);
         }
+        try {
+            // 1초 동안 일시 정지
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            // InterruptedException 처리
+            e.printStackTrace();
+        }
         WordESSearchResponse response = wordESRepository.searchWordById(wordId,clientIP);
         return response;
     }
