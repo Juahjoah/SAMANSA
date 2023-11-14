@@ -27,25 +27,6 @@ async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
   }
 }
 
-async function getUpdatedInfo(id: string) {
-  const response = await fetch(`${BASE_URL}/word/${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      'client-ip': '',
-    },
-  });
-
-  // console.log('res', response);
-  if (response.ok) {
-    const data: resultData = await response.json();
-    console.log('word data : ', data);
-    return data.words[0];
-  } else {
-    console.error(`HTTP Error: ${response.status}`);
-    return null;
-  }
-}
-
 export default function VoteButton({
   id,
   likeCount,
@@ -54,25 +35,30 @@ export default function VoteButton({
   hasDislike,
 }: WordVoteButton) {
   // 상태관리
-  const [state, setState] = useState({
-    id,
-    likeCount,
-    dislikeCount,
-    hasLike,
-    hasDislike,
-  });
 
-  async function Click(like: string) {
+  // const [likeD, setLikeD] = useState(0);
+  // const [dislikeD, setDisLikeD] = useState(0);
+  const [state, setState] = useState('');
+
+  if (hasLike) {
+    setState('UP');
+  } else if (hasDislike) {
+    setState('DOWN');
+  } else {
+    setState('NONE');
+  }
+
+  async function Click(action: string) {
     console.log('click');
-
+    let like = '';
+    if (like == state) {
+      like = 'NONE';
+    } else {
+      like = action;
+    }
     const updateSucess: boolean = await updateVoteCount({ id, like });
     if (updateSucess) {
-      const result: WordVoteButton | null = await getUpdatedInfo(id);
-      console.log('set result', result);
-      if (result != null) {
-        setState(result);
-      }
-      console.log(state);
+      setState(like);
     }
   }
 
@@ -81,18 +67,18 @@ export default function VoteButton({
       {/* 좋아요 */}
       <button
         onClick={() => Click('UP')}
-        className={state.hasLike ? styles.buttonSelected : styles.button}
+        className={state == 'UP' ? styles.buttonSelected : styles.button}
       >
         <IoThumbsUpSharp />
-        <span>{state.likeCount}</span>
+        <span>{likeCount + (state == 'UP' ? 1 : 0)}</span>
       </button>
       {/* 싫어요 */}
       <button
         onClick={() => Click('DOWN')}
-        className={state.hasDislike ? styles.buttonSelected : styles.button}
+        className={state == 'DOWN' ? styles.buttonSelected : styles.button}
       >
         <IoThumbsDownSharp />
-        <span>{state.dislikeCount}</span>
+        <span>{dislikeCount + (state == 'DOWN' ? 1 : 0)}</span>
       </button>
     </div>
   );
