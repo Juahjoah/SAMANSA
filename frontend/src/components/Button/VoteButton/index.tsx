@@ -16,27 +16,32 @@ async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
     method: 'PUT',
     body: JSON.stringify({ wordId: id, wordLike: like }),
   });
+  console.log(response);
+  if (response.ok) {
+    return true;
+  } else {
+    console.error(`HTTP Error: ${response.status}`);
+    return false;
+  }
+}
+
+async function getUpdatedInfo(id: string) {
+  const response = await fetch(`${BASE_URL}/word/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'client-ip': '',
+    },
+  });
 
   console.log('res', response);
   if (response.ok) {
-    const response = await fetch(`${BASE_URL}/word/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'client-ip': '',
-      },
-    });
-
-    if (response.ok) {
-      const data: resultData = await response.json();
-      return data.words[0];
-    } else {
-      console.error(`HTTP Error: ${response.status}`);
-      return null;
-    }
+    const data: resultData = await response.json();
+    return data.words[0];
   } else {
     console.error(`HTTP Error: ${response.status}`);
     return null;
   }
+  return null;
 }
 
 export default function VoteButton({
@@ -55,17 +60,18 @@ export default function VoteButton({
     hasDislike,
   });
 
-  async function Click(likeState: string) {
+  async function Click(like: string) {
     console.log('click');
-    const result: WordVoteButton | null = await updateVoteCount({
-      id: id,
-      like: likeState,
-    });
-    console.log('set result', result);
-    if (result != null) {
-      setState(result);
+
+    const updateSucess: boolean = await updateVoteCount({ id, like });
+    if (updateSucess) {
+      const result: WordVoteButton | null = await getUpdatedInfo(id);
+      console.log('set result', result);
+      if (result != null) {
+        setState(result);
+      }
+      console.log(state);
     }
-    console.log(state);
   }
 
   return (
