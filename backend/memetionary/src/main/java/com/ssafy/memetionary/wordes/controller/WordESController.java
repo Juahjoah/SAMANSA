@@ -88,8 +88,8 @@ public class WordESController {
         log.debug("clientIP = " + clientIP);
         String wordId = wordESLikeRequest.getWordId();
         LikeType likeType = wordESLikeRequest.getWordLike();
-        WordESSearchResponse response = wordESService.likeWord(clientIP, wordId, likeType);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(MessageResponse.builder().message("좋아요 반영 성공").build());
     }
 
     //엘라스틱 서치 단어 검색 - 단어 1
