@@ -65,6 +65,7 @@ export default function DeleteButton({
     if (nickname === memberNickname) {
       setMounted(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
