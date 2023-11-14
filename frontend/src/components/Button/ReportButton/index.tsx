@@ -67,7 +67,6 @@ export default function ReportButton({
     if (nickname) {
       setMounted(true);
     }
-    // console.log(memberNickname);
   }, []);
 
   return (
