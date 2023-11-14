@@ -11,14 +11,28 @@ async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
   const response = await fetch(`${BASE_URL}/word/like`, {
     headers: {
       'Content-Type': 'application/json',
+      'client-ip': '',
     },
     method: 'PUT',
     body: JSON.stringify({ wordId: id, wordLike: like }),
   });
-  console.log(response);
+
+  console.log('res', response);
   if (response.ok) {
-    const data: resultData = await response.json();
-    return data.words[0];
+    const response = await fetch(`${BASE_URL}/word/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'client-ip': '',
+      },
+    });
+
+    if (response.ok) {
+      const data: resultData = await response.json();
+      return data.words[0];
+    } else {
+      console.error(`HTTP Error: ${response.status}`);
+      return null;
+    }
   } else {
     console.error(`HTTP Error: ${response.status}`);
     return null;
