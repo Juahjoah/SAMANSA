@@ -36,22 +36,22 @@ export default function VoteButton({
 }: WordVoteButton) {
   // 상태관리
 
-  // const [likeD, setLikeD] = useState(0);
-  // const [dislikeD, setDisLikeD] = useState(0);
+  const [likeD, setLikeD] = useState(likeCount);
+  const [dislikeD, setDisLikeD] = useState(dislikeCount);
   const [state, setState] = useState('');
-  let like = likeCount;
-  let dislike = dislikeCount;
 
   useEffect(() => {
+    console.log('useEffect');
     if (hasLike) {
       setState('UP');
-      like = like - 1;
+      setLikeD(likeD - 1);
     } else if (hasDislike) {
       setState('DOWN');
-      dislike = dislike - 1;
+      setDisLikeD(dislikeD - 1);
     } else {
       setState('NONE');
     }
+    console.log(state);
   }, []);
 
   async function Click(action: string) {
@@ -76,7 +76,7 @@ export default function VoteButton({
         className={state == 'UP' ? styles.buttonSelected : styles.button}
       >
         <IoThumbsUpSharp />
-        <span>{like + (state == 'UP' ? 1 : 0)}</span>
+        <span>{likeD + (state == 'UP' ? 1 : 0)}</span>
       </button>
       {/* 싫어요 */}
       <button
@@ -84,7 +84,7 @@ export default function VoteButton({
         className={state == 'DOWN' ? styles.buttonSelected : styles.button}
       >
         <IoThumbsDownSharp />
-        <span>{dislike + (state == 'DOWN' ? 1 : 0)}</span>
+        <span>{dislikeD + (state == 'DOWN' ? 1 : 0)}</span>
       </button>
     </div>
   );
