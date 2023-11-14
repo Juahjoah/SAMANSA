@@ -39,11 +39,14 @@ export default function VoteButton({
   // const [likeD, setLikeD] = useState(0);
   // const [dislikeD, setDisLikeD] = useState(0);
   const [state, setState] = useState('');
-
+  let like = likeCount;
+  let dislike = dislikeCount;
   if (hasLike) {
     setState('UP');
+    like = like - 1;
   } else if (hasDislike) {
     setState('DOWN');
+    dislike = dislike - 1;
   } else {
     setState('NONE');
   }
@@ -70,7 +73,7 @@ export default function VoteButton({
         className={state == 'UP' ? styles.buttonSelected : styles.button}
       >
         <IoThumbsUpSharp />
-        <span>{likeCount + (state == 'UP' ? 1 : 0)}</span>
+        <span>{like + (state == 'UP' ? 1 : 0)}</span>
       </button>
       {/* 싫어요 */}
       <button
@@ -78,7 +81,7 @@ export default function VoteButton({
         className={state == 'DOWN' ? styles.buttonSelected : styles.button}
       >
         <IoThumbsDownSharp />
-        <span>{dislikeCount + (state == 'DOWN' ? 1 : 0)}</span>
+        <span>{dislike + (state == 'DOWN' ? 1 : 0)}</span>
       </button>
     </div>
   );
