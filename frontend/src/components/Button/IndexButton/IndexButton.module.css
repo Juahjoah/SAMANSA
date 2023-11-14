@@ -1,8 +1,4 @@
 .container {
-  /* position: absolute; */
-  /* top: 280px; */
-  /* left: 240px; */
-  /* left: 990px; */
   width: 5rem;
   margin-left: 1.3rem;
   margin-right: 0.9rem;
@@ -49,7 +45,6 @@
   display: flex;
   flex-wrap: wrap;
   border-radius: 10px;
-  /* box-shadow: 2px 3px 2px black; */
   position: relative;
   width: 180px;
   height: 210px;

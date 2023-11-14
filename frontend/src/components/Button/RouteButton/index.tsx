@@ -1,7 +1,9 @@
 'use client';
+
 import styles from './RouteButton.module.css';
 import { useRouter } from 'next/navigation';
 
+// 메인페이지 이동 버튼
 export function EnterMain() {
   return (
     <div className={styles.mainButton}>
@@ -10,6 +12,7 @@ export function EnterMain() {
   );
 }
 
+// 단어 등록페이지 이동 버튼
 export function EnterCreate() {
   const accessToken: string | null =
     typeof window !== 'undefined'
