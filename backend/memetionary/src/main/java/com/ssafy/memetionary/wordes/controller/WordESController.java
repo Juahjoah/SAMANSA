@@ -5,6 +5,7 @@ import com.ssafy.memetionary.common.dto.MessageResponse;
 import com.ssafy.memetionary.common.exception.WordNotFoundException;
 import com.ssafy.memetionary.member.service.MemberService;
 import com.ssafy.memetionary.util.HeaderUtils;
+import com.ssafy.memetionary.wordes.document.LikeType;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteResponse;
 import com.ssafy.memetionary.wordes.dto.WordESLikeRequest;
@@ -86,8 +87,8 @@ public class WordESController {
         String clientIP = headerUtils.getClientIPFromNginx(httpServletRequest);
         log.debug("clientIP = " + clientIP);
         String wordId = wordESLikeRequest.getWordId();
-        boolean wordLike = wordESLikeRequest.isWordLike();
-        wordESService.likeWord(clientIP, wordId, wordLike);
+        LikeType likeType = wordESLikeRequest.getWordLike();
+        wordESService.likeWord(clientIP, wordId, likeType);
         return ResponseEntity.status(HttpStatus.OK)
             .body(MessageResponse.builder().message("반영되었습니다.").build());
     }
