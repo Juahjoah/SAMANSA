@@ -85,7 +85,8 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .size(10)
                     .source(SourceConfig.of(sc -> sc
                         .filter(f -> f
-                            .includes(List.of(WordESType.NAME.getFieldName(), WordESType.DESCRIPTION.getFieldName()))
+                            .includes(List.of(WordESType.NAME.getFieldName(),
+                                WordESType.DESCRIPTION.getFieldName()))
                         )
                     ))
                     .query(q -> q
@@ -140,7 +141,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
     //단어 검색
     @Override
     public WordESSearchResponse searchWords(QueryType queryType, SearchFieldType fieldType,
-                                            String word, String clientIP, Pageable pageable) {
+        String word, String clientIP, Pageable pageable) {
         log.debug("search client ip = " + clientIP);
         List<WordESSearchItem> words = new ArrayList<>();
         long total;
@@ -155,10 +156,14 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                         .filter(f -> f
                             .includes(
                                 List.of(
-                                    WordESType.NAME.getFieldName(), WordESType.DESCRIPTION.getFieldName(),
-                                    WordESType.EXAMPLE.getFieldName(), WordESType.MEMBER_NICKNAME.getFieldName(),
-                                    WordESType.CREATE_DATE.getFieldName(), WordESType.HASHTAGS.getFieldName(),
-                                    WordESType.LIKE_COUNT.getFieldName(), WordESType.DISLIKE_COUNT.getFieldName()
+                                    WordESType.NAME.getFieldName(),
+                                    WordESType.DESCRIPTION.getFieldName(),
+                                    WordESType.EXAMPLE.getFieldName(),
+                                    WordESType.MEMBER_NICKNAME.getFieldName(),
+                                    WordESType.CREATE_DATE.getFieldName(),
+                                    WordESType.HASHTAGS.getFieldName(),
+                                    WordESType.LIKE_COUNT.getFieldName(),
+                                    WordESType.DISLIKE_COUNT.getFieldName()
                                 )
                             )
                         )
@@ -207,10 +212,14 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                         .filter(f -> f
                             .includes(
                                 List.of(
-                                    WordESType.NAME.getFieldName(), WordESType.DESCRIPTION.getFieldName(),
-                                    WordESType.EXAMPLE.getFieldName(), WordESType.MEMBER_NICKNAME.getFieldName(),
-                                    WordESType.CREATE_DATE.getFieldName(), WordESType.HASHTAGS.getFieldName(),
-                                    WordESType.LIKE_COUNT.getFieldName(), WordESType.DISLIKE_COUNT.getFieldName()
+                                    WordESType.NAME.getFieldName(),
+                                    WordESType.DESCRIPTION.getFieldName(),
+                                    WordESType.EXAMPLE.getFieldName(),
+                                    WordESType.MEMBER_NICKNAME.getFieldName(),
+                                    WordESType.CREATE_DATE.getFieldName(),
+                                    WordESType.HASHTAGS.getFieldName(),
+                                    WordESType.LIKE_COUNT.getFieldName(),
+                                    WordESType.DISLIKE_COUNT.getFieldName()
                                 )
                             )
                         )
@@ -253,10 +262,14 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                         .filter(f -> f
                             .includes(
                                 List.of(
-                                    WordESType.NAME.getFieldName(), WordESType.DESCRIPTION.getFieldName(),
-                                    WordESType.EXAMPLE.getFieldName(), WordESType.MEMBER_NICKNAME.getFieldName(),
-                                    WordESType.CREATE_DATE.getFieldName(), WordESType.HASHTAGS.getFieldName(),
-                                    WordESType.LIKE_COUNT.getFieldName(), WordESType.DISLIKE_COUNT.getFieldName()
+                                    WordESType.NAME.getFieldName(),
+                                    WordESType.DESCRIPTION.getFieldName(),
+                                    WordESType.EXAMPLE.getFieldName(),
+                                    WordESType.MEMBER_NICKNAME.getFieldName(),
+                                    WordESType.CREATE_DATE.getFieldName(),
+                                    WordESType.HASHTAGS.getFieldName(),
+                                    WordESType.LIKE_COUNT.getFieldName(),
+                                    WordESType.DISLIKE_COUNT.getFieldName()
                                 )
                             )
                         )
@@ -283,7 +296,8 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         }
     }
 
-    private WordESSearchResponse getWordESSearchResponse(SearchResponse<Object> response, String clientIP) {
+    private WordESSearchResponse getWordESSearchResponse(SearchResponse<Object> response,
+        String clientIP) {
         long total = response.hits().total().value();
         log.debug(total + "");
 
@@ -294,9 +308,12 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                 log.debug((String) sourceMap.get(WordESType.NAME.getFieldName()));
                 Map<?, ?> fieldMap = hits.fields();
 
-                JsonElement likeElement = JsonParser.parseString(fieldMap.get(WordESType.HAS_LIKE.getFieldName()).toString());
-                JsonElement dislikeElement = JsonParser.parseString(fieldMap.get(WordESType.HAS_DISLIKE.getFieldName()).toString());
-                JsonElement isWriterElement = JsonParser.parseString(fieldMap.get(WordESType.IS_WRITER.getFieldName()).toString());
+                JsonElement likeElement = JsonParser.parseString(
+                    fieldMap.get(WordESType.HAS_LIKE.getFieldName()).toString());
+                JsonElement dislikeElement = JsonParser.parseString(
+                    fieldMap.get(WordESType.HAS_DISLIKE.getFieldName()).toString());
+                JsonElement isWriterElement = JsonParser.parseString(
+                    fieldMap.get(WordESType.IS_WRITER.getFieldName()).toString());
 
                 boolean hasLike = likeElement.getAsJsonArray().get(0).getAsBoolean();
                 boolean hasDislike = dislikeElement.getAsJsonArray().get(0).getAsBoolean();
@@ -307,11 +324,15 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .wordName((String) sourceMap.get(WordESType.NAME.getFieldName()))
                     .wordDescription((String) sourceMap.get(WordESType.DESCRIPTION.getFieldName()))
                     .wordExample((String) sourceMap.get(WordESType.EXAMPLE.getFieldName()))
-                    .createDate(LocalDateTime.parse((String) sourceMap.get(WordESType.CREATE_DATE.getFieldName())))
-                    .memberNickname((String) sourceMap.get(WordESType.MEMBER_NICKNAME.getFieldName()))
+                    .createDate(LocalDateTime.parse(
+                        (String) sourceMap.get(WordESType.CREATE_DATE.getFieldName())))
+                    .memberNickname(
+                        (String) sourceMap.get(WordESType.MEMBER_NICKNAME.getFieldName()))
                     .hashtagList((List<String>) sourceMap.get(WordESType.HASHTAGS.getFieldName()))
-                    .likeCount(((Number) sourceMap.get(WordESType.LIKE_COUNT.getFieldName())).longValue())
-                    .dislikeCount(((Number) sourceMap.get(WordESType.DISLIKE_COUNT.getFieldName())).longValue())
+                    .likeCount(
+                        ((Number) sourceMap.get(WordESType.LIKE_COUNT.getFieldName())).longValue())
+                    .dislikeCount(((Number) sourceMap.get(
+                        WordESType.DISLIKE_COUNT.getFieldName())).longValue())
                     .hasLike(hasLike)
                     .hasDislike(hasDislike)
                     .isWriter(isWriter)
@@ -336,6 +357,9 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         if (queryType.getFieldName().equals(QueryType.MATCH_ALL.getFieldName())) {
             return Query.of(q -> q
                 .matchAll(ma -> ma));
+        }
+        if (queryType.getFieldName().equals(QueryType.NEW.getFieldName())) {
+            return rangQuery();
         }
         throw new QueryNotFoundException(queryType + "인 쿼리가 없습니다.");
     }
@@ -377,6 +401,14 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                 .field(fieldType.getFieldName())
                 .value(name)
             ));
+    }
+
+    private Query rangQuery() {
+        return Query.of(q -> q
+            .range(r -> r
+                .field("createDate")
+                .gte(JsonData.of("now-7d/d"))
+                .lte(JsonData.of("now/d"))));
     }
 
     private ScriptField hasLikeScriptField(String clientIP) {
