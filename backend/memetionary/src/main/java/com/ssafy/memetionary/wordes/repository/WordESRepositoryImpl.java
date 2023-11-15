@@ -343,11 +343,24 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
     private Query matchQuery(SearchFieldType fieldType, String name) {
         if (fieldType.equals(SearchFieldType.NORI_NAME_JASO)) {
             return Query.of(q -> q
-                .match(m -> m
-                    .field(fieldType.getFieldName())
-                    .query(name)
-                    .analyzer("suggest_index_analyzer")
-                ));
+                .bool(b -> b
+                    .should(sh -> sh
+                        .match(m -> m
+                            .field("name.jaso")
+                            .query(name)
+                            .analyzer("suggest_index_analyzer")
+                            .fuzziness("1")
+                        )
+                    )
+                    .should(sh -> sh
+                        .match(m -> m
+                            .field("noriName.jaso")
+                            .query(wordUtils.getNoriResult(name))
+                            .analyzer("suggest_index_analyzer")
+                        )
+                    )
+                )
+            );
         }
         return Query.of(q -> q
             .match(m -> m
