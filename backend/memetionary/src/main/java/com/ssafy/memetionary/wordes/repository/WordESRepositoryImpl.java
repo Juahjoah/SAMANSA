@@ -141,6 +141,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
     @Override
     public WordESSearchResponse searchWords(QueryType queryType, SearchFieldType fieldType,
                                             String word, String clientIP, Pageable pageable) {
+        log.debug("search client ip = " + clientIP);
         List<WordESSearchItem> words = new ArrayList<>();
         long total;
         try {
