@@ -12,7 +12,7 @@ import styles from './LogoutButton.module.css';
 import LoginIcon from '@/public/assets/login/login_w_b.svg';
 import LogoutIcon from '@/public/assets/login/logout_w_b.svg';
 
-import { getCookie, deleteCookie } from '@/hooks/UserCookies';
+import { deleteCookie } from '@/hooks/UserCookies';
 
 export async function fetchData() {
   const res = await fetch('https://samansa.kr', { cache: 'no-store' });
@@ -22,10 +22,11 @@ export async function fetchData() {
 
 export default function LogoutButton() {
   const router = useRouter();
-  const accessToken: string | null = getCookie('accessToken');
+  const accessToken: string | null =
+    typeof window !== 'undefined'
+      ? sessionStorage.getItem('accessToken')
+      : null;
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
-  console.log('accessToken:', accessToken);
 
   const [isClient, setIsClient] = useState(false);
 
