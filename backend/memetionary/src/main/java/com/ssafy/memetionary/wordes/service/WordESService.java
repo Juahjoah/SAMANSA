@@ -93,11 +93,13 @@ public class WordESService {
 
     //엘라스틱 서치 단어 검색 - 단어 1
     public WordESSearchResponse searchByName(String name, Pageable pageable, String clientIP) {
+
         WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(QueryType.MATCH,
             SearchFieldType.NAME, name, clientIP, pageable);
 
         return wordESSearchResponse;
     }
+
 
     public WordESSearchResponse searchExact(String name, String nickName, String hashtag,
                                             Pageable pageable, String clientIP) {
@@ -119,6 +121,7 @@ public class WordESService {
         throw new WordNotFoundException("찾는 단어 또는 사람이 없습니다.");
     }
 
+    //최신순으로 정렬(메인페이지) - 단어 2
     public WordESSearchResponse mainPage(Pageable pageable, String clientIP) {
         SearchFieldType fieldType = SearchFieldType.NAME;
         String name = "";
@@ -126,6 +129,7 @@ public class WordESService {
             pageable);
     }
 
+    //단어 자동완성 - 단어 8
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
         return wordESRepository.getAutoCompleteWords(word);
     }
