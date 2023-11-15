@@ -46,6 +46,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         this.client = client;
     }
 
+    //좋아요 버튼
     @Override
     public void updateLike(WordESRequestType wordESRequestType, WordES wordES, String clientIP) {
 
@@ -71,6 +72,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         }
     }
 
+    //단어 자동완성
     @Override
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
         try {
@@ -122,6 +124,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         }
     }
 
+    //단어 검색
     @Override
     public WordESSearchResponse searchWords(QueryType queryType, SearchFieldType fieldType,
                                             String word, String clientIP, Pageable pageable) {
@@ -179,6 +182,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         }
     }
 
+    //초성 색인
     @Override
     public WordESSearchResponse searchWordIndex(String name, Pageable pageable, String clientIP) {
         try {
@@ -223,6 +227,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         }
     }
 
+    // 단어ID로 단어 1개 검색
     @Override
     public WordESSearchResponse searchWordById(String wordId, String clientIP) {
         log.debug("wordId = " + wordId);
@@ -307,6 +312,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
             .build();
     }
 
+    //쿼리 조합
     private Query makeQuery(QueryType queryType, SearchFieldType fieldType, String name) {
         if (queryType.getFieldName().equals(QueryType.MATCH.getFieldName())) {
             return matchQuery(fieldType, name);
@@ -321,6 +327,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         throw new QueryNotFoundException(queryType + "인 쿼리가 없습니다.");
     }
 
+    //match 쿼리 사용
     private Query matchQuery(SearchFieldType fieldType, String name) {
         return Query.of(q -> q
             .match(m -> m
@@ -329,6 +336,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
             ));
     }
 
+    //term 쿼리 사용
     private Query termQuery(SearchFieldType fieldType, String name) {
         return Query.of(q -> q
             .term(t -> t

@@ -151,6 +151,7 @@ public class WordESController {
         return ResponseEntity.status(HttpStatus.OK).body(words);
     }
 
+    //단어 ID로 조회 - 단어 11
     @GetMapping("/{wordId}")
     public ResponseEntity<WordESSearchResponse> searchWordById(@PathVariable String wordId, HttpServletRequest httpServletRequest) {
         String clientIP = headerUtils.getClientIPFromNginx(httpServletRequest);

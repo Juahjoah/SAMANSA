@@ -28,6 +28,7 @@ public class WordESService {
 
     private final WordESRepository wordESRepository;
 
+    //단어 생성
     public void registerWordES(WordESRegisterRequest request, String memberId,
         String memberNickname) {
         log.debug("request = " + request);
@@ -115,6 +116,7 @@ public class WordESService {
         throw new WordNotFoundException("찾는 단어 또는 사람이 없습니다.");
     }
 
+    //최신순으로 정렬(메인페이지) - 단어 2
     public WordESSearchResponse mainPage(Pageable pageable, String clientIP) {
         SearchFieldType fieldType = SearchFieldType.NAME;
         String name = "";
@@ -122,6 +124,7 @@ public class WordESService {
             pageable);
     }
 
+    //단어 자동완성 - 단어 8
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
         return wordESRepository.getAutoCompleteWords(word);
     }
