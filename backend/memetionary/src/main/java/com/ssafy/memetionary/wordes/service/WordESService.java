@@ -87,11 +87,13 @@ public class WordESService {
 
     //엘라스틱 서치 단어 검색 - 단어 1
     public WordESSearchResponse searchByName(String name, Pageable pageable, String clientIP) {
+
         WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(QueryType.MATCH,
             SearchFieldType.NAME, name, clientIP, pageable);
 
         return wordESSearchResponse;
     }
+
 
     public WordESSearchResponse searchExact(String name, String nickName, String hashtag,
         Pageable pageable, String clientIP) {
