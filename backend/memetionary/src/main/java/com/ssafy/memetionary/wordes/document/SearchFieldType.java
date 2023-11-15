@@ -12,6 +12,7 @@ public enum SearchFieldType {
     NAME_KEYWORD("name.keyword"),
     MEMBER_NICKNAME("memberNickname"),
     HASHTAG("hashtags"),
+    SCORE("_score"),
     ID("_id");
     private final String fieldName;
 }
