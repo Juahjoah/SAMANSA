@@ -1,14 +1,13 @@
 'use client';
 
 import styles from './ReportButton.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Modal from '@/components/Modal';
 
 type ButtonProps = {
   id?: string;
   memberNickname?: string;
-  nickname?: string | null;
 };
 
 // api) 신고 요청
@@ -35,10 +34,9 @@ export default function ReportButton({
   requestData: ButtonProps;
 }) {
   const id = requestData.id; // 카드의 id, 유저닉네임
-  const nickname = requestData.nickname;
   const url = `${process.env.NEXT_PUBLIC_API_URL}`;
   const data = { wordId: id };
-  // const [mounted, setMounted] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const ModalOpen = () => {
@@ -52,6 +50,7 @@ export default function ReportButton({
   const ReportWord = async () => {
     ReportData(`${url}/declaration`, data)
       .then((data) => {
+        console.log(data.message);
         if (data.message == '이미 신고하였습니다.') {
           alert('이미 신고하신 단어입니다.');
         }
@@ -61,18 +60,18 @@ export default function ReportButton({
       });
   };
 
-  // useEffect(() => {
-  //   // 로그인 유저의 정보
-  //   const nickname: string | null =
-  //     typeof window !== 'undefined' ? sessionStorage.getItem('nickname') : null;
-  //   if (nickname) {
-  //     setMounted(true);
-  //   }
-  // }, []);
+  useEffect(() => {
+    // 로그인 유저의 정보
+    const nickname: string | null =
+      typeof window !== 'undefined' ? sessionStorage.getItem('nickname') : null;
+    if (nickname) {
+      setMounted(true);
+    }
+  }, []);
 
   return (
     <div className={styles.base}>
-      {nickname && <div onClick={ModalOpen}>신고</div>}
+      {mounted && <div onClick={ModalOpen}>신고</div>}
       {isModalOpen && (
         <Modal
           visible={isModalOpen}
