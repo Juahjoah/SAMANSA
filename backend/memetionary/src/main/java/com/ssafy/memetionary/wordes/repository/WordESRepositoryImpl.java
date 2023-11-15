@@ -162,8 +162,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                             )
                         )
                     ))
-                    .query(
-                        makeQuery(queryType, fieldType, word)
+                    .query(makeQuery(queryType, fieldType, word)
                     )
                     .scriptFields(
                         "has_like", hasLikeScriptField(clientIP)
@@ -342,6 +341,14 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
 
     //match 쿼리 사용
     private Query matchQuery(SearchFieldType fieldType, String name) {
+        if (fieldType.equals(SearchFieldType.NORI_NAME_JASO)) {
+            return Query.of(q -> q
+                .match(m -> m
+                    .field(fieldType.getFieldName())
+                    .query(name)
+                    .analyzer("suggest_index_analyzer")
+                ));
+        }
         return Query.of(q -> q
             .match(m -> m
                 .field(fieldType.getFieldName())
