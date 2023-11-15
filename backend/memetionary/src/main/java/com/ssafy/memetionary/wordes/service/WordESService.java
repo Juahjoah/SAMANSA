@@ -95,7 +95,7 @@ public class WordESService {
     public WordESSearchResponse searchByName(String name, Pageable pageable, String clientIP) {
 
         WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(QueryType.MATCH,
-            SearchFieldType.NAME, name, clientIP, pageable);
+            SearchFieldType.NORI_NAME_JASO, name, clientIP, pageable);
 
         return wordESSearchResponse;
     }
