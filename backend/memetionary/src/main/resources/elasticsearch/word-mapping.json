@@ -5,19 +5,28 @@
     },
     "name": {
       "type": "text",
-      "store": true,
-      "analyzer": "nori",
+      "analyzer": "suggest_index_analyzer",
       "fields": {
-        "keyword": {
+        "keyword":{
           "type": "keyword"
         },
-        "jaso": {
+        "jaso":{
           "type": "text",
-          "analyzer": "suggest_index_analyzer"
+          "analyzer": "suggest_search_analyzer"
         },
         "chosung":{
           "type": "text",
           "analyzer": "chosung_index_analyzer"
+        }
+      }
+    },
+    "noriName": {
+      "type": "text",
+      "analyzer": "suggest_index_analyzer",
+      "fields": {
+        "jaso":{
+          "type": "text",
+          "analyzer": "suggest_search_analyzer"
         }
       }
     },
