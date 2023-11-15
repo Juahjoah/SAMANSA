@@ -96,7 +96,7 @@ async function fetchData({ type, value, page }: fetchDataInput) {
   // console.log(url);
   const headersList = headers();
   const ip = headersList.get('x-forwarded-for');
-
+  console.log(url);
   const res = await fetch(url, {
     cache: 'no-store',
     headers: {

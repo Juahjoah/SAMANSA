@@ -13,7 +13,7 @@ export default async function GET() {
   for (const i in ipList) {
     if (i != '158.247.255.177') {
       ip = i;
-      break;
+      // break;
     }
   }
 
@@ -29,8 +29,8 @@ export default async function GET() {
       <div>headersList : </div>
       <div>{JSON.stringify(headersList)}</div>
       <div></div>
-      <div>ipList : </div>
-      <div>{ipList}</div>
+      <div>ipList : {ipList}</div>
+      <div></div>
       <div></div>
       <div>ip : </div>
       <div>{ip}</div>
