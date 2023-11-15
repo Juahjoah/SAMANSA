@@ -24,6 +24,7 @@ export default function LogoutButton() {
   const router = useRouter();
   const accessToken: string | null = getCookie('accessToken');
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+  const accessExpiryTime = sessionStorage.getItem('accessExpiryTime');
 
   console.log('accessToken:', accessToken);
 
@@ -62,7 +63,7 @@ export default function LogoutButton() {
 
   return (
     <div>
-      {isClient && accessToken ? (
+      {isClient && accessExpiryTime ? (
         <div onClick={handleLogout}>
           <Image
             className={styles.logBtn}
