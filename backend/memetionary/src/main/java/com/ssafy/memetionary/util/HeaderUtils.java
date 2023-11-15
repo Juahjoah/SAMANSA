@@ -23,7 +23,11 @@ public class HeaderUtils {
     }
 
     public String getClientIPFromHeader(HttpServletRequest request) {
-        return request.getHeader("client-ip");
+        String clientIP = request.getHeader("client-ip").replaceAll(" ", "");
+        clientIP = clientIP.replaceAll(host, "");
+        clientIP = clientIP.replaceAll(",", "");
+        log.debug(clientIP);
+        return clientIP;
     }
 
     public String getClientIPFromNginx(HttpServletRequest request) {
