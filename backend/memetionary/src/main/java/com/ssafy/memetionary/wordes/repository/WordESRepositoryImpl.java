@@ -229,7 +229,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     )
                     .scriptFields(
                         "is_writer", isWriterScriptField(clientIP)
-
+                    )
                 , Object.class
             );
 
