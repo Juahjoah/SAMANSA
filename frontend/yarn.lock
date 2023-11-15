@@ -4455,6 +4455,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/cookie@npm:^0.5.1":
+  version: 0.5.4
+  resolution: "@types/cookie@npm:0.5.4"
+  checksum: bd9603ce5e9bcbe1c2c9fabe3d1b1da131f1db10a7fa0077b17eb06d59bf4a6192fbb890597e8e2295067a078aaf8299bc662bfe993e8c2d1ecd62f859317ece
+  languageName: node
+  linkType: hard
+
 "@types/cross-spawn@npm:^6.0.2":
   version: 6.0.5
   resolution: "@types/cross-spawn@npm:6.0.5"
@@ -4831,6 +4838,15 @@ __metadata:
   version: 2.0.10
   resolution: "@types/unist@npm:2.0.10"
   checksum: e2924e18dedf45f68a5c6ccd6015cd62f1643b1b43baac1854efa21ae9e70505db94290434a23da1137d9e31eb58e54ca175982005698ac37300a1c889f6c4aa
+  languageName: node
+  linkType: hard
+
+"@types/universal-cookie@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/universal-cookie@npm:3.0.0"
+  dependencies:
+    universal-cookie: "*"
+  checksum: a30716aa57036579dcf6c5170c1104713c6d70322694469eaa6903f2940a441327d70aeb9f14102ee8b34583e06edcf4d0900f834e31d71f6afab7c91cb43e72
   languageName: node
   linkType: hard
 
@@ -6750,7 +6766,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:0.5.0":
+"cookie@npm:0.5.0, cookie@npm:^0.5.0":
   version: 0.5.0
   resolution: "cookie@npm:0.5.0"
   checksum: 1f4bd2ca5765f8c9689a7e8954183f5332139eb72b6ff783d8947032ec1fdf43109852c178e21a953a30c0dd42257828185be01b49d1eb1a67fd054ca588a180
@@ -14233,6 +14249,7 @@ __metadata:
     "@types/react": 18.2.28
     "@types/react-dom": 18.2.13
     "@types/react-responsive": ^8.0.7
+    "@types/universal-cookie": ^3.0.0
     "@typescript-eslint/eslint-plugin": 6.7.5
     "@typescript-eslint/parser": 6.7.5
     "@uidotdev/usehooks": ^2.4.1
@@ -14387,6 +14404,16 @@ __metadata:
     unist-util-is: ^4.0.0
     unist-util-visit-parents: ^3.0.0
   checksum: 1fe19d500e212128f96d8c3cfa3312846e586b797748a1fd195fe6479f06bc90a6f6904deb08eefc00dd58e83a1c8a32fb8677252d2273ad7a5e624525b69b8f
+  languageName: node
+  linkType: hard
+
+"universal-cookie@npm:*":
+  version: 6.1.1
+  resolution: "universal-cookie@npm:6.1.1"
+  dependencies:
+    "@types/cookie": ^0.5.1
+    cookie: ^0.5.0
+  checksum: 5c4d83f5879c5f133a51dadd080bf7a7a5c3a4b38695bb52ae560564884b84156d3c872abb1ade54a0ee00baf3870a59abc9907a4fa5bcf7a8d2d63af581c8e1
   languageName: node
   linkType: hard
 
