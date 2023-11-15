@@ -129,6 +129,8 @@ export default async function Home({ searchParams }: getParams) {
   });
 
   const typeInfo = '';
+  const nickname: string | null =
+    typeof window !== 'undefined' ? sessionStorage.getItem('nickname') : null;
 
   return (
     <>
@@ -165,7 +167,7 @@ export default async function Home({ searchParams }: getParams) {
                 // console.log('CardItem', item);
                 return (
                   <div key={item.id}>
-                    <Card item={item} />
+                    <Card item={item} nickname={nickname} />
                   </div>
                 );
               })

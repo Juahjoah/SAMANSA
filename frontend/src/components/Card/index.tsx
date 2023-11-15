@@ -5,7 +5,7 @@ import DeleteButton from '../Button/DeleteButton';
 import ReportButton from '../Button/ReportButton';
 import VoteButton from '../Button/VoteButton';
 
-export default function Card({ variant = 'large', item }: CardProps) {
+export default function Card({ variant = 'large', item, nickname }: CardProps) {
   const {
     id,
     wordName,
@@ -23,7 +23,7 @@ export default function Card({ variant = 'large', item }: CardProps) {
   let formattedDate = '';
 
   // console.log('In CardComponent', item);
-  const requestData = { id, memberNickname };
+  const requestData = { id, memberNickname, nickname };
   const formattedDescription = wordDescription.split('\n').map((item, key) => {
     return (
       <span key={key}>
@@ -119,4 +119,5 @@ export default function Card({ variant = 'large', item }: CardProps) {
 type CardProps = {
   variant?: 'large' | 'medium' | 'small';
   item: CardItem;
+  nickname?: string | null;
 };
