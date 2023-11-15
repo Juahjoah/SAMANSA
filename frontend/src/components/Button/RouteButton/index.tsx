@@ -46,7 +46,7 @@ export function EnterCreate() {
 
   return (
     <div className={styles.createButton} onClick={goCreate}>
-      +
+      ＋
       {isModalOpen && (
         <Modal
           visible={isModalOpen}

@@ -96,7 +96,7 @@ async function fetchData({ type, value, page }: fetchDataInput) {
   // console.log(url);
   const headersList = headers();
   const ip = headersList.get('x-forwarded-for');
-
+  // console.log(url);
   const res = await fetch(url, {
     cache: 'no-store',
     headers: {
@@ -128,7 +128,27 @@ export default async function Home({ searchParams }: getParams) {
     page,
   });
 
-  const typeInfo = '';
+  const typeInfo = { pre: '', type: '' };
+  switch (type) {
+    //단어 완전 일치 조회
+    case 'word':
+      typeInfo.type = '완전 일치 단어';
+      break;
+    case 'nickname':
+      typeInfo.pre = '@';
+      typeInfo.type = '사용자';
+      break;
+    case 'hashtag':
+      typeInfo.pre = '#';
+      typeInfo.type = '해시태그';
+      break;
+    //단어 초성 색인
+    case 'index':
+      break;
+
+    default:
+      break;
+  }
 
   return (
     <>
@@ -150,7 +170,7 @@ export default async function Home({ searchParams }: getParams) {
         <div className={styles.searchTag}>
           {type == 'main' || type == 'search'
             ? ''
-            : `${value}에 대한 ${typeInfo} 검색 결과 입니다.`}
+            : `"${typeInfo.pre}${value}"에 대한 ${typeInfo.type} 검색 결과 입니다.`}
         </div>
         <div className={styles.content}>
           <div className={styles.searchResult}>
