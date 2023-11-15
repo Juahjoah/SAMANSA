@@ -175,7 +175,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     )
                     .sort(sort -> sort
                         .field(f -> f
-                            .field(WordESType.CREATE_DATE.getFieldName())
+                            .field(SearchFieldType.SCORE.getFieldName())
                             .order(SortOrder.Desc)
                         )
                     )
