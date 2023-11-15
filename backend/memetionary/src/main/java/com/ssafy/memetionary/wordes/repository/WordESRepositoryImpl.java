@@ -2,6 +2,8 @@ package com.ssafy.memetionary.wordes.repository;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.ScriptField;
+import co.elastic.clients.elasticsearch._types.ScriptSortType;
+import co.elastic.clients.elasticsearch._types.SortOptions;
 import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -15,6 +17,7 @@ import com.ssafy.memetionary.common.exception.WordAutoCompleteException;
 import com.ssafy.memetionary.util.WordUtils;
 import com.ssafy.memetionary.wordes.document.QueryType;
 import com.ssafy.memetionary.wordes.document.SearchFieldType;
+import com.ssafy.memetionary.wordes.document.SortType;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.document.WordESRequestType;
 import com.ssafy.memetionary.wordes.document.WordESType;
@@ -26,6 +29,7 @@ import com.ssafy.memetionary.wordes.dto.WordESSearchResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -179,18 +183,8 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .scriptFields(
                         "is_writer", isWriterScriptField(clientIP)
                     )
-                    .sort(sort -> sort
-                        .field(f -> f
-                            .field(SearchFieldType.SCORE.getFieldName())
-                            .order(SortOrder.Desc)
-                        )
-                    )
-                    .sort(sort -> sort
-                        .field(f -> f
-                            .field(WordESType.CREATE_DATE.getFieldName())
-                            .order(SortOrder.Desc)
-                        )
-                    )
+                    .sort(makeSortQuery(SortType.LIKE_AVG))
+                    .sort(makeSortQuery(SortType.LIKE))
                 , Object.class
             );
 
@@ -362,6 +356,46 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
             return rangQuery();
         }
         throw new QueryNotFoundException(queryType + "인 쿼리가 없습니다.");
+    }
+
+    private SortOptions makeSortQuery(SortType sortType) {
+        if (sortType.equals(SortType.SCORE)) {
+            return SortOptions.of(sort -> sort
+                .field(f -> f
+                    .field(SearchFieldType.SCORE.getFieldName())
+                    .order(SortOrder.Desc)
+                ));
+        }
+        if (sortType.equals(SortType.CREATE_DATE)) {
+            return SortOptions.of(sort -> sort
+                .field(f -> f
+                    .field(WordESType.CREATE_DATE.getFieldName())
+                    .order(SortOrder.Desc)
+                ));
+        }
+        if (sortType.equals(SortType.LIKE)) {
+            return SortOptions.of(sort -> sort
+                .field(f -> f
+                    .field(WordESType.LIKE_COUNT.getFieldName())
+                    .order(SortOrder.Desc)
+                ));
+        }
+        if (sortType.equals(SortType.LIKE_AVG)) {
+            return SortOptions.of(sort -> sort
+                .script(s -> s
+                    .script(ss -> ss
+                        .inline(i -> i
+                            .source(
+                                "if (doc['likeCount'].size() == 0 || doc['dislikeCount'].size() == 0) { return 0; }"
+                                    +
+                                    "double likes = doc['likeCount'].value;" +
+                                    "double dislikes = doc['dislikeCount'].value;" +
+                                    "return (likes - dislikes) / (likes + dislikes);")))
+                    .type(ScriptSortType.Number)
+                    .order(SortOrder.Desc))
+            );
+        }
+        throw new QueryNotFoundException(sortType + "인 정렬 방법이 없습니다.");
     }
 
     //match 쿼리 사용
