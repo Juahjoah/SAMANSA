@@ -29,10 +29,14 @@ public class HeaderUtils {
     public String getClientIPFromNginx(HttpServletRequest request) {
         //ex)"1.1.1.1, 2.2.2.2" 로 입력 받음
         String clientIP = request.getHeader("X-Forwarded-For").replaceAll(" ", "");
-        String[] ips = clientIP.split(",");
-        if (ips[0].equals(host)) {
-            return ips[1];
-        }
-        return ips[0];
+        clientIP = clientIP.replaceAll(host, "");
+        clientIP = clientIP.replaceAll(",", "");
+        log.debug(clientIP);
+//        String[] ips = clientIP.split(",");
+//        if (ips[0].equals(host)) {
+//            return ips[1];
+//        }
+//        return ips[0];
+        return clientIP;
     }
 }
