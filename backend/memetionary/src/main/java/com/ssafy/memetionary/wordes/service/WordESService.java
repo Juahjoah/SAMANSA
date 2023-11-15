@@ -128,6 +128,12 @@ public class WordESService {
         return wordESRepository.searchWords(QueryType.MATCH_ALL, fieldType, name, clientIP,
             pageable);
     }
+    public WordESSearchResponse newWord(Pageable pageable, String clientIP) {
+        SearchFieldType fieldType = SearchFieldType.NAME;
+        String name = "";
+        return wordESRepository.searchWords(QueryType.NEW, fieldType, name, clientIP,
+            pageable);
+    }
 
     //단어 자동완성 - 단어 8
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
