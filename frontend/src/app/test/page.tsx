@@ -29,8 +29,11 @@ export default async function GET() {
       <div>headersList : </div>
       <div>{JSON.stringify(headersList)}</div>
       <div></div>
+      <div>ipList : </div>
+      <div>{ipList}</div>
+      <div></div>
       <div>ip : </div>
-      <div>{JSON.stringify(ip)}</div>
+      <div>{ip}</div>
     </div>
   );
 }
