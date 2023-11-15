@@ -43,7 +43,7 @@
 
 .wrapperChildren {
   display: flex;
-  max-width: 165px;
+  max-width: 205px;
 }
 
 .nickname {
@@ -84,6 +84,7 @@
 .hashtag a:hover {
   color: rgb(var(--card-title-hover-rgb));
 }
+
 /* 모바일 */
 /* @media only screen and (max-width: 480px) {
 } */
