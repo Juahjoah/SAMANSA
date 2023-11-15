@@ -1,8 +1,8 @@
 package com.ssafy.memetionary.wordes.repository;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.ScriptField;
 import co.elastic.clients.elasticsearch._types.SortOrder;
-import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.SourceConfig;
@@ -12,6 +12,7 @@ import com.nimbusds.jose.shaded.gson.JsonParser;
 import com.ssafy.memetionary.common.CustomErrorType;
 import com.ssafy.memetionary.common.exception.QueryNotFoundException;
 import com.ssafy.memetionary.common.exception.WordAutoCompleteException;
+import com.ssafy.memetionary.util.WordUtils;
 import com.ssafy.memetionary.wordes.document.QueryType;
 import com.ssafy.memetionary.wordes.document.SearchFieldType;
 import com.ssafy.memetionary.wordes.document.WordES;
@@ -40,11 +41,14 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
     @Value("#{@esConfig.getWordIndexName()}")
     private String INDEX;
     private final ElasticsearchClient client;
+    private final WordUtils wordUtils;
 
-    public WordESRepositoryImpl(ElasticsearchClient client) {
+    public WordESRepositoryImpl(ElasticsearchClient client, WordUtils wordUtils) {
         this.client = client;
+        this.wordUtils = wordUtils;
     }
 
+    //좋아요 버튼
     @Override
     public void updateLike(WordESRequestType wordESRequestType, WordES wordES, String clientIP) {
 
@@ -70,6 +74,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         }
     }
 
+    //단어 자동완성
     @Override
     public WordESAutoCompleteResponse getAutoCompleteWords(String word) {
         try {
@@ -84,11 +89,22 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                         )
                     ))
                     .query(q -> q
-                        .multiMatch(mm -> mm
-                            .query(word)
-                            .fields(List.of("name^10", "name.ngram^3", "name.jaso"))
-                            .operator(Operator.And)
-                            .prefixLength(3)
+                        .bool(b -> b
+                            .should(sh -> sh
+                                .match(m -> m
+                                    .field("name.jaso")
+                                    .query(word)
+                                    .analyzer("suggest_index_analyzer")
+                                    .fuzziness("1")
+                                )
+                            )
+                            .should(sh -> sh
+                                .match(m -> m
+                                    .field("noriName.jaso")
+                                    .query(wordUtils.getNoriResult(word))
+                                    .analyzer("suggest_index_analyzer")
+                                )
+                            )
                         )
                     )
                 , Object.class
@@ -100,7 +116,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
             log.debug(maxScore + "");
 
             List<WordESAutoCompleteItem> wordESAutoCompleteItems = response.hits().hits().stream()
-                .filter(hit -> hit.score() >= maxScore / 5)
+//                .filter(hit -> hit.score() >= 20)
                 .map(hit -> {
                     Map<String, String> result = (Map<String, String>) hit.source();
                     return WordESAutoCompleteItem.builder()
@@ -121,6 +137,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         }
     }
 
+    //단어 검색
     @Override
     public WordESSearchResponse searchWords(QueryType queryType, SearchFieldType fieldType,
                                             String word, String clientIP, Pageable pageable) {
@@ -145,31 +162,21 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                             )
                         )
                     ))
-                    .query(
-                        makeQuery(queryType, fieldType, word)
+                    .query(makeQuery(queryType, fieldType, word)
                     )
-                    .scriptFields("has_like", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['likes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "has_like", hasLikeScriptField(clientIP)
                     )
-                    .scriptFields("has_dislike", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['dislikes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "has_dislike", hasDislikeScriptField(clientIP)
                     )
-                    .scriptFields("is_writer", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['memberId'].value == params.ip")
-                                .params("ip", JsonData.of(clientIP))
-                            )
+                    .scriptFields(
+                        "is_writer", isWriterScriptField(clientIP)
+                    )
+                    .sort(sort -> sort
+                        .field(f -> f
+                            .field(SearchFieldType.SCORE.getFieldName())
+                            .order(SortOrder.Desc)
                         )
                     )
                     .sort(sort -> sort
@@ -181,13 +188,13 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                 , Object.class
             );
 
-            return getWordESSearchResponse(response);
-
+            return getWordESSearchResponse(response, clientIP);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    //초성 색인
     @Override
     public WordESSearchResponse searchWordIndex(String name, Pageable pageable, String clientIP) {
         try {
@@ -213,40 +220,26 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                             .value(name)
                         )
                     ))
-                    .scriptFields("has_like", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['likes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "has_like", hasLikeScriptField(clientIP)
                     )
-                    .scriptFields("has_dislike", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['dislikes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "has_dislike", hasDislikeScriptField(clientIP)
                     )
-                    .scriptFields("is_writer", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['memberId'].value == params.ip")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "is_writer", isWriterScriptField(clientIP)
                     )
                 , Object.class
             );
 
-            return getWordESSearchResponse(response);
+            return getWordESSearchResponse(response, clientIP);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+    // 단어ID로 단어 1개 검색
     @Override
     public WordESSearchResponse searchWordById(String wordId, String clientIP) {
         log.debug("wordId = " + wordId);
@@ -270,40 +263,26 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .query(
                         makeQuery(QueryType.MATCH, SearchFieldType.ID, wordId)
                     )
-                    .scriptFields("has_like", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['likes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "has_like", hasLikeScriptField(clientIP)
                     )
-                    .scriptFields("has_dislike", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['dislikes'].contains(params.ip)")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "has_dislike", hasDislikeScriptField(clientIP)
                     )
-                    .scriptFields("is_writer", sf -> sf
-                        .script(sc -> sc
-                            .inline(i -> i
-                                .source("doc['memberId'].value == params.ip")
-                                .params("ip", JsonData.of(clientIP))
-                            )
-                        )
+                    .scriptFields(
+                        "is_writer", isWriterScriptField(clientIP)
                     )
                 , Object.class
             );
 
-            return getWordESSearchResponse(response);
+            return getWordESSearchResponse(response, clientIP);
+
         } catch (Exception e) {
             throw new RuntimeException();
         }
     }
 
-    private WordESSearchResponse getWordESSearchResponse(SearchResponse<Object> response) {
+    private WordESSearchResponse getWordESSearchResponse(SearchResponse<Object> response, String clientIP) {
         long total = response.hits().total().value();
         log.debug(total + "");
 
@@ -335,6 +314,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .hasLike(hasLike)
                     .hasDislike(hasDislike)
                     .isWriter(isWriter)
+                    .clientIP(clientIP)
                     .build();
             }).toList();
 
@@ -344,6 +324,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
             .build();
     }
 
+    //쿼리 조합
     private Query makeQuery(QueryType queryType, SearchFieldType fieldType, String name) {
         if (queryType.getFieldName().equals(QueryType.MATCH.getFieldName())) {
             return matchQuery(fieldType, name);
@@ -358,7 +339,16 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         throw new QueryNotFoundException(queryType + "인 쿼리가 없습니다.");
     }
 
+    //match 쿼리 사용
     private Query matchQuery(SearchFieldType fieldType, String name) {
+        if (fieldType.equals(SearchFieldType.NORI_NAME_JASO)) {
+            return Query.of(q -> q
+                .match(m -> m
+                    .field(fieldType.getFieldName())
+                    .query(name)
+                    .analyzer("suggest_index_analyzer")
+                ));
+        }
         return Query.of(q -> q
             .match(m -> m
                 .field(fieldType.getFieldName())
@@ -366,11 +356,45 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
             ));
     }
 
+    //term 쿼리 사용
     private Query termQuery(SearchFieldType fieldType, String name) {
         return Query.of(q -> q
             .term(t -> t
                 .field(fieldType.getFieldName())
                 .value(name)
             ));
+    }
+
+    private ScriptField hasLikeScriptField(String clientIP) {
+        return ScriptField.of(sf -> sf
+            .script(sc -> sc
+                .inline(i -> i
+                    .source("doc['likes'].contains(params.ip)")
+                    .params("ip", JsonData.of(clientIP))
+                )
+            )
+        );
+    }
+
+    private ScriptField hasDislikeScriptField(String clientIP) {
+        return ScriptField.of(sf -> sf
+            .script(sc -> sc
+                .inline(i -> i
+                    .source("doc['dislikes'].contains(params.ip)")
+                    .params("ip", JsonData.of(clientIP))
+                )
+            )
+        );
+    }
+
+    private ScriptField isWriterScriptField(String clientIP) {
+        return ScriptField.of(sf -> sf
+            .script(sc -> sc
+                .inline(i -> i
+                    .source("doc['memberId'].value == params.ip")
+                    .params("ip", JsonData.of(clientIP))
+                )
+            )
+        );
     }
 }

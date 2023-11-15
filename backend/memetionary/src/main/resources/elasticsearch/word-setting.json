@@ -1,63 +1,53 @@
 {
-  "index":{
-    "number_of_replicas": "0",
-    "max_ngram_diff": 50,
-    "analysis":{
-      "filter": {
-        "suggest_filter": {
-          "type": "ngram",
-          "min_gram": 2,
-          "max_gram": 8
-        }
+  "analysis": {
+    "filter": {
+      "suggest_filter": {
+        "type": "edge_ngram",
+        "min_gram": 1,
+        "max_gram": 50
+      }
+    },
+    "char_filter": {
+      "whitespace_remove_filter": {
+        "type": "pattern_replace",
+        "pattern": "\\s+",
+        "replacement": ""
+      }
+    },
+    "analyzer": {
+      "suggest_search_analyzer": {
+        "type": "custom",
+        "tokenizer": "jaso_index_tokenizer",
+        "filter": [
+          "suggest_filter", "trim", "lowercase"
+        ]
       },
-      "char_filter": {
-        "whitespace_remove_filter": {
-          "type": "pattern_replace",
-          "pattern": "\\s+",
-          "replacement": ""
-        }
+      "suggest_index_analyzer": {
+        "type": "custom",
+        "tokenizer": "jaso_index_tokenizer",
+        "filter": [
+          "trim", "lowercase"
+        ]
       },
-      "analyzer":{
-        "suggest_search_analyzer": {
-          "type": "custom",
-          "tokenizer": "jaso_index_tokenizer"
-        },
-        "suggest_index_analyzer": {
-          "type": "custom",
-          "tokenizer": "jaso_index_tokenizer",
-          "filter": [
-            "suggest_filter"
-          ]
-        },
-        "chosung_index_analyzer": {
-          "type": "custom",
-          "tokenizer": "chosung_index_tokenizer",
-          "char_filter": [
-            "whitespace_remove_filter"
-          ]
-        }
+      "chosung_index_analyzer": {
+        "type": "custom",
+        "tokenizer": "chosung_index_tokenizer",
+        "char_filter": [
+          "whitespace_remove_filter"
+        ]
+      }
+    },
+    "tokenizer": {
+      "jaso_index_tokenizer": {
+        "type": "jaso_tokenizer",
+        "mistype": true,
+        "chosung": true,
+        "decompound_mode": "mixed"
       },
-      "tokenizer": {
-        "jaso_search_tokenizer": {
-          "type": "jaso_tokenizer",
-          "mistype": true,
-          "chosung": false
-        },
-        "jaso_index_tokenizer": {
-          "type": "jaso_tokenizer",
-          "mistype": true,
-          "chosung": true,
-          "decompound_mode": "mixed"
-        },
-        "chosung_index_tokenizer": {
-          "type": "jaso_tokenizer",
-          "mistype": false,
-          "chosung": true
-        },
-        "chosung_tokenizer": {
-          "type": "nori_tokenizer",
-          "decompound_mode": "mixed"
-        }
+      "chosung_index_tokenizer": {
+        "type": "jaso_tokenizer",
+        "mistype": false,
+        "chosung": true
       }
     }
   }

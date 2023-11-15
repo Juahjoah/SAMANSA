@@ -2,6 +2,7 @@ package com.ssafy.memetionary.wordes.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,4 +23,5 @@ public class WordESSearchItem {
     private boolean hasLike;
     private boolean hasDislike;
     private boolean isWriter;
+    private String clientIP;
 }

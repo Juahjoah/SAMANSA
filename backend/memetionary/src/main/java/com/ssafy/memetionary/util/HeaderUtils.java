@@ -22,8 +22,12 @@ public class HeaderUtils {
         return jwtTokenService.findMemberId(accessToken);
     }
 
-    public String getClientIP(HttpServletRequest request) {
-        //ex) "1.1.1.1, 2.2.2.2"로 입력 받음
+    public String getClientIPFromHeader(HttpServletRequest request) {
+        return request.getHeader("client-ip");
+    }
+
+    public String getClientIPFromNginx(HttpServletRequest request) {
+        //ex)"1.1.1.1, 2.2.2.2" 로 입력 받음
         String clientIP = request.getHeader("X-Forwarded-For").replaceAll(" ", "");
         String[] ips = clientIP.split(",");
         if (ips[0].equals(host)) {
