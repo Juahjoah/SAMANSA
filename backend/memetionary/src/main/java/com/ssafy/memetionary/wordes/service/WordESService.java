@@ -1,7 +1,9 @@
 package com.ssafy.memetionary.wordes.service;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import com.ssafy.memetionary.common.CustomErrorType;
 import com.ssafy.memetionary.common.exception.WordNotFoundException;
+import com.ssafy.memetionary.util.WordUtils;
 import com.ssafy.memetionary.wordes.document.LikeType;
 import com.ssafy.memetionary.wordes.document.QueryType;
 import com.ssafy.memetionary.wordes.document.SearchFieldType;
@@ -27,22 +29,27 @@ import java.util.List;
 public class WordESService {
 
     private final WordESRepository wordESRepository;
+    private final ElasticsearchClient client;
+    private final WordUtils wordUtils;
 
-    //단어 생성
-    public void registerWordES(WordESRegisterRequest request, String memberId,
-        String memberNickname) {
+    //엘라스틱 서치 단어 등록 - 단어 4-1
+    public void registerWordES(WordESRegisterRequest request, String memberId, String memberNickname) {
         log.debug("request = " + request);
+
+        String name = request.getWordName().trim();
+        String noriName = wordUtils.getNoriResult(name);
         WordES wordES = WordES.builder()
             .memberId(memberId)
             .memberNickname(memberNickname)
-            .name(request.getWordName().trim())
+            .name(name)
+            .noriName(noriName)
             .description(request.getWordDescription())
             .example(request.getWordExample())
             .hashtags(getHashtags(request.getWordHashtag()))
             .build();
         wordESRepository.save(wordES);
     }
-    //엘라스틱 서치 단어 등록 - 단어 4-1
+
 
     private List<String> getHashtags(String hashtag) {
         hashtag = hashtag.replaceAll("[ ,]", "");
@@ -57,14 +64,12 @@ public class WordESService {
 
     public void delete(String wordId) {
         WordES wordES = wordESRepository.findById(wordId)
-            .orElseThrow(
-                () -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
+            .orElseThrow(() -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
         delete(wordES);
     }
 
     //엘라스틱 서치 단어 좋아요/싫어요 - 단어 5
     public void likeWord(String clientIP, String wordId, LikeType wordLike) {
-        //단어 찾기
         WordES wordES = wordESRepository.findById(wordId)
             .orElseThrow(
                 () -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
@@ -97,7 +102,7 @@ public class WordESService {
 
 
     public WordESSearchResponse searchExact(String name, String nickName, String hashtag,
-        Pageable pageable, String clientIP) {
+                                            Pageable pageable, String clientIP) {
         if (!name.isEmpty()) {
             SearchFieldType fieldType = SearchFieldType.NAME_KEYWORD;
             return wordESRepository.searchWords(QueryType.TERM, fieldType, name,
