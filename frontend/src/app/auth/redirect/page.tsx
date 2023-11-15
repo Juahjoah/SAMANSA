@@ -56,7 +56,11 @@ export default function RedirectPage() {
               handleToken();
             } else {
               // 아니면 메인으로 이동
-              sessionStorage.setItem('nickname', userData.nickname);
+              setCookie('nickname', userData.nickname, {
+                path: '/',
+                httpOnly: true,
+              });
+              // sessionStorage.setItem('nickname', userData.nickname);
               router.push('/'); // 기존 로그인 사용자
             }
           }

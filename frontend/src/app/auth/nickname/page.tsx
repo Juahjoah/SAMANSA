@@ -8,12 +8,12 @@ import Button from '@/components/Button';
 import Modal from '@/components/Modal';
 import styles from './NicknamePages.module.css';
 
+import { getCookie, setCookie, deleteCookie } from '@/hooks/UserCookies';
+
 export default function NicknamePages() {
   const router = useRouter();
   const accessToken: string | null =
-    typeof window !== 'undefined'
-      ? sessionStorage.getItem('accessToken')
-      : null;
+    typeof window !== 'undefined' ? getCookie('accessToken') : null;
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const [nickname, setNickname] = useState<string>('');
@@ -80,9 +80,18 @@ export default function NicknamePages() {
       .then((response) => {
         if (response) {
           // console.log('닉네임 저장 성공');
-          sessionStorage.removeItem('accessToken');
-          sessionStorage.setItem('nickname', trimmedNickname);
-          sessionStorage.setItem('accessToken', response.token);
+          deleteCookie('accessToken');
+          setCookie('accessToken', response.token, {
+            path: '/',
+            httpOnly: true,
+          });
+          setCookie('nickname', trimmedNickname, {
+            path: '/',
+            httpOnly: true,
+          });
+          // sessionStorage.removeItem('accessToken');
+          // sessionStorage.setItem('nickname', trimmedNickname);
+          // sessionStorage.setItem('accessToken', response.token);
           setNickname('');
           router.push('/');
         }
