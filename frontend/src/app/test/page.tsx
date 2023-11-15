@@ -7,7 +7,7 @@ export default async function GET() {
   // const { ua } = userAgent(req);
 
   const headersList = headers();
-  const headerIp = headersList.get('x-forwarded-for');
+  const headerIp = JSON.stringify(headersList.get('x-forwarded-for'));
   const ipList = headerIp == null ? [''] : headerIp.split(', ');
   let ip = '';
   for (const i in ipList) {
