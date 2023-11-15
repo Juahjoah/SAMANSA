@@ -8,7 +8,7 @@ export default async function GET() {
 
   const headersList = headers();
   const headerIp = headersList.get('x-forwarded-for');
-  const ipList = headerIp == null ? [''] : headerIp.split(',');
+  const ipList = headerIp == null ? [''] : headerIp.split(', ');
   let ip = '';
   for (const i in ipList) {
     if (i != '158.247.255.177') {
