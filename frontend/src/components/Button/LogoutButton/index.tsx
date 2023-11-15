@@ -46,6 +46,8 @@ export default function LogoutButton() {
           // sessionStorage.removeItem('accessToken');
           // sessionStorage.removeItem('nickname');
           deleteCookie('accessToken');
+          deleteCookie('nickname');
+          sessionStorage.removeItem('accessExpiryTime');
           router.push('/');
           // 페이지 새로고침을 트리거
           if (typeof window !== 'undefined') {

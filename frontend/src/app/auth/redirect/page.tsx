@@ -26,7 +26,6 @@ export default function RedirectPage() {
       // sessionStorage.setItem('accessToken', accessToken);
       // 토큰을 쿠키에 저장
       setCookie('accessToken', accessToken, { path: '/', httpOnly: true });
-
       sessionStorage.setItem(
         'accessExpiryTime',
         (new Date().getTime() + ACCESS_EXPIRY_TIME).toString(),
