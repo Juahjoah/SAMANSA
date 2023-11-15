@@ -1,6 +1,5 @@
 'use client';
 import styles from './CreateButton.module.css';
-// import { useRouter } from 'next/navigation';
 
 // api 요청 함수
 export async function postData(url = '', data = {}) {
@@ -32,13 +31,13 @@ export default function CreateButton({
   example: string;
   hashTag: string;
 }) {
-  // const url = 'https://samansa.kr/api/word'; // api요청 url
+  // 등록할 단어 정보
   const data = {
     wordName: word,
     wordDescription: meaning,
     wordExample: example,
     wordHashtag: hashTag,
-  }; // 등록할 단어 정보
+  };
 
   // 앞뒤 띄어쓰기 제거
   const replacWord = word.replace(/^\s+|\s+$/gm, '');

@@ -1,9 +1,9 @@
 import styles from './Card.module.css';
-import VoteButton from '../Button/VoteButton';
 import { CardItem } from '@/app/(main)/page';
 import ShareButton from '../Button/ShareButton';
 import DeleteButton from '../Button/DeleteButton';
 import ReportButton from '../Button/ReportButton';
+import VoteButton from '../Button/VoteButton';
 
 export default function Card({ variant = 'large', item }: CardProps) {
   const {
@@ -17,10 +17,12 @@ export default function Card({ variant = 'large', item }: CardProps) {
     dislikeCount,
     hasLike,
     hasDislike,
+    hashtagList,
   } = item;
 
   let formattedDate = '';
 
+  // console.log('In CardComponent', item);
   const requestData = { id, memberNickname };
   const formattedDescription = wordDescription.split('\n').map((item, key) => {
     return (
@@ -59,6 +61,7 @@ export default function Card({ variant = 'large', item }: CardProps) {
       variantClass = styles.small;
       break;
   }
+
   return (
     <div className={`${styles.base} ${variantClass}`}>
       <div className={styles.titleWrapper}>
@@ -69,16 +72,28 @@ export default function Card({ variant = 'large', item }: CardProps) {
             {wordName}
           </a>
         </div>
-        <ShareButton />
+        <ShareButton wordName={wordName} />
       </div>
       <p className={styles.description}>{formattedDescription}</p>
       <i className={styles.example}>{formattedExample}</i>
-      <div className={styles.alert}></div>
+      <div className={styles.hashtag}>
+        {hashtagList.map((hashtag, index) => (
+          <a
+            key={index}
+            href={`${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=hashtag&value=${hashtag}`}
+          >
+            <span key={index}>#{hashtag}</span>
+          </a>
+        ))}
+      </div>
       <div className={styles.wrapper}>
         <div className={styles.wrapperChildren}>
           <VoteButton
-            wordId={id}
-            {...{ likeCount, dislikeCount, hasLike, hasDislike }}
+            id={id}
+            likeCount={likeCount}
+            dislikeCount={dislikeCount}
+            hasLike={hasLike}
+            hasDislike={hasDislike}
           />
           <div className={styles.optionGroup}>
             <DeleteButton requestData={requestData} />

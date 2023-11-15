@@ -1,8 +1,4 @@
 .container {
-  /* position: absolute; */
-  /* top: 280px; */
-  /* left: 240px; */
-  /* left: 990px; */
   width: 5rem;
   margin-left: 1.3rem;
   margin-right: 0.9rem;
@@ -32,7 +28,7 @@
 }
 
 .browseButton p {
-  margin-left: 1.2rem;
+  margin-left: 0.9rem;
 }
 
 .arrow {
@@ -42,14 +38,13 @@
 
 .modal {
   position: absolute;
-  top: 18px;
-  left: -20px;
+  top: 26px;
+  left: -18px;
   background-color: #676687;
   border: 0.2px solid black;
   display: flex;
   flex-wrap: wrap;
   border-radius: 10px;
-  /* box-shadow: 2px 3px 2px black; */
   position: relative;
   width: 180px;
   height: 210px;

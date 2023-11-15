@@ -1,6 +1,5 @@
 .overlayStyle {
   box-sizing: border-box;
-  /* display: none; */
   position: fixed;
   top: 0;
   left: 0;
@@ -8,8 +7,6 @@
   bottom: 0;
   background-color: rgba(204, 128, 128, 0.05);
   z-index: 5;
-  /* outline: 0; */
-  /* overflow: auto; */
 }
 
 .visible {
@@ -18,7 +15,6 @@
 
 .modalStyle {
   box-sizing: border-box;
-  /* display: none; */
   position: fixed;
   top: 0;
   left: 0;
@@ -26,31 +22,14 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 5;
-
-  /* top: 36%;
-  left: 36%; */
-  /* transform: translate(-50%, -50%); */
-  /* padding: 50px; */
-  /* background-color: #ffffff; */
-  /* width: 28%;
-  width: 400px;
-  height: 250px;
-  border-radius: 10px;
-  font-size: 25px;
-  text-align: center;
-  color: black;
-  font-weight: 600; */
 }
 
 .modalInner {
   box-sizing: border-box;
   position: relative;
-  /* position: absolute; */
-  /* left: 0; */
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
   background-color: #fff;
   border-radius: 10px;
-  /* width: 400px; */
   height: 260px;
   max-width: 440px;
   text-align: center;
@@ -62,38 +41,39 @@
 }
 
 .modalInner p:nth-child(2) {
-  margin-top: 0.5rem;
-  font-size: 18px;
+  /* margin-top: 0.5rem; */
+  font-size: 20px;
   z-index: 100;
   font-weight: 580;
   color: black;
+  height: 1.4rem;
 }
 .modalInner p:nth-child(3) {
-  font-size: 15px;
+  font-size: 16px;
   z-index: 100;
   font-weight: 300;
-  margin: 1rem 0 1.5rem 0;
+  margin: 1rem 0 1.2rem 0;
+  height: 2.4rem;
   color: black;
 }
 
 .container {
   display: flex;
-  /* margin: 0 auto; */
   justify-content: center;
 }
 
 .closebutton {
-  max-width: 53px;
-  min-width: 53px;
-  height: 30px;
+  max-width: 70px;
+  min-width: 70px;
+  height: 38px;
   border-radius: 5px;
   margin-right: 1rem;
   border: 1px solid rgb(0, 0, 0, 0.3);
   text-align: center;
-  line-height: 30px;
+  line-height: 38px;
+  font-size: 17px;
   z-index: 100;
   color: black;
-  /* color: rgb(0, 0, 0, 0.8); */
 }
 
 .closebutton:hover {
@@ -101,16 +81,17 @@
   border: 0;
 }
 
-.deletebutton {
-  max-width: 53px;
-  min-width: 53px;
-  height: 30px;
+.checkbutton {
+  max-width: 70px;
+  min-width: 70px;
+  height: 38px;
   border-radius: 5px;
   background-color: red;
   text-align: center;
-  line-height: 30px;
+  line-height: 38px;
+  font-size: 17px;
 }
 
-.deletebutton:hover {
+.checkbutton:hover {
   background-color: rgb(206, 33, 33);
 }

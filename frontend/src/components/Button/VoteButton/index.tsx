@@ -1,85 +1,104 @@
 'use client';
-import VoteButtonBase from './VoteButtonBase';
-import { useQueryClient } from '@tanstack/react-query';
-import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
-import { VoteState } from './VoteButtonBase';
 
+import { IoThumbsUpSharp, IoThumbsDownSharp } from 'react-icons/io5';
+import styles from './VoteButton.module.css';
+import { useEffect, useState } from 'react';
+// import { resultData } from '@/app/(main)/page';
+
+/// Vote button specific to words.
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 async function updateVoteCount({ id, like }: UpdateVoteCountRequest) {
   const response = await fetch(`${BASE_URL}/word/like`, {
     headers: {
       'Content-Type': 'application/json',
+      'client-ip': '',
     },
     method: 'PUT',
     body: JSON.stringify({ wordId: id, wordLike: like }),
   });
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
+  // console.log(response);
+  if (response.ok) {
+    // const data: resultData = await response.json();
+    // console.log('like data : ', data);
+    return true;
+  } else {
+    console.error(`HTTP Error: ${response.status}`);
+    return false;
   }
-  return response.json();
 }
 
 export default function VoteButton({
-  wordId,
+  id,
   likeCount,
   dislikeCount,
   hasLike,
   hasDislike,
-}: VoteButtonProps) {
-  const queryClient = useQueryClient();
-  const updateVoteCountMutation = useMutation({
-    mutationFn: updateVoteCount,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['votes'] });
-    },
-  });
+}: WordVoteButton) {
+  // 상태관리
 
-  const [voteState, setVoteState] = useState(VoteState.NONE);
+  const [likeD, setLikeD] = useState(likeCount);
+  const [dislikeD, setDisLikeD] = useState(dislikeCount);
+  const [state, setState] = useState('');
 
-  const handleLike = () => {
-    if (voteState === VoteState.UP) {
-      likeCount -= 1;
-      setVoteState(VoteState.NONE);
-      updateVoteCountMutation.mutate({ id: wordId, like: true });
-      return;
+  useEffect(() => {
+    // console.log('useEffect');
+    if (hasLike) {
+      setState('UP');
+      setLikeD(likeD - 1);
+    } else if (hasDislike) {
+      setState('DOWN');
+      setDisLikeD(dislikeD - 1);
+    } else {
+      setState('NONE');
     }
-    setVoteState(VoteState.UP);
-    updateVoteCountMutation.mutate({ id: wordId, like: true });
-  };
-  const handleDislike = () => {
-    if (voteState === VoteState.DOWN) {
-      dislikeCount -= 1;
-      setVoteState(VoteState.NONE);
-      updateVoteCountMutation.mutate({ id: wordId, like: false });
-      return;
+    // console.log(state);
+  }, []);
+
+  async function Click(action: string) {
+    // console.log('click');
+    let like = '';
+    if (action == state) {
+      like = 'NONE';
+    } else {
+      like = action;
     }
-    setVoteState(VoteState.DOWN);
-    updateVoteCountMutation.mutate({ id: wordId, like: false });
-  };
+    const updateSucess: boolean = await updateVoteCount({ id, like });
+    if (updateSucess) {
+      setState(like);
+    }
+  }
 
   return (
-    <VoteButtonBase
-      onVoteDown={handleDislike}
-      onVoteUp={handleLike}
-      upVotes={voteState === VoteState.UP ? likeCount + 1 : likeCount}
-      downVotes={voteState === VoteState.DOWN ? dislikeCount + 1 : dislikeCount}
-      voteState={voteState}
-      isLiked={hasLike}
-      isDisliked={hasDislike}
-    />
+    <div className={styles.buttonRoot}>
+      {/* 좋아요 */}
+      <button
+        onClick={() => Click('UP')}
+        className={state == 'UP' ? styles.buttonSelected : styles.button}
+      >
+        <IoThumbsUpSharp />
+        <span>{likeD + (state == 'UP' ? 1 : 0)}</span>
+      </button>
+      {/* 싫어요 */}
+      <button
+        onClick={() => Click('DOWN')}
+        className={state == 'DOWN' ? styles.buttonSelected : styles.button}
+      >
+        <IoThumbsDownSharp />
+        <span>{dislikeD + (state == 'DOWN' ? 1 : 0)}</span>
+      </button>
+    </div>
   );
 }
 
-type VoteButtonProps = {
-  wordId: string;
+type UpdateVoteCountRequest = {
+  id: string;
+  like: string;
+};
+
+type WordVoteButton = {
+  id: string;
   likeCount: number;
   dislikeCount: number;
   hasLike: boolean;
   hasDislike: boolean;
-};
-
-type UpdateVoteCountRequest = {
-  id: string;
-  like: boolean;
 };

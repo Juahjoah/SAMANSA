@@ -26,6 +26,16 @@
   background-color: #8786a7;
 }
 
+.wrapper {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  right: 1.2rem;
+  top: 0.6rem;
+}
+
 .search {
   font-size: 1.05rem;
 }

@@ -38,11 +38,11 @@
 
 .mobile_logo {
   display: none;
-  font-size: 70px;
-  font-weight: 800;
+  /* font-size: 70px; */
+  /* font-weight: 800; */
   align-items: flex-end;
-  border: 2px solid rgb(202, 199, 199);
-  border-radius: 50%;
+  /* border: 2px solid rgb(202, 199, 199); */
+  /* border-radius: 50%; */
 }
 
 @media (max-width: 1400px) {
@@ -58,5 +58,15 @@
   }
   .headerLogo {
     display: none;
+  }
+}
+@media (max-width: 460px) {
+  .base {
+    padding: 0;
+    height: 9rem;
+  }
+  .base div {
+    width: 90%;
+    margin: 0 auto 0;
   }
 }
