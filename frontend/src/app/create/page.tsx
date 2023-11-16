@@ -15,7 +15,7 @@ export default function CreatePage() {
   return (
     <div className={styles.components}>
       <div className={styles.regist}>
-        <div className={styles.title}>밈 등록 페이지</div>
+        <div className={styles.title}></div>
         <div className={styles.registcard}>
           <div className={styles.wordTag}>
             등록하고 싶은 단어
