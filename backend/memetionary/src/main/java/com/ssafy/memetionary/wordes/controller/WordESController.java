@@ -114,6 +114,13 @@ public class WordESController {
         WordESSearchResponse response = wordESService.mainPage(pageable, clientIP);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+    @GetMapping("/new")
+    public ResponseEntity<?> newWord(@PageableDefault(size = 10) Pageable pageable,
+        HttpServletRequest httpServletRequest) {
+        String clientIP = headerUtils.getClientIPFromHeader(httpServletRequest);
+        WordESSearchResponse response = wordESService.newWord(pageable, clientIP);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
     //엘라스틱 서치 자동 완성 - 단어 8
     @GetMapping("/auto-complete")
