@@ -1,6 +1,7 @@
 'use client';
 
-import { IoThumbsUpSharp, IoThumbsDownSharp } from 'react-icons/io5';
+import { IoThumbsUpSharp } from '@react-icons/all-files/io5/IoThumbsUpSharp';
+import { IoThumbsDownSharp } from '@react-icons/all-files/io5/IoThumbsDownSharp';
 import styles from './VoteButton.module.css';
 import { useState } from 'react';
 // import { resultData } from '@/app/(main)/page';
@@ -35,7 +36,6 @@ export default function VoteButton({
   hasDislike,
 }: WordVoteButton) {
   // 상태관리
-
   const like = likeCount - (hasLike ? 1 : 0);
   const dislike = dislikeCount - (hasDislike ? 1 : 0);
   const [state, setState] = useState(
