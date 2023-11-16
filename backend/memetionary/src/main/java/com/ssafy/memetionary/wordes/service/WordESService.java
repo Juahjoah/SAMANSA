@@ -7,6 +7,7 @@ import com.ssafy.memetionary.util.WordUtils;
 import com.ssafy.memetionary.wordes.document.LikeType;
 import com.ssafy.memetionary.wordes.document.QueryType;
 import com.ssafy.memetionary.wordes.document.SearchFieldType;
+import com.ssafy.memetionary.wordes.document.SortType;
 import com.ssafy.memetionary.wordes.document.WordES;
 import com.ssafy.memetionary.wordes.document.WordESRequestType;
 import com.ssafy.memetionary.wordes.dto.WordESAutoCompleteResponse;
@@ -14,6 +15,7 @@ import com.ssafy.memetionary.wordes.dto.WordESRegisterRequest;
 import com.ssafy.memetionary.wordes.dto.WordESSearchResponse;
 import com.ssafy.memetionary.wordes.repository.WordESRepository;
 
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +35,8 @@ public class WordESService {
     private final WordUtils wordUtils;
 
     //엘라스틱 서치 단어 등록 - 단어 4-1
-    public void registerWordES(WordESRegisterRequest request, String memberId, String memberNickname) {
+    public void registerWordES(WordESRegisterRequest request, String memberId,
+        String memberNickname) {
         log.debug("request = " + request);
 
         String name = request.getWordName().trim();
@@ -64,7 +67,8 @@ public class WordESService {
 
     public void delete(String wordId) {
         WordES wordES = wordESRepository.findById(wordId)
-            .orElseThrow(() -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
+            .orElseThrow(
+                () -> new WordNotFoundException(CustomErrorType.WORD_NOT_FOUND.getMessage()));
         delete(wordES);
     }
 
@@ -94,28 +98,38 @@ public class WordESService {
     //엘라스틱 서치 단어 검색 - 단어 1
     public WordESSearchResponse searchByName(String name, Pageable pageable, String clientIP) {
 
+        List<SortType> sortTypeList = new ArrayList<>();
+        sortTypeList.add(SortType.SCORE);
+        sortTypeList.add(SortType.LIKE_AVG);
+        sortTypeList.add(SortType.LIKE);
         WordESSearchResponse wordESSearchResponse = wordESRepository.searchWords(QueryType.MATCH,
-            SearchFieldType.NORI_NAME_JASO, name, clientIP, pageable);
+            SearchFieldType.NORI_NAME_JASO, name, sortTypeList, clientIP, pageable);
 
         return wordESSearchResponse;
     }
 
 
     public WordESSearchResponse searchExact(String name, String nickName, String hashtag,
-                                            Pageable pageable, String clientIP) {
+        Pageable pageable, String clientIP) {
+        List<SortType> sortTypeList = new ArrayList<>();
         if (!name.isEmpty()) {
             SearchFieldType fieldType = SearchFieldType.NAME_KEYWORD;
-            return wordESRepository.searchWords(QueryType.TERM, fieldType, name,
+            sortTypeList.add(SortType.LIKE_AVG);
+            sortTypeList.add(SortType.LIKE);
+            return wordESRepository.searchWords(QueryType.TERM, fieldType, name, sortTypeList,
                 clientIP, pageable);
         }
         if (!nickName.isEmpty()) {
             SearchFieldType fieldType = SearchFieldType.MEMBER_NICKNAME;
-            return wordESRepository.searchWords(QueryType.TERM, fieldType, nickName,
+            sortTypeList.add(SortType.CREATE_DATE);
+            return wordESRepository.searchWords(QueryType.TERM, fieldType, nickName, sortTypeList,
                 clientIP, pageable);
         }
         if (!hashtag.isEmpty()) {
             SearchFieldType fieldType = SearchFieldType.HASHTAG;
-            return wordESRepository.searchWords(QueryType.TERM, fieldType, hashtag,
+            sortTypeList.add(SortType.LIKE_AVG);
+            sortTypeList.add(SortType.LIKE);
+            return wordESRepository.searchWords(QueryType.TERM, fieldType, hashtag, sortTypeList,
                 clientIP, pageable);
         }
         throw new WordNotFoundException("찾는 단어 또는 사람이 없습니다.");
@@ -125,13 +139,20 @@ public class WordESService {
     public WordESSearchResponse mainPage(Pageable pageable, String clientIP) {
         SearchFieldType fieldType = SearchFieldType.NAME;
         String name = "";
-        return wordESRepository.searchWords(QueryType.MATCH_ALL, fieldType, name, clientIP,
+        List<SortType> sortTypeList = new ArrayList<>();
+        sortTypeList.add(SortType.LIKE_AVG);
+        sortTypeList.add(SortType.LIKE);
+        return wordESRepository.searchWords(QueryType.MATCH_ALL, fieldType, name, sortTypeList,
+            clientIP,
             pageable);
     }
+
     public WordESSearchResponse newWord(Pageable pageable, String clientIP) {
         SearchFieldType fieldType = SearchFieldType.NAME;
         String name = "";
-        return wordESRepository.searchWords(QueryType.NEW, fieldType, name, clientIP,
+        List<SortType> sortTypeList = new ArrayList<>();
+        sortTypeList.add(SortType.CREATE_DATE);
+        return wordESRepository.searchWords(QueryType.NEW, fieldType, name, sortTypeList, clientIP,
             pageable);
     }
 
