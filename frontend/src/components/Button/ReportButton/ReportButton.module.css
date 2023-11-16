@@ -1,0 +1,10 @@
+.base {
+  display: flex;
+  padding: 0 5px 0;
+  cursor: pointer;
+  color: #cac9e1;
+}
+
+.base :hover {
+  color: white;
+}

@@ -1,0 +1,92 @@
+.container {
+  width: 5rem;
+  margin-left: 1.3rem;
+  margin-right: 0.9rem;
+  height: 3rem;
+}
+
+.browseButton {
+  position: relative;
+  color: rgb(231, 229, 229);
+  display: flex;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 5rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  background-color: #6e778d;
+  border-radius: 25px;
+  box-shadow: 1px 1px 1px black;
+  transition: background-color 0.3s;
+  transition: color 0.5s;
+}
+
+.browseButton:hover {
+  background-color: #363062;
+  color: rgb(197, 197, 197);
+}
+
+.browseButton p {
+  margin-left: 0.9rem;
+}
+
+.arrow {
+  margin-left: 4px;
+  transform: scale(0.7);
+}
+
+.modal {
+  position: absolute;
+  top: 26px;
+  left: -18px;
+  background-color: #676687;
+  border: 0.2px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 10px;
+  position: relative;
+  width: 180px;
+  height: 210px;
+  padding: 0px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+}
+
+.modal:after {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 0 14px 16px;
+  border-color: #ffffff transparent;
+  border-color: #676687 transparent;
+  display: block;
+  width: 0;
+  z-index: 1;
+  top: -12px;
+  left: 36px;
+}
+
+.button {
+  width: 30px;
+  height: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 30px;
+  background-color: hsl(243, 53%, 17%, 0.8);
+  color: white;
+  margin-top: 10px;
+  margin-left: 11px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: rgb(60, 124, 243);
+}
+
+.newButton {
+  font-size: 11px;
+}

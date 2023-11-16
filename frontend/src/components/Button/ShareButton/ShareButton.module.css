@@ -1,0 +1,17 @@
+.twitter {
+  cursor: pointer;
+}
+
+.facebook {
+  cursor: pointer;
+}
+
+.buttonWrapper {
+  display: flex;
+  cursor: pointer;
+  max-width: 70px;
+}
+
+.button {
+  margin: 0 0 0 1em;
+}

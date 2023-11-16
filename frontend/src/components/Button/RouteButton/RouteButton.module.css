@@ -1,0 +1,28 @@
+.mainButton {
+  height: 2rem;
+  width: 2rem;
+  font-size: 2rem;
+}
+
+.mainButton:hover {
+  font-size: 2.1rem;
+  color: rgb(211, 195, 195);
+}
+
+.createButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #33be7d;
+  color: white;
+  line-height: 3rem;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  font-size: 2.5rem;
+  cursor: pointer;
+}
+
+.createButton:hover {
+  background-color: #0caf63;
+}

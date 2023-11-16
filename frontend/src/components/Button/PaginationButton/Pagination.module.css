@@ -1,0 +1,86 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5rem;
+  margin-bottom: 3rem;
+}
+
+.arrowbutton {
+  font-size: 23px;
+  width: 2.4rem;
+  height: 2.4rem;
+  text-align: center;
+  line-height: 2.4rem;
+  margin: 0 20px 0px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+
+  color: white;
+  background-color: #676687;
+  transition: background-color 0.2s;
+}
+
+.buttoncontainer {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  font-size: 25px;
+  width: 2.4rem;
+  height: 2.4rem;
+  text-align: center;
+  line-height: 2.4rem;
+  margin: 0 20px 0px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  color: #454469;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  color: white;
+  background-color: #676687;
+}
+
+.selectedButton {
+  color: white;
+  background-color: #454469;
+}
+
+@media (max-width: 1400px) {
+  .arrowbutton,
+  .button {
+    margin: 0 1vw 0px 1vw;
+    width: 2.2rem;
+    height: 2.2rem;
+    line-height: 2.2rem;
+  }
+}
+
+@media (max-width: 850px) {
+  .arrowbutton,
+  .button {
+    margin: 0 1vw 0px 1vw;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+  }
+  .container {
+    margin-top: 2rem;
+  }
+}
+@media (max-width: 600px) {
+  .arrowbutton,
+  .button {
+    margin: 0 1vw 0px 1vw;
+    width: 1.6rem;
+    height: 1.6rem;
+    line-height: 1.6rem;
+    font-size: 20px;
+  }
+  .container {
+    margin-top: 1rem;
+  }
+}

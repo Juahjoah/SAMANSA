@@ -1,0 +1,94 @@
+/* @import '@/app/globals.css'; */
+
+.base {
+  display: flex;
+  flex-direction: column;
+  background: rgb(var(--card-background-rgb));
+  width: 90%;
+  min-width: 200px;
+  height: auto;
+  border-radius: 1rem;
+  padding: 2rem;
+  color: rgb(var(--font-regular-rgb));
+}
+
+.title {
+  font-size: 2rem;
+  margin: 0 0 2rem 0;
+  color: rgb(var(--card-title-rgb));
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.title:hover {
+  color: rgb(var(--card-title-hover-rgb));
+}
+
+.description {
+  margin: 0 0 2rem 0;
+  font-weight: 500;
+}
+
+.example span {
+  margin: 0 0 2rem 0;
+  font-weight: 100;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0 0 0;
+  font-weight: 500;
+}
+
+.wrapperChildren {
+  display: flex;
+  max-width: 205px;
+}
+
+.nickname {
+  color: rgb(var(--card-title-rgb));
+  cursor: pointer;
+}
+.nickname:hover {
+  color: rgb(var(--card-title-hover-rgb));
+}
+.info {
+  display: flex;
+}
+.alert {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.optionGroup {
+  display: flex;
+  margin: 0 0 0 0.9em;
+}
+
+.hashtag {
+  margin-top: 1.4rem;
+  font-weight: 150;
+  color: rgb(var(--card-title-rgb));
+}
+
+.hashtag a {
+  margin-right: 0.5rem;
+}
+
+.hashtag a:hover {
+  color: rgb(var(--card-title-hover-rgb));
+}
+
+/* 모바일 */
+/* @media only screen and (max-width: 480px) {
+} */
+
+/* 태블릿 */
+/* @media screen and (min-width: 768px) and (max-width: 1023px) {
+} */
