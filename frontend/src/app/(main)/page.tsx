@@ -3,7 +3,6 @@
 
 //next
 import { headers } from 'next/headers';
-import { getSession } from 'next-auth/react';
 
 //style
 import styles from './Home.module.css';
@@ -119,21 +118,6 @@ async function fetchData({ type, value, page }: fetchDataInput) {
   }
 }
 
-async function getNicknameFromSession() {
-  const session: any = await getSession();
-  console.log(session);
-  if (!session) {
-    return { error: 'Unauthorized' };
-  }
-
-  const { user } = session;
-
-  // 세션에서 닉네임 가져오기
-  const nickname = user?.nickname || null;
-
-  return { nickname };
-}
-
 export default async function Home({ searchParams }: getParams) {
   const typeParam = searchParams.type;
   const valueParam = searchParams.value;
@@ -147,8 +131,6 @@ export default async function Home({ searchParams }: getParams) {
     value,
     page,
   });
-
-  const { nickname } = await getNicknameFromSession();
 
   const typeInfo = { pre: '', type: '' };
   switch (type) {
@@ -196,11 +178,6 @@ export default async function Home({ searchParams }: getParams) {
       <main className={styles.main}>
         <div className={styles.top}>
           <div className={styles.searchInput}>
-            <div>
-              {/* Display the nickname in the way you want */}
-              <span>Nickname: {nickname}</span>
-            </div>
-
             <SearchInput
               value={type == 'main' || type == 'search' ? value : ''}
             />
