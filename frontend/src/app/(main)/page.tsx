@@ -1,5 +1,6 @@
 //react
 // import { Suspense } from 'react';
+import React, { lazy } from 'react';
 
 //next
 import { headers } from 'next/headers';
@@ -8,13 +9,13 @@ import { headers } from 'next/headers';
 import styles from './Home.module.css';
 
 //component
-import Header from '@/components/Header';
-import SearchInput from '@/components/Input/SearchInput';
-import Card from '@/components/Card';
-import Form from '@/components/Form';
-import IndexButton from '@/components/Button/IndexButton';
+// import Header from '@/components/Header';
+// import SearchInput from '@/components/Input/SearchInput';
+// import Card from '@/components/Card';
+// import Form from '@/components/Form';
+// import IndexButton from '@/components/Button/IndexButton';
 import { EnterCreate } from '@/components/Button/RouteButton';
-import Pagination from '@/components/Button/PaginationButton';
+// import Pagination from '@/components/Button/PaginationButton';
 
 type Params = {
   type: string;
@@ -131,6 +132,13 @@ export default async function Home({ searchParams }: getParams) {
     value,
     page,
   });
+
+  const Header = lazy(() => import('@/components/Header'));
+  const SearchInput = lazy(() => import('@/components/Input/SearchInput'));
+  const Card = lazy(() => import('@/components/Card'));
+  const Form = lazy(() => import('@/components/Form'));
+  const IndexButton = lazy(() => import('@/components/Button/IndexButton'));
+  const Pagination = lazy(() => import('@/components/Button/PaginationButton'));
 
   const typeInfo = { pre: '', type: '' };
   switch (type) {
