@@ -86,10 +86,6 @@ async function fetchData({ type, value, page }: fetchDataInput) {
     case 'index':
       url = `${url}index?startWith=${encodedValue}&page=${page - 1}`;
       break;
-    case 'new':
-      url = `${url}new&page=${page - 1}`;
-      break;
-
     case 'test':
       //test
       break;
@@ -166,8 +162,6 @@ export default async function Home({ searchParams }: getParams) {
       break;
     //단어 초성 색인
     case 'index':
-      break;
-    case 'new':
       break;
     default:
       break;

@@ -30,13 +30,8 @@ export default function IndexButton() {
 
   //버튼 눌렀을 시
   function checkButton(index: string) {
-    if (index == 'new') {
-      const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=new`;
-      window.location.href = url;
-    } else {
-      const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=index&value=${index}`;
-      window.location.href = url;
-    }
+    const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=index&value=${index}`;
+    window.location.href = url;
   }
 
   return (
