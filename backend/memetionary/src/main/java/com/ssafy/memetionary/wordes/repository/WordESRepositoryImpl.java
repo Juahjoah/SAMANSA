@@ -380,6 +380,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .type(ScriptSortType.Number)
                     .order(SortOrder.Desc))
             ));
+        }
         if (sortTypeList.contains(SortType.LIKE)) {
             sortOptions.add(SortOptions.of(sort -> sort
                 .field(f -> f
@@ -387,13 +388,12 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .order(SortOrder.Desc)
                 )));
         }
-            if (sortTypeList.contains(SortType.CREATE_DATE)) {
-                sortOptions.add(SortOptions.of(sort -> sort
-                    .field(f -> f
-                        .field(WordESType.CREATE_DATE.getFieldName())
-                        .order(SortOrder.Desc)
-                    )));
-            }
+        if (sortTypeList.contains(SortType.CREATE_DATE)) {
+            sortOptions.add(SortOptions.of(sort -> sort
+                .field(f -> f
+                    .field(WordESType.CREATE_DATE.getFieldName())
+                    .order(SortOrder.Desc)
+                )));
         }
         if (sortOptions.isEmpty()) {
             throw new QueryNotFoundException(sortTypeList.toString() + "인 정렬 방법이 없습니다.");
