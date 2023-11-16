@@ -20,6 +20,7 @@ export default function IndexButton() {
     'ㅌ',
     'ㅍ',
     'ㅎ',
+    'new',
   ];
 
   //모달 생성
@@ -29,8 +30,13 @@ export default function IndexButton() {
 
   //버튼 눌렀을 시
   function checkButton(index: string) {
-    const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=index&value=${index}`;
-    window.location.href = url;
+    if (index == 'new') {
+      const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=new`;
+      window.location.href = url;
+    } else {
+      const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}?type=index&value=${index}`;
+      window.location.href = url;
+    }
   }
 
   return (
