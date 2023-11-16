@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum QueryType {
-    MATCH("match"),
-    TERM("term"),
-    NEW("new"),
-    MATCH_ALL("matchAll");
+public enum SortType {
+    CREATE_DATE("createDate"),
+    LIKE_AVG("likeAvg"),
+    LIKE("like"),
+    SCORE("score");
 
     private final String fieldName;
 }
