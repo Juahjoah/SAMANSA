@@ -173,8 +173,25 @@ export default async function Home({ searchParams }: getParams) {
       break;
   }
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+
+    name: resultData.words.length == 0 ? '' : resultData.words[0].wordName,
+    desc:
+      resultData.words.length == 0 ? '' : resultData.words[0].wordDescription,
+    example:
+      resultData.words.length == 0 ? '' : resultData.words[0].wordExample,
+  };
+
   return (
     <>
+      <section>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </section>
       <Header />
       <main className={styles.main}>
         <div className={styles.top}>
