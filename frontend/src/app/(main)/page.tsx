@@ -121,7 +121,7 @@ async function fetchData({ type, value, page }: fetchDataInput) {
 
 async function getNicknameFromSession() {
   const session: any = await getSession();
-
+  console.log(session);
   if (!session) {
     return { error: 'Unauthorized' };
   }
