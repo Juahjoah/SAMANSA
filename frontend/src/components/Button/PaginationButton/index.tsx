@@ -77,7 +77,7 @@ export default function Pagination({
   useEffect(() => {
     if (pagination.page - 1 != selectedButton) {
       const url = `${process.env.NEXT_PUBLIC_REDIRECT_URI}${
-        value == '' ? `?` : `?type=${type}&value=${value}&`
+        value == '' && type != 'new' ? `?` : `?type=${type}&value=${value}&`
       }page=${selectedButton + 1}`;
       window.location.href = url;
     }

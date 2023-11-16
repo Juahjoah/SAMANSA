@@ -19,6 +19,7 @@
     ]
   },
   "dependencies": {
+    "@react-icons/all-files": "^4.1.0",
     "@tanstack/react-query": "^5.0.5",
     "@types/react-responsive": "^8.0.7",
     "@uidotdev/usehooks": "^2.4.1",

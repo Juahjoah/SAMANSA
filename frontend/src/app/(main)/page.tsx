@@ -1,5 +1,6 @@
 //react
 // import { Suspense } from 'react';
+import React, { lazy } from 'react';
 
 //next
 import { headers } from 'next/headers';
@@ -8,13 +9,13 @@ import { headers } from 'next/headers';
 import styles from './Home.module.css';
 
 //component
-import Header from '@/components/Header';
-import SearchInput from '@/components/Input/SearchInput';
-import Card from '@/components/Card';
-import Form from '@/components/Form';
-import IndexButton from '@/components/Button/IndexButton';
+// import Header from '@/components/Header';
+// import SearchInput from '@/components/Input/SearchInput';
+// import Card from '@/components/Card';
+// import Form from '@/components/Form';
+// import IndexButton from '@/components/Button/IndexButton';
 import { EnterCreate } from '@/components/Button/RouteButton';
-import Pagination from '@/components/Button/PaginationButton';
+// import Pagination from '@/components/Button/PaginationButton';
 
 type Params = {
   type: string;
@@ -86,7 +87,7 @@ async function fetchData({ type, value, page }: fetchDataInput) {
       url = `${url}index?startWith=${encodedValue}&page=${page - 1}`;
       break;
     case 'new':
-      url = `${url}new&page=${page - 1}`;
+      url = `${url}new?page=${page - 1}`;
       break;
 
     case 'test':
@@ -97,7 +98,7 @@ async function fetchData({ type, value, page }: fetchDataInput) {
       break;
   }
 
-  console.log(url);
+  // console.log(url);
   const headersList = headers();
   const ip = headersList.get('x-forwarded-for');
   // console.log(url);
@@ -131,6 +132,13 @@ export default async function Home({ searchParams }: getParams) {
     value,
     page,
   });
+
+  const Header = lazy(() => import('@/components/Header'));
+  const SearchInput = lazy(() => import('@/components/Input/SearchInput'));
+  const Card = lazy(() => import('@/components/Card'));
+  const Form = lazy(() => import('@/components/Form'));
+  const IndexButton = lazy(() => import('@/components/Button/IndexButton'));
+  const Pagination = lazy(() => import('@/components/Button/PaginationButton'));
 
   const typeInfo = { pre: '', type: '' };
   switch (type) {

@@ -4,6 +4,8 @@ import { useState } from 'react';
 import styles from './RouteButton.module.css';
 import { useRouter } from 'next/navigation';
 import Modal from '@/components/Modal';
+import PlusIcon from '@/public/assets/create_icon.png';
+import Image from 'next/image';
 
 // 메인페이지 이동 버튼
 export function EnterMain() {
@@ -46,7 +48,7 @@ export function EnterCreate() {
 
   return (
     <div className={styles.createButton} onClick={goCreate}>
-      ＋
+      <Image src={PlusIcon} height={26} width={26} alt="+" />
       {isModalOpen && (
         <Modal
           visible={isModalOpen}
