@@ -86,7 +86,7 @@ async function fetchData({ type, value, page }: fetchDataInput) {
       url = `${url}index?startWith=${encodedValue}&page=${page - 1}`;
       break;
     case 'new':
-      url = `${url}new&page=${page - 1}`;
+      url = `${url}new?page=${page - 1}`;
       break;
 
     case 'test':
@@ -97,7 +97,7 @@ async function fetchData({ type, value, page }: fetchDataInput) {
       break;
   }
 
-  console.log(url);
+  // console.log(url);
   const headersList = headers();
   const ip = headersList.get('x-forwarded-for');
   // console.log(url);
