@@ -45,6 +45,15 @@ export const metadata: Metadata = {
   },
   description:
     'This is a dictionary where users create their own definitions of words.',
+  openGraph: {
+    title: {
+      absolute: '사만사',
+    },
+    description: '사용자가 만들어가는 사전, 사만사',
+    url: 'https://www.https://samansa.kr/.blog/',
+    locale: 'ko_KR',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
