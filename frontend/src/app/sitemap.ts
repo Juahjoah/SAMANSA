@@ -2,16 +2,12 @@ import { MetadataRoute } from 'next';
 import { resultData } from '@/app/(main)/page';
 
 //next
-import { headers } from 'next/headers';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const headersList = headers();
-  const ip = headersList.get('x-forwarded-for');
-
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/word/main`, {
     cache: 'no-store',
     headers: {
-      'client-ip': ip != null ? ip : '',
+      'client-ip': '',
     },
   });
 
@@ -35,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...page.map((pgNum) => {
       return {
-        url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/page=${pgNum}`,
+        url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/?page=${pgNum}`,
         lastModified: new Date(),
       };
     }),
