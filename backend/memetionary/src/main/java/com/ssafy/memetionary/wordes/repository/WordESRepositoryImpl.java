@@ -145,7 +145,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
     //단어 검색
     @Override
     public WordESSearchResponse searchWords(QueryType queryType, SearchFieldType fieldType,
-        String word,List<SortType> sortTypeList, String clientIP, Pageable pageable) {
+        String word, List<SortType> sortTypeList, String clientIP, Pageable pageable) {
         log.debug("search client ip = " + clientIP);
         List<WordESSearchItem> words = new ArrayList<>();
         long total;
@@ -366,20 +366,6 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .order(SortOrder.Desc)
                 )));
         }
-        if (sortTypeList.contains(SortType.CREATE_DATE)) {
-            sortOptions.add(SortOptions.of(sort -> sort
-                .field(f -> f
-                    .field(WordESType.CREATE_DATE.getFieldName())
-                    .order(SortOrder.Desc)
-                )));
-        }
-        if (sortTypeList.contains(SortType.LIKE)) {
-            sortOptions.add(SortOptions.of(sort -> sort
-                .field(f -> f
-                    .field(WordESType.LIKE_COUNT.getFieldName())
-                    .order(SortOrder.Desc)
-                )));
-        }
         if (sortTypeList.contains(SortType.LIKE_AVG)) {
             sortOptions.add(SortOptions.of(sort -> sort
                 .script(s -> s
@@ -394,8 +380,22 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .type(ScriptSortType.Number)
                     .order(SortOrder.Desc))
             ));
+        if (sortTypeList.contains(SortType.LIKE)) {
+            sortOptions.add(SortOptions.of(sort -> sort
+                .field(f -> f
+                    .field(WordESType.LIKE_COUNT.getFieldName())
+                    .order(SortOrder.Desc)
+                )));
         }
-        if(sortOptions.isEmpty()){
+            if (sortTypeList.contains(SortType.CREATE_DATE)) {
+                sortOptions.add(SortOptions.of(sort -> sort
+                    .field(f -> f
+                        .field(WordESType.CREATE_DATE.getFieldName())
+                        .order(SortOrder.Desc)
+                    )));
+            }
+        }
+        if (sortOptions.isEmpty()) {
             throw new QueryNotFoundException(sortTypeList.toString() + "인 정렬 방법이 없습니다.");
         }
         return sortOptions;
