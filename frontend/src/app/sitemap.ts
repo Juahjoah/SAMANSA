@@ -1,43 +1,68 @@
 import { MetadataRoute } from 'next';
-import { resultData } from '@/app/(main)/page';
-
-//next
-import { headers } from 'next/headers';
+import { resultData, CardItem } from '@/app/(main)/page';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const headersList = headers();
-  const ip = headersList.get('x-forwarded-for');
-
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/word/main`, {
     cache: 'no-store',
     headers: {
-      'client-ip': ip != null ? ip : '',
+      'client-ip': '',
     },
   });
 
-  let data: resultData;
-  if (res.ok) {
-    data = await res.json();
-  } else {
-    console.error(`HTTP Error: ${res.status}`);
-    data = { total: 0, words: [], error: true };
-  }
-
-  const page = Array.from(
-    { length: Math.ceil(data.total / 10) },
-    (_, index) => index + 1,
-  );
-
-  return [
+  const page = [
     {
       url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}`,
       lastModified: new Date(),
     },
-    ...page.map((pgNum) => {
-      return {
-        url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/page=${pgNum}`,
-        lastModified: new Date(),
-      };
-    }),
   ];
+  let resData: resultData;
+  if (res.ok) {
+    resData = await res.json();
+    page.push(
+      ...resData.words.map((card: CardItem) => {
+        return {
+          url: `${
+            process.env.NEXT_PUBLIC_REDIRECT_URI
+          }/?type=word&amp;value=${encodeURIComponent(card.wordName)}`,
+          lastModified: new Date(),
+        };
+      }),
+    );
+  } else {
+    console.error(`HTTP Error: ${res.status}`);
+    resData = { total: 0, words: [], error: true };
+  }
+
+  // console.log(page);
+  for (let i = 1; i < resData.total; i++) {
+    // 반복할 코드
+    // console.log(i);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/word/main?&page=${i}`,
+      {
+        cache: 'no-store',
+        headers: {
+          'client-ip': '',
+        },
+      },
+    );
+    if (res.ok) {
+      resData = await res.json();
+      page.push(
+        ...resData.words.map((card: CardItem) => {
+          return {
+            url: `${
+              process.env.NEXT_PUBLIC_REDIRECT_URI
+            }/?type=word&amp;value=${encodeURIComponent(card.wordName)}`,
+            lastModified: new Date(),
+          };
+        }),
+      );
+    } else {
+      console.error(`HTTP Error: ${res.status}`);
+      // resData = { total: 0, words: [], error: true };
+    }
+  }
+
+  return [...page];
 }

@@ -39,12 +39,26 @@ const myFont = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://samansa.kr'),
   title: `Samansa, 사전을 만드는 사람들`,
   icons: {
     icon: '/favicon.ico',
   },
   description:
     'This is a dictionary where users create their own definitions of words.',
+  openGraph: {
+    title: {
+      absolute: '사만사',
+    },
+    description: '사용자가 만들어가는 사전, 사만사',
+    url: 'https://samansa.kr/',
+    images: {
+      url: 'https://samansa.kr//_next/static/media/logo_b_samansa.a2520b4c.png?w=1080&q=75',
+    },
+    locale: 'ko_KR',
+    type: 'website',
+  },
+  keywords: '사만사, 단어검색, 사전, 단어 등록',
 };
 
 export default function RootLayout({
