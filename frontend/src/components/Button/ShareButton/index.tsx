@@ -2,8 +2,8 @@
 
 import styles from './ShareButton.module.css';
 import { useRouter } from 'next/navigation';
-import { RiTwitterXFill } from 'react-icons/ri';
-import { RiFacebookFill } from 'react-icons/ri';
+import { RiFacebookFill } from '@react-icons/all-files/ri/RiFacebookFill';
+import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter';
 
 type ButtonProps = {
   wordName?: string;
@@ -30,7 +30,7 @@ export default function ShareButton({ wordName }: ButtonProps) {
 
   return (
     <div className={styles.buttonWrapper}>
-      <RiTwitterXFill onClick={ShareTwitter} className={styles.button} />
+      <FaTwitter onClick={ShareTwitter} className={styles.button} />
       <RiFacebookFill onClick={ShareFacebook} className={styles.button} />
     </div>
   );
