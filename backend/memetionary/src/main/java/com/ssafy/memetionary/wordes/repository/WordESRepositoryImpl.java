@@ -145,7 +145,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
     //단어 검색
     @Override
     public WordESSearchResponse searchWords(QueryType queryType, SearchFieldType fieldType,
-        String word, String clientIP, Pageable pageable) {
+        String word,List<SortType> sortTypeList, String clientIP, Pageable pageable) {
         log.debug("search client ip = " + clientIP);
         List<WordESSearchItem> words = new ArrayList<>();
         long total;
@@ -183,8 +183,7 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                     .scriptFields(
                         "is_writer", isWriterScriptField(clientIP)
                     )
-                    .sort(makeSortQuery(SortType.LIKE_AVG))
-                    .sort(makeSortQuery(SortType.LIKE))
+                    .sort(makeSortQuery(sortTypeList))
                 , Object.class
             );
 
@@ -358,30 +357,31 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
         throw new QueryNotFoundException(queryType + "인 쿼리가 없습니다.");
     }
 
-    private SortOptions makeSortQuery(SortType sortType) {
-        if (sortType.equals(SortType.SCORE)) {
-            return SortOptions.of(sort -> sort
+    private List<SortOptions> makeSortQuery(List<SortType> sortTypeList) {
+        List<SortOptions> sortOptions = new ArrayList<>();
+        if (sortTypeList.contains(SortType.SCORE)) {
+            sortOptions.add(SortOptions.of(sort -> sort
                 .field(f -> f
                     .field(SearchFieldType.SCORE.getFieldName())
                     .order(SortOrder.Desc)
-                ));
+                )));
         }
-        if (sortType.equals(SortType.CREATE_DATE)) {
-            return SortOptions.of(sort -> sort
+        if (sortTypeList.contains(SortType.CREATE_DATE)) {
+            sortOptions.add(SortOptions.of(sort -> sort
                 .field(f -> f
                     .field(WordESType.CREATE_DATE.getFieldName())
                     .order(SortOrder.Desc)
-                ));
+                )));
         }
-        if (sortType.equals(SortType.LIKE)) {
-            return SortOptions.of(sort -> sort
+        if (sortTypeList.contains(SortType.LIKE)) {
+            sortOptions.add(SortOptions.of(sort -> sort
                 .field(f -> f
                     .field(WordESType.LIKE_COUNT.getFieldName())
                     .order(SortOrder.Desc)
-                ));
+                )));
         }
-        if (sortType.equals(SortType.LIKE_AVG)) {
-            return SortOptions.of(sort -> sort
+        if (sortTypeList.contains(SortType.LIKE_AVG)) {
+            sortOptions.add(SortOptions.of(sort -> sort
                 .script(s -> s
                     .script(ss -> ss
                         .inline(i -> i
@@ -393,9 +393,12 @@ public class WordESRepositoryImpl implements WordESRepositoryCustom {
                                     "return (likes - dislikes) / (likes + dislikes);")))
                     .type(ScriptSortType.Number)
                     .order(SortOrder.Desc))
-            );
+            ));
         }
-        throw new QueryNotFoundException(sortType + "인 정렬 방법이 없습니다.");
+        if(sortOptions.isEmpty()){
+            throw new QueryNotFoundException(sortTypeList.toString() + "인 정렬 방법이 없습니다.");
+        }
+        return sortOptions;
     }
 
     //match 쿼리 사용
