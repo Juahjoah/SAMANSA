@@ -97,7 +97,7 @@ async function fetchData({ type, value, page }: fetchDataInput) {
       break;
   }
 
-  // console.log(url);
+  console.log(url);
   const headersList = headers();
   const ip = headersList.get('x-forwarded-for');
   // console.log(url);
@@ -148,8 +148,10 @@ export default async function Home({ searchParams }: getParams) {
       break;
     //단어 초성 색인
     case 'index':
+      typeInfo.type = '초성';
       break;
     case 'new':
+      typeInfo.type = '최근에 등록된 단어';
       break;
     default:
       break;
@@ -159,7 +161,10 @@ export default async function Home({ searchParams }: getParams) {
     '@context': 'https://schema.org',
     '@type': 'Product',
 
-    name: resultData.words.length == 0 ? '' : resultData.words[0].wordName,
+    name:
+      typeInfo.type == '' || resultData.words.length == 0
+        ? '사만사'
+        : resultData.words[0].wordName,
     desc:
       resultData.words.length == 0 ? '' : resultData.words[0].wordDescription,
     example:
@@ -190,9 +195,10 @@ export default async function Home({ searchParams }: getParams) {
           </div>
         </div>
         <div className={styles.searchTag}>
-          {type == 'main' || type == 'search'
-            ? ''
-            : `"${typeInfo.pre}${value}"에 대한 ${typeInfo.type} 검색 결과 입니다.`}
+          {type != 'main' &&
+            type != 'search' &&
+            (type != 'new' ? `"` + typeInfo.pre + value + '"에 대한 ' : '') +
+              `${typeInfo.type} 검색 결과 입니다.`}
         </div>
         <div className={styles.content}>
           <div className={styles.searchResult}>

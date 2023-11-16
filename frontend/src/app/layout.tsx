@@ -39,6 +39,7 @@ const myFont = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://samansa.kr'),
   title: `Samansa, 사전을 만드는 사람들`,
   icons: {
     icon: '/favicon.ico',
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
       absolute: '사만사',
     },
     description: '사용자가 만들어가는 사전, 사만사',
-    url: 'https://www.https://samansa.kr/',
+    url: 'https://samansa.kr/',
     images: {
       url: 'https://samansa.kr//_next/static/media/logo_b_samansa.a2520b4c.png?w=1080&q=75',
     },

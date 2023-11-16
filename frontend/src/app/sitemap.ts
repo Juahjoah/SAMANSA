@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { resultData } from '@/app/(main)/page';
+import { resultData, CardItem } from '@/app/(main)/page';
 
 //next
 
@@ -11,27 +11,45 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   });
 
-  let data: resultData;
+  const data = [];
+  let resData: resultData;
   if (res.ok) {
-    data = await res.json();
+    resData = await res.json();
   } else {
     console.error(`HTTP Error: ${res.status}`);
-    data = { total: 0, words: [], error: true };
+    resData = { total: 0, words: [], error: true };
   }
 
-  const page = Array.from(
-    { length: Math.ceil(data.total / 10) },
-    (_, index) => index + 1,
-  );
+  for (let i = 0; i < resData.total; i++) {
+    // 반복할 코드
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/word/main?word=&page=${i}`,
+      {
+        cache: 'no-store',
+        headers: {
+          'client-ip': '',
+        },
+      },
+    );
+
+    if (res.ok) {
+      resData = await res.json();
+      data.push(...resData.words);
+    } else {
+      console.error(`HTTP Error: ${res.status}`);
+      // resData = { total: 0, words: [], error: true };
+    }
+  }
 
   return [
     {
       url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}`,
       lastModified: new Date(),
     },
-    ...page.map((pgNum) => {
+    ...data.map((card: CardItem) => {
       return {
-        url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/?page=${pgNum}`,
+        url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/?type=word&value=${card.wordName}`,
         lastModified: new Date(),
       };
     }),
