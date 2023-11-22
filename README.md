@@ -1,4 +1,4 @@
-<img src="https://github.com/H4R1B0/samansa/assets/12294460/2225b4fd-58c7-4c0d-95d3-00809cba40fd" />
+<img src="image/samansa_logo.png" alt="서비스 로고">
 
 ### 목차
 
@@ -86,13 +86,15 @@
 
 ### 메인 페이지
 
-![메인 페이지](https://github.com/H4R1B0/samansa/assets/12294460/d7794e20-1d6b-476e-92b4-56b9d90adfc2)
+![메인 페이지](image/samansa_main.png)
+
+<!-- <img src="image/samansa_main.png" alt="메인 페이지" width="80%"> -->
 
 ### 소셜 로그인 & 회원가입 & 닉네임 검사
 
 |                                                  로그인                                                   |                                                                         닉네임 검사                                                                         |
 | :-------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|     ![로그인](https://github.com/H4R1B0/samansa/assets/12294460/2888afb8-8e83-49d3-9578-bd7c5bbca847)     |                           ![닉네임 검사](https://github.com/H4R1B0/samansa/assets/12294460/fc96e3c2-f8e3-4c0c-820f-63370aa5de68)                            |
+|                          <img  src="image/samansa_login.png" alt="" width="50%">                          |                                                 <img  src="image/samansa_register.gif" alt="" width="100%">                                                 |
 | 사용자 편의성을위해 소셜 로그인을 구현했습니다.<br>카카오와 네이버 계정으로 로그인/회원가입이 가능합니다. | 회원가입을 한 경우, 최초 로그인 사용자로 판단해 닉네임 설정 페이지로 이동하게 됩니다. <br> 닉네임을 지정하면 가입이 완료됩니다.<br>닉네임은 중복확인합니다. |
 
 <br/>
