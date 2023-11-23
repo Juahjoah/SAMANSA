@@ -346,7 +346,7 @@
 <table>
     <tr>
         <td height="140px" align="center"> <a href="https://github.com/Juahjoah">
-            <img src="https://avatars.githubusercontent.com/Juahjoah" width="140px" /> <br><br> 👑 김주아 <br>(Front-End) </a> <br></td>
+            <img src="https://avatars.githubusercontent.com/Juahjoah" width="140px" /> <br><br> 👑 김주아 <br>(팀장/Front-End) </a> <br></td>
         <td height="140px" align="center"> <a href="https://github.com/ninnistic">
             <img src="https://avatars.githubusercontent.com/ninnistic" width="140px" /> <br><br> 🎀 박지영 <br>(Front-End) </a> <br></td>
         <td height="140px" align="center"> <a href="https://github.com/H4R1B0">
